@@ -189,9 +189,7 @@ export default class Player extends GameObjects.Sprite {
         this.scene.localPlayer.position.x = this.x;
         this.scene.localPlayer.position.y = this.y;
 
-        // DÉTRUIRE LES OBJETS DE LA SCÈNE
 
-        // Redémarrr la scène en utilisant les copies des objets localPlayer et socket
         this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
           _id: this._id,
           position: {
@@ -202,21 +200,17 @@ export default class Player extends GameObjects.Sprite {
           onMap: world.name,
           isMoving: this.isMoving,
         });
+        // DÉTRUIRE LES OBJETS DE LA SCÈNE
 
         this.scene.registry.destroy();
         this.scene.events.off();
+        this.scene.sound.stopAll();
+        // DESTROY AUDIO
         this.scene.scene.restart({
           user: this.scene.localPlayer,
           socket: this.scene.socket,
           hasChangedScene: true,
         });
-
-        // room.then((room) =>
-        //   room.send({
-        //     event: "PLAYER_CHANGED_MAP",
-        //     map: world.name,
-        //   })
-        // );
       }
     });
   }

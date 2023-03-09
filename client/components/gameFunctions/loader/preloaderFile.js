@@ -32,7 +32,9 @@ export function preloaderFile(self) {
   });
   self.percentText.setOrigin(0.5, 0.5);
 
+
   self.load.on("progress", function (value) {
+ 
     self.percentText.setText(parseInt(value * 100) + "%");
     self.progressBar.clear();
     self.progressBar.fillStyle(0xffffff, 1);
@@ -42,5 +44,7 @@ export function preloaderFile(self) {
       280 * value,
       30
     );
+
   });
+
 }

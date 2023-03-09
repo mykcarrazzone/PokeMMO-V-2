@@ -1,8 +1,10 @@
 import { Scene } from "phaser";
 import Player from "./Player";
 import OnlinePlayer from "./OnlinePlayer";
+
 let cursors, socketKey;
 var onlinePlayers = [];
+
 export default class Scene2 extends Scene {
   constructor() {
     super("playGame");
@@ -93,7 +95,15 @@ export default class Scene2 extends Scene {
         }
       });
 
+      // This scene element was created in the world interaction method in the player class
       this.map = this.make.tilemap({ key: this.mapName });
+
+      this.sound
+        .add(`${this.mapName}-Sound`, {
+          loop: true,
+          volume: 0.02,
+        })
+        .play();
 
       // Set current map Bounds
       this.scene.scene.physics.world.setBounds(
@@ -102,14 +112,13 @@ export default class Scene2 extends Scene {
         this.map.widthInPixels,
         this.map.heightInPixels
       );
-      // PERMET DE BLOQUER LE PLAYER A L'INTERIEUR DE LA MAP
+
       // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
       // Phaser's cache (i.e. the name you used in preload)
       const tileset = this.map.addTilesetImage(
         "tuxmon-sample-32px-extruded",
         "TilesTown"
       );
-      // le premier parametre est le nom de la couche dans tiled, le deuxieme est le nom du tileset, le troisieme et le quatrieme sont les coordonnees de la couche
 
       // Parameters: layer name (or index) from Tiled, tileset, x, y
       this.belowLayer = this.map.createLayer("Below Player", tileset, 0, 0);
@@ -201,6 +210,7 @@ export default class Scene2 extends Scene {
   }
 
   fps() {
+    // Send fps to server
     setInterval(() => {
       this.socket.emit("sendFps", parseInt(this.game.loop.actualFps));
     }, 500);
