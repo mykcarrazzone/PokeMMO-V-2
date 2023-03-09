@@ -4,6 +4,7 @@ import Friend from "../models/friends.js";
 import bcrypt from "bcrypt";
 import { decodeJWT } from "../utils/jwtDecode.js";
 const User2 = require("../models/user.js");
+
 const sendFriendInvitation = async (req, res) => {
   try {
     const { friendId } = req.body;

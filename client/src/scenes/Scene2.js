@@ -38,6 +38,7 @@ export default class Scene2 extends Scene {
   create() {
     if (this.socket && this.localPlayer) {
       let self = this;
+      
       this.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
         const otherPlayersData = Object.values(playerInfo).filter(
           (player) =>

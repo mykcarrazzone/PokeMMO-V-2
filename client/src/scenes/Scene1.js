@@ -1,5 +1,6 @@
 import { Scene } from "phaser";
 import { preloaderFile } from "../../components/gameFunctions/loader/preloaderFile";
+
 export default class Scene1 extends Scene {
   constructor() {
     super("bootGame");

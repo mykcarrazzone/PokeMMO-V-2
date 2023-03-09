@@ -1,4 +1,5 @@
 # Pokémon Multijoueur
+
 <div align="center" style="text-align:center">
 
 <img src="client/pXx6OSISnU GIF.gif" alt="Gif du jeu"/>
@@ -32,7 +33,6 @@ Les fonctionnalités suivantes sont en cours de développement :
 - Entrée dans les maisons : ❌
 - Combat Pokémon : ❌
 
-
 ## Technologies utilisées
 
 Les technologies suivantes ont été utilisées dans le développement de ce projet :
@@ -47,7 +47,7 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 
 1. Clonez ce dépôt sur votre machine locale.
 2. Installez les dépendances en exécutant la commande `npm install`.
-3. Installez MongoDb Compass, créer une database avec la collections `games` sur 127.0.0.1.
+3. Installez MongoDb Compass, puis ensuite MongoDb Community Server et pour terminer créer une database avec la collections `games` sur 127.0.0.1.
 4. Modifiez l'adresse ip du socket provider dans le context pour `localhost:PORT_DU_BACK`.
 5. Modifiez le port à votre guise du server.js côté backend.
 6. Démarrez le serveur en exécutant la commande `npm start`.

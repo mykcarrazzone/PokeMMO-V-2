@@ -10,5 +10,6 @@ const router = express.Router();
 router.post("/friends/invite", userController.sendFriendInvitation);
 router.post("/sendMessage", messagesController.sendNewMessage);
 router.get("/getUserById", userController.getUserById);
+
 // Export du routeur
 export default router;
