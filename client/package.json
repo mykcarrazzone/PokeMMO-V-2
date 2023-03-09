@@ -1,0 +1,57 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Next.js project",
+  "author": "Lorenzo",
+  "scripts": {
+    "dev": "next dev -p 4070",
+    "build": "next build",
+    "start": "next start -H 109.208.107.116 -p 4070",
+    "lint": "next lint",
+    "package": "electron-builder"
+  },
+  "main": "main.js",
+  "build": {
+    "appId": "com.example.myapp",
+    "mac": {
+      "category": "public.app-category.games",
+      "icon": "build/icons/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icons/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build/icons/icon.png"
+    }
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.3.0",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@popperjs/core": "^2.11.6",
+    "axios": "^1.3.4",
+    "colyseus.js": "^0.11.7",
+    "grid-engine": "^2.26.1",
+    "js-cookie": "^3.0.1",
+    "next": "13.1.6",
+    "phaser": "^3.55.2",
+    "phaser-plugin-follow": "^2.0.2",
+    "phaser-plugin-loader": "^1.1.0",
+    "phaser3-rex-plugins": "^1.1.81",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "socket.io-client": "^4.6.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "electron": "^23.1.0",
+    "electron-builder": "^23.6.0",
+    "electron-is-dev": "^2.0.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  }
+}
