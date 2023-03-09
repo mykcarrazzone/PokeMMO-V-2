@@ -11,29 +11,30 @@ import apiRoutes from "./routes/api.js";
 import authRoutes from "./routes/auth.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import connectDB from "./config/db.js";
-import playersSocket from "./sockets/players.js";
+import pokeMMO from "./sockets/pokeMMO.js";
 import socket from "socket.io";
-// Configuration des variables d'environnement
+// Configuration many env variables
 dotenv.config();
 
-// Configuration du serveur Express.js
+// Configuration of Express server
 const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 const port = 3000;
 const ip = "0.0.0.0"; // FIX ALL POSSIBLE IP ADDRESSES RELATED ISSUES
 
-connectDB(); // utilisation du fichier pour la connexion à la base de données
+connectDB(); // USE MONGODB ATLAS
 
 io.on("connection", (socket) => {
   socket.on("gameReady", () => {
-    console.log("SOCKET BACKEND CONNECTED: ", socket.id);
-    playersSocket(io, socket);
+    console.log("Player connected: ", socket.id);
+
+    pokeMMO(io, socket); // SOCKET PLAYER AND AROUND ANYTHING RELATED TO PLAYER
+
     socket.emit("gameReadyToClient");
+    // ALLOW TO SEND A MESSAGE TO ALL CONNECTED CLIENTS FOR LAUNCHING THE GAME
   });
 });
-
-// Configuration de Socket.io
 
 // Middleware
 app.use(
@@ -47,19 +48,19 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Ajout du middleware pour les routes /auth
+// Add middleware to check if user is authenticated
 const authRouter = express.Router();
 
 authRouter.use(authMiddleware);
 authRouter.use(authRoutes);
 
-// Routes d'authentification
+// Routes authentification (protected)
 app.use("/auth", authRouter);
 
-// Routes d'API
+// Routes API (public)
 app.use("/api", apiRoutes);
 
-// Démarrage du serveur
+// Server start
 server.listen(port, ip, () => {
   console.log(`Serveur démarré sur le port ${port}`);
 });

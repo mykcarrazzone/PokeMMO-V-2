@@ -2,9 +2,9 @@ import Friend from "../models/friends.js";
 import Message from "../models/message.js";
 import GeneralMessage from "../models/GeneralMessage.js";
 
-let chatFocus = false;
+export default async function friendsAndMessagesSocket(data) {
+  const { io, socket } = data;
 
-export default async function friendsAndMessagesSocket(io, socket) {
   socket.on("userConnected", async (userId) => {
     try {
       const friends = await Friend.find({ userId }).populate("friendId");
