@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokémon Multijoueur
 
-## Getting Started
+<div align="center" style="text-align:center">
 
-First, run the development server:
+<img src="pXx6OSISnU GIF.gif" alt="Gif du jeu"/>
+ </div>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Pokémon Multijoueur est un jeu vidéo en ligne qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.5 pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Checklist des fonctionnalités
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Le jeu Pokémon Multijoueur est doté des fonctionnalités suivantes :
 
-## Learn More
+- Système de collisions : ✔️
+- Carte du monde : ✔️
+- Multijoueur : ✔️
+- Système de météo : ✔️
+- Mode nuit : ✔️
+- Classe joueur : ✔️
+- Design et interface responsive : ✔️
+- Sons de déplacement / collisions / musique du jeu : ✔️
 
-To learn more about Next.js, take a look at the following resources:
+Les fonctionnalités suivantes sont en cours de développement :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Inscription et connexion : ✔️
+- Choix des sprites : ✔️
+- Enregistrement de la position sur la map : ✔️
+- Intégration des Pokémon : ❌
+- Entrée dans les maisons : ❌
+- Combat Pokémon : ❌
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Technologies utilisées
 
-## Deploy on Vercel
+Les technologies suivantes ont été utilisées dans le développement de ce projet :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Next.js](https://nextjs.org/) <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next-dot-js&logoColor=white" alt="Next.js logo">
+- [Phaser](https://phaser.io/) <img src="https://img.shields.io/badge/-Phaser-ffffff?style=flat-square&logo=phaser&logoColor=CECECE" alt="Phaser logo">
+- [Express](https://expressjs.com/) <img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express logo">
+- [Socket.io](https://socket.io/) <img src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket-dot-io&logoColor=white" alt="Socket.io logo">
+- [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Comment jouer
+
+1. Clonez ce dépôt sur votre machine locale.
+2. Installez les dépendances en exécutant la commande `npm install`.
+3. Installez MongoDb Compass, créer une database avec la collections `games` sur 127.0.0.1.
+4. Modifiez l'adresse ip du socket provider dans le context pour `localhost:PORT_DU_BACK`.
+5. Modifiez le port à votre guise du server.js côté backend.
+6. Démarrez le serveur en exécutant la commande `npm start`.
+7. Démarrez le client en exécutant la commande `npm run dev`.
+8. Ouvrez votre navigateur à l'adresse http://localhost:PORT_DU_FRONT pour jouer.
+
+## Auteur
+
+Ce projet a été créé par Lorenzo Giralt
