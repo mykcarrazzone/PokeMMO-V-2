@@ -29,6 +29,7 @@ export function handlePlayerPassInNewMap(data) {
 
     Object.keys(SpawnPoints).forEach((mapName) => {
       if (mapName === playerInfo.onMap) {
+        console.log("mapName: ", playerInfo.onMap);
         user.onMap.position.x = SpawnPoints[mapName].x;
         user.onMap.position.y = SpawnPoints[mapName].y;
         user.onMap.position.ld = playerInfo.position.ld;

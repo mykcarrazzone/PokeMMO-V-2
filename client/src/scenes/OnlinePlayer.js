@@ -8,7 +8,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     this.scene.physics.world.enableBody(this);
     this.scene.physics.add.collider(this, config.worldLayer);
 
-    this.setTexture("players", "bob_front.png").setScale(1);
+    this.setTexture("players", "bob_front.png").setScale(0.5);
 
     this.map = config.map;
 
@@ -40,7 +40,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
           backgroundColor: "#030507d7",
         }
       )
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setDepth(8);
   }
 
   isWalking(position, x, y) {

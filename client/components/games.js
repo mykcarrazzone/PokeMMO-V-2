@@ -30,9 +30,9 @@ export default function Game({ userData }) {
         physics: {
           default: "arcade",
           arcade: {
-            gravity: { y: 0 },
+            gravity: { y: 1 },
             fps: 300,
-            debug: false,
+            debug: true,
           },
         },
         backgroundColor: "#000000",

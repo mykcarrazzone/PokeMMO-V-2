@@ -7,32 +7,37 @@ export default class Player extends GameObjects.Sprite {
 
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
-    this.scene.physics.add.collider(this, config.worldLayer);
+    this.scene.physics.add.collider(this, config.worldLayer, () => {
+      // console.log("Collision");
+      // DRAW ON COLLISION
+    });
+    this.keys = {
+      up: this.scene.input.keyboard.addKey("Z"),
+      down: this.scene.input.keyboard.addKey("S"),
+      left: this.scene.input.keyboard.addKey("Q"),
+      right: this.scene.input.keyboard.addKey("D"),
+    };
     this._id = this.scene.localPlayer._id;
     // Current direction of player
     this.ld = config.ld;
-    this.setTexture(
-      "currentPlayer",
-      `misa-${this.scene.playerTexturePosition}`
-    );
 
     // Register cursors for player movement
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     // Player Offset
-    this.body.setOffset(0, 24);
-
+    this.body.setOffset(0, 8); // PREMIER PARAMETRE EST LA POSITION EN X, DEUXIEME PARAMETRE EST LA POSITION EN Y
+    this.body.setSize(24, 24); // PREMIER PARAMETRE EST LA TAILLE EN X, DEUXIEME PARAMETRE EST LA TAILLE EN Y
     // Player can't go out of the world
     this.body.setCollideWorldBounds(true);
-
     // Set depth (z-index)
-    this.setDepth(5);
+    this.setDepth(9);
 
     // Container to store old data
     this.container = [];
 
     // Player speed
-    this.speed = 150;
+    this.speed = 256;
+    this.body.setMaxVelocity(256, 256);
 
     this.canChangeMap = true;
 
@@ -52,19 +57,24 @@ export default class Player extends GameObjects.Sprite {
           : `[GM] ${capitalizedNickName}`,
         {
           fontFamily: "Arial",
-          fontSize: "14px",
+          fontSize: "13px",
           fill: this.scene.localPlayer.role !== "admin" ? "#ffffff" : "#fae953",
           stroke: "#070701",
           strokeThickness: 0,
-          padding: 2.5,
+          padding: 1,
           backgroundColor: "#030507d7",
         }
       )
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5)
+      .setDepth(9);
 
     // Add spacebar input
     this.spacebar = this.scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
+    ); // Stocker la position actuelle du joueur
+    this.currentGridPosition = new Phaser.Math.Vector2(
+      this.body.x,
+      this.body.y
     );
   }
 
@@ -84,45 +94,43 @@ export default class Player extends GameObjects.Sprite {
     this.body.setVelocity(0);
 
     // Horizontal movement
-    if (this.cursors.left.isDown) {
+    if (this.cursors.left.isDown || this.keys.left.isDown) {
       this.body.setVelocityX(-this.speed);
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown || this.keys.right.isDown) {
       this.body.setVelocityX(this.speed);
     }
 
     // Vertical movement
-    if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown || this.keys.up.isDown) {
       this.body.setVelocityY(-this.speed);
-    } else if (this.cursors.down.isDown) {
+    } else if (this.cursors.down.isDown || this.keys.down.isDown) {
       this.body.setVelocityY(this.speed);
     }
+
+    // Gérer les événements de touche en déplaçant le joueur sur la grille
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     this.body.velocity.normalize().scale(this.speed);
 
     // Update the animation last and give left/right animations precedence over up/down animations
-    if (this.cursors.left.isDown) {
-      this.anims.play("misa-left-walk", true);
+    if (this.cursors.left.isDown || this.keys.left.isDown) {
+      this.body.setVelocityX(-this.speed);
+      this.anims.play("hero_01_admin_m_walk", true);
       this.ld = "left";
-    } else if (this.cursors.right.isDown) {
-      this.anims.play("misa-right-walk", true);
+    } else if (this.cursors.right.isDown || this.keys.right.isDown) {
+      this.body.setVelocityX(this.speed);
+      this.anims.play("hero_01_admin_m_walk", true);
       this.ld = "right";
-    } else if (this.cursors.up.isDown) {
-      this.anims.play("misa-down-walk", true);
-      this.ld = "down";
-    } else if (this.cursors.down.isDown) {
-      this.anims.play("misa-up-walk", true);
-      this.ld = "up";
     } else {
       this.anims.stop();
 
       // If we were moving, pick and idle frame to use
-      if (prevVelocity.x < 0) this.setTexture("currentPlayer", "misa-left");
-      else if (prevVelocity.x > 0)
-        this.setTexture("currentPlayer", "misa-right");
-      else if (prevVelocity.y < 0)
-        this.setTexture("currentPlayer", "misa-down");
-      else if (prevVelocity.y > 0) this.setTexture("currentPlayer", "misa-up");
+      // if (prevVelocity.x < 0) this.setTexture("currentPlayer", "misa-left");
+      // else if (prevVelocity.x > 0)
+      //   this.setTexture("currentPlayer", "misa-right");
+      // else if (prevVelocity.y < 0)
+      //   this.setTexture("currentPlayer", "misa-down");
+      // else if (prevVelocity.y > 0) this.setTexture("currentPlayer", "misa-up");
     }
   }
 
@@ -146,17 +154,59 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
+  changeSceneByMapName(worldName, worldNamePosition) {
+    this.scene.localPlayer.onMap = worldName;
+    this.scene.localPlayer.position.x = this.x;
+    this.scene.localPlayer.position.y = this.y;
+
+    this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
+      _id: this._id,
+      position: {
+        x: this.x,
+        y: this.y,
+        ld: this.ld,
+      },
+      onMap: worldNamePosition ? worldNamePosition : worldName,
+      isMoving: this.isMoving,
+    });
+    // DÉTRUIRE LES OBJETS DE LA SCÈNE
+
+    this.scene.registry.destroy();
+    this.scene.events.off();
+    this.scene.sound.stopAll();
+    // DESTROY AUDIO
+    this.scene.scene.restart({
+      user: this.scene.localPlayer,
+      socket: this.scene.socket,
+      hasChangedScene: true,
+    });
+  }
+
   doorInteraction() {
     this.scene.map.findObject("Doors", (obj) => {
+      const objectX = obj.x * 2;
+      const objectY = obj.y * 2;
+      const objectWidth = obj.width * 2;
+      const objectHeight = obj.height * 2;
+
       if (
-        this.y >= obj.y &&
-        this.y <= obj.y + obj.height &&
-        this.x >= obj.x &&
-        this.x <= obj.x + obj.width
+        this.y >= objectY &&
+        this.y <= objectY + objectHeight &&
+        this.x >= objectX &&
+        this.x <= objectX + objectWidth
       ) {
         console.log("Player is by " + obj.name);
         if (this.spacebar.isDown) {
-          console.log("Door is open!");
+          switch (obj.name) {
+            case "DoorB":
+              console.log("Door is open!");
+              this.changeSceneByMapName("SnowTownDoorB", "SnowTownOutDoorB");
+              break;
+            case "DoorC":
+              console.log("Door is open!");
+              this.changeSceneByMapName("SnowTownDoorC", "SnowTownOutDoorC");
+              break;
+          }
         }
       }
     });
@@ -164,11 +214,15 @@ export default class Player extends GameObjects.Sprite {
 
   worldInteraction() {
     this.scene.map.findObject("Worlds", (world) => {
+      const worldX = world.x * 2;
+      const worldY = world.y * 2;
+      const worldWidth = world.width * 2;
+      const worldHeight = world.height * 2;
       if (
-        this.y >= world.y &&
-        this.y <= world.y + world.height &&
-        this.x >= world.x &&
-        this.x <= world.x + world.width
+        this.y >= worldY &&
+        this.y <= worldY + worldHeight &&
+        this.x >= worldX &&
+        this.x <= worldX + worldWidth
       ) {
         console.log("Player is by world entry: " + world.name);
 
@@ -182,36 +236,21 @@ export default class Player extends GameObjects.Sprite {
           this.playerTexturePosition = playerTexturePosition.value;
 
         // Load new level (tiles map)
-        console.log(this.scene.socket);
-        console.log(this.scene.localPlayer);
-
-        this.scene.localPlayer.onMap = world.name;
-        this.scene.localPlayer.position.x = this.x;
-        this.scene.localPlayer.position.y = this.y;
-
-
-        this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
-          _id: this._id,
-          position: {
-            x: this.x,
-            y: this.y,
-            ld: this.ld,
-          },
-          onMap: world.name,
-          isMoving: this.isMoving,
-        });
-        // DÉTRUIRE LES OBJETS DE LA SCÈNE
-
-        this.scene.registry.destroy();
-        this.scene.events.off();
-        this.scene.sound.stopAll();
-        // DESTROY AUDIO
-        this.scene.scene.restart({
-          user: this.scene.localPlayer,
-          socket: this.scene.socket,
-          hasChangedScene: true,
-        });
+        this.changeSceneByMapName(world.name);
       }
     });
+  }
+
+  // Fonction pour mettre à jour la position du joueur sur la grille
+  updateGridPosition(direction) {
+    // Calculer la nouvelle position sur la grille
+    let newGridPosition = this.currentGridPosition.clone().add(direction);
+
+    // Mettre à jour la position actuelle du joueur sur la grille
+    this.currentGridPosition.copy(newGridPosition);
+
+    // Mettre à jour la position réelle du joueur
+    this.body.x = this.currentGridPosition.x;
+    this.body.y = this.currentGridPosition.y;
   }
 }

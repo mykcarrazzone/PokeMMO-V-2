@@ -33,48 +33,6 @@ export default class Scene1 extends Scene {
   preload() {
     // Load sprites
     this.loadSprites();
-
-    // Load Town
-    this.load.image(
-      "TilesTown",
-      "assets/tilesets/tuxmon-sample-32px-extruded.png"
-    );
-    this.load.tilemapTiledJSON("SnowTown", "assets/tilemaps/town.json");
-    this.load.audio("SnowTown-Sound", "assets/sounds/bgm/snowtown.mp3");
-
-    // Load Route1
-    this.load.tilemapTiledJSON("route1", "assets/tilemaps/route1.json");
-    this.load.audio("route1-Sound", "assets/sounds/bgm/route1.mp3");
-
-    // Load atlas
-    this.load.atlas(
-      "currentPlayer",
-      "assets/atlas/atlas.png",
-      "assets/atlas/atlas.json"
-    );
-    this.load.atlas(
-      "players",
-      "assets/images/players/players.png",
-      "assets/atlas/players.json"
-    );
-    preloaderFile(this);
-  }
-
-  create(data) {
-    if (data.socket && data.user) {
-      this.socket.emit("gameReady");
-      // START PLAY GAME SCENE
-      this.scene.start("playGame", {
-        user: this.user,
-        socket: this.socket,
-        hasChangedScene: false,
-      });
-
-      this.playerAnims();
-    }
-  }
-
-  loadSprites() {
     // Charger les sprites
     let spritesExist = {
       hero: ["hero_01_red_m", "hero_01_admin_m", "hero_01_white_f"],
@@ -116,15 +74,80 @@ export default class Scene1 extends Scene {
         }
       );
     }
+
+    // Load Town
+    // this.load.image(
+    //   "TilesTown",
+    //   "assets/tilesets/tuxmon-sample-33px-extruded.png"
+    // );
+    this.load.image(
+      "TilesTown",
+      "assets/test/pokemmo-sample-16px-extruded.png"
+    );
+    // this.load.tilemapTiledJSON("SnowTown", "assets/tilemaps/town.json");
+    this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
+    this.load.audio("SnowTown-Sound", "assets/sounds/bgm/snowtown.mp3");
+
+    // Load Route1
+    this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
+    this.load.tilemapTiledJSON(
+      "SnowTownDoorB",
+      "assets/test/SnowTown-DoorB.json"
+    );
+    this.load.tilemapTiledJSON(
+      "SnowTownDoorC",
+      "assets/test/SnowTown-DoorC.json"
+    );
+    this.load.audio(
+      "SnowTownDoorC-Sound",
+      "assets/sounds/bgm/pokemon_center.mp3"
+    );
+    this.load.audio(
+      "SnowTownDoorB-Sound",
+      "assets/sounds/bgm/pokemon_center.mp3"
+    );
+    this.load.audio("route1-Sound", "assets/sounds/bgm/route1.mp3");
+
+    // Load atlas
+    this.load.atlas(
+      "currentPlayer",
+      "assets/atlas/atlas.png",
+      "assets/atlas/atlas.json"
+    );
+    this.load.atlas(
+      "players",
+      "assets/images/players/players.png",
+      "assets/atlas/players.json"
+    );
+    this.load.image("snowflake", "assets/effects/snowball.png");
+    this.load.image("fire", "assets/effects/fire.png");
+    this.load.image("rain", "assets/effects/rain.png");
+    preloaderFile(this);
   }
+
+  create(data) {
+    if (data.socket && data.user) {
+      this.socket.emit("gameReady");
+      // START PLAY GAME SCENE
+      this.scene.start("playGame", {
+        user: this.user,
+        socket: this.socket,
+        hasChangedScene: false,
+      });
+
+      this.playerAnims();
+    }
+  }
+
+  loadSprites() {}
 
   playerAnims() {
     // Create the player's walking animations from the texture currentPlayer. These are stored in the global
     // animation manager so any sprite can access them.
     this.anims.create({
-      key: "misa-left-walk",
+      key: "hero_01_red_m_walk",
       frames: this.anims.generateFrameNames("currentPlayer", {
-        prefix: "misa-left-walk.",
+        prefix: "hero_01_red_m_walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -133,9 +156,9 @@ export default class Scene1 extends Scene {
       repeat: -1,
     });
     this.anims.create({
-      key: "misa-right-walk",
+      key: "hero_01_red_m_walk",
       frames: this.anims.generateFrameNames("currentPlayer", {
-        prefix: "misa-right-walk.",
+        prefix: "hero_01_red_m_walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -144,9 +167,9 @@ export default class Scene1 extends Scene {
       repeat: -1,
     });
     this.anims.create({
-      key: "misa-up-walk",
+      key: "hero_01_red_m_walk",
       frames: this.anims.generateFrameNames("currentPlayer", {
-        prefix: "misa-up-walk.",
+        prefix: "hero_01_red_m_walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -155,9 +178,9 @@ export default class Scene1 extends Scene {
       repeat: -1,
     });
     this.anims.create({
-      key: "misa-down-walk",
+      key: "hero_01_red_m_walk",
       frames: this.anims.generateFrameNames("currentPlayer", {
-        prefix: "misa-down-walk.",
+        prefix: "hero_01_red_m_walk.",
         start: 0,
         end: 3,
         zeroPad: 3,

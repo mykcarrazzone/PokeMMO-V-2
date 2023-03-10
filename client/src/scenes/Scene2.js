@@ -1,7 +1,8 @@
 import { Scene } from "phaser";
 import Player from "./Player";
 import OnlinePlayer from "./OnlinePlayer";
-
+import { startWeather } from "./functions/weather/weather";
+import { startEffects } from "./functions/effects/fire";
 let cursors, socketKey;
 var onlinePlayers = [];
 
@@ -38,7 +39,7 @@ export default class Scene2 extends Scene {
   create() {
     if (this.socket && this.localPlayer) {
       let self = this;
-      
+
       this.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
         const otherPlayersData = Object.values(playerInfo).filter(
           (player) =>
@@ -96,64 +97,32 @@ export default class Scene2 extends Scene {
         }
       });
 
-      // This scene element was created in the world interaction method in the player class
-      this.map = this.make.tilemap({ key: this.mapName });
-
-      this.sound
-        .add(`${this.mapName}-Sound`, {
-          loop: true,
-          volume: 0.02,
-        })
-        .play();
-
-      // Set current map Bounds
-      this.scene.scene.physics.world.setBounds(
-        0,
-        0,
-        this.map.widthInPixels,
-        this.map.heightInPixels
-      );
-
-      // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-      // Phaser's cache (i.e. the name you used in preload)
-      const tileset = this.map.addTilesetImage(
-        "tuxmon-sample-32px-extruded",
-        "TilesTown"
-      );
-
-      // Parameters: layer name (or index) from Tiled, tileset, x, y
-      this.belowLayer = this.map.createLayer("Below Player", tileset, 0, 0);
-      // this.battleZone = this.map.createLayer("Battle Zone", tileset, 0, 0);
-      this.worldLayer = this.map.createLayer("World", tileset, 0, 0);
-      this.grassLayer = this.map.createLayer("Grass", tileset, 0, 0);
-      this.aboveLayer = this.map.createLayer("Above Player", tileset, 0, 0);
-      this.worldLayer.setCollisionByProperty({ collides: true });
-
-      // By default, everything gets depth sorted on the screen in the order we created things. Here, we
-      // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
-      // Higher depths will sit on top of lower depth objects.
-      this.aboveLayer.setDepth(10);
-
-      // Get spawn point from tiled map
-      const spawnPoint = this.map.findObject(
-        "SpawnPoints",
-        (obj) => obj.name === "Spawn Point"
-      );
+      this.createMap();
 
       // Set player
       this.player = new Player({
         scene: this,
-        worldLayer: this.worldLayer,
+        worldLayer: this.collides,
         key: "player",
-        x: this.hasChangedScene ? spawnPoint.x : this.localPlayer.position.x,
-        y: this.hasChangedScene ? spawnPoint.y : this.localPlayer.position.y,
+        x: this.hasChangedScene
+          ? this.spawnPoint.x * 2
+          : this.localPlayer.position.x,
+        y: this.hasChangedScene
+          ? this.spawnPoint.y * 2
+          : this.localPlayer.position.y,
         ld: this.localPlayer.position.ld,
       });
 
       const camera = this.cameras.main;
       camera.startFollow(this.player);
-      camera.setZoom(2.6);
-      camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+      this.player.setScale(1);
+      camera.setZoom(2.5);
+      camera.setBounds(
+        0,
+        0,
+        this.map.widthInPixels * 2,
+        this.map.heightInPixels * 2
+      );
 
       cursors = this.input.keyboard.createCursorKeys();
 
@@ -196,10 +165,10 @@ export default class Scene2 extends Scene {
 
   debugGraphics() {
     // Debug graphics
-    this.input.keyboard.once("keydown_D", (event) => {
+    this.input.keyboard.once("keydown_F", (event) => {
       // Turn on physics debugging to show player's hitbox
       this.physics.world.createDebugGraphic();
-
+      console.log("Debug graphics enabled");
       // Create worldLayer collision graphic above the player, but below the help text
       const graphics = this.add.graphics().setAlpha(0.75).setDepth(20);
       this.worldLayer.renderDebug(graphics, {
@@ -215,5 +184,106 @@ export default class Scene2 extends Scene {
     setInterval(() => {
       this.socket.emit("sendFps", parseInt(this.game.loop.actualFps));
     }, 500);
+  }
+
+  createMap() {
+    // This scene element was created in the world interaction method in the player class
+    this.map = this.make.tilemap({ key: this.mapName });
+    this.sound
+      .add(`${this.mapName}-Sound`, {
+        loop: true,
+        volume: 0.02,
+      })
+      .play();
+
+    // Set current map Bounds
+    this.scene.scene.physics.world.setBounds(
+      0,
+      0,
+      this.map.widthInPixels * 2,
+      this.map.heightInPixels * 2
+    );
+
+    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+    // Phaser's cache (i.e. the name you used in preload)
+    const tileset = this.map.addTilesetImage(
+      "pokemmo-sample-16px-extruded",
+      "TilesTown",
+      16,
+      16
+    );
+
+    // Parameters: layer name (or index) from Tiled, tileset, x, y
+
+    // this.battleZone = this.map.createLayer("Battle Zone", tileset, 0, 0);
+    // this.surfaceWorld = this.map
+    //   .createLayer("Surface World", tileset, 0, 0)
+    //
+
+    this.collides = this.map
+      .createLayer("Collides", tileset, 16, 16)
+      .setScale(2)
+      .setAlpha(0)
+      .setDepth(-1);
+    this.abovePlayer = this.map
+      .createLayer("Above Player", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(25);
+    this.surfaceWorld = this.map
+      .createLayer("Surface World", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(8);
+    this.lamp = this.map
+      .createLayer("Lamp", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(24);
+    this.aboveWorld = this.map
+      .createLayer("Above World", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(8);
+    this.worldLayer = this.map
+      .createLayer("World", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(7);
+    this.belowWorld = this.map
+      .createLayer("Below World", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(4);
+    this.rocks = this.map
+      .createLayer("Rocks", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(3);
+    this.shadowHouse = this.map
+      .createLayer("Shadow House", tileset, 16, 16)
+      .setScale(2)
+      .setDepth(5);
+
+    this.belowPlayer = this.map
+      .createLayer("Below Player", tileset, 16, 16)
+      .setScale(2);
+
+    this.collides.setCollisionByProperty({ collides: true });
+    this.rocks.setCollisionByProperty({ collides: true });
+    this.worldLayer.setDepth(15);
+
+    // ADD SOUND IF COLLISION
+
+    // By default, everything gets depth sorted on the screen in the order we created things. Here, we
+    // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
+    // Higher depths will sit on top of lower depth objects.
+
+    // Get spawn point from tiled map
+    this.spawnPoint = this.map.findObject(
+      "SpawnPoints",
+      (obj) => obj.name === "Spawn Point"
+    );
+
+    this.map.findObject("Weather", (obj) => {
+      startWeather(this, obj.name);
+    });
+
+    this.effects = this.map.findObject("Effects", (obj) => {
+      startEffects(this, obj.name);
+    });
   }
 }
