@@ -27,6 +27,7 @@ export default class Scene1 extends Scene {
       },
       onMap: this.dataPlayer.onMap.map_id,
       isMoving: false,
+      hasConnectedBefore: true,
     };
   }
 
@@ -132,7 +133,11 @@ export default class Scene1 extends Scene {
       this.scene.start("playGame", {
         user: this.user,
         socket: this.socket,
-        hasChangedScene: false,
+        changedSceneData: {
+          isChanged: false,
+          x: 0,
+          y: 0,
+        },
       });
 
       this.playerAnims();

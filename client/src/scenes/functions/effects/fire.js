@@ -1,5 +1,5 @@
 export const fire = (self) => {
-  self.flameEmitter = self.add.particles("fire").setDepth(10);
+  self.flameEmitter = self.add.particles("fire").setDepth(101);
   self.flameEmitter.createEmitter({
     x: { min: 1130, max: 1131 },
     y: 655,

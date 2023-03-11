@@ -20,7 +20,14 @@ export default class Player extends GameObjects.Sprite {
     this._id = this.scene.localPlayer._id;
     // Current direction of player
     this.ld = config.ld;
-
+    this.newZone = config.newZone;
+    this.battleZones = config.battleZones;
+    this.isMoving = false;
+    console.log("NEW ZONE IN PLAYER", this.newZone);
+    if (this.newZone) {
+      const [x, y] = this.newZone.name.split("|").map(Number);
+      this.newZone = { x, y };
+    }
     // Register cursors for player movement
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
@@ -30,7 +37,7 @@ export default class Player extends GameObjects.Sprite {
     // Player can't go out of the world
     this.body.setCollideWorldBounds(true);
     // Set depth (z-index)
-    this.setDepth(9);
+    this.setDepth(28);
 
     // Container to store old data
     this.container = [];
@@ -48,25 +55,25 @@ export default class Player extends GameObjects.Sprite {
       userNickName.charAt(0).toUpperCase() + userNickName.slice(1);
 
     // Player nickname text by role grade
-    this.playerNickname = this.scene.add
-      .text(
-        this.x - this.width,
-        this.y - this.height - 25,
-        this.scene.localPlayer.role !== "admin"
-          ? capitalizedNickName
-          : `[GM] ${capitalizedNickName}`,
-        {
-          fontFamily: "Arial",
-          fontSize: "13px",
-          fill: this.scene.localPlayer.role !== "admin" ? "#ffffff" : "#fae953",
-          stroke: "#070701",
-          strokeThickness: 0,
-          padding: 1,
-          backgroundColor: "#030507d7",
-        }
-      )
-      .setOrigin(0.5, 0.5)
-      .setDepth(9);
+    // this.playerNickname = this.scene.add
+    //   .text(
+    //     this.x - this.width,
+    //     this.y - this.height - 25,
+    //     this.scene.localPlayer.role !== "admin"
+    //       ? capitalizedNickName
+    //       : `[GM] ${capitalizedNickName}`,
+    //     {
+    //       fontFamily: "Arial",
+    //       fontSize: "13px",
+    //       fill: this.scene.localPlayer.role !== "admin" ? "#ffffff" : "#fae953",
+    //       stroke: "#070701",
+    //       strokeThickness: 0,
+    //       padding: 1,
+    //       backgroundColor: "#030507d7",
+    //     }
+    //   )
+    //   .setOrigin(0.5, 0.5)
+    //   .setDepth(9);
 
     // Add spacebar input
     this.spacebar = this.scene.input.keyboard.addKey(
@@ -87,6 +94,7 @@ export default class Player extends GameObjects.Sprite {
     // Player door interaction
     this.doorInteraction();
 
+    this.battleZoneInteraction();
     // Player world interaction
     this.worldInteraction();
 
@@ -96,15 +104,19 @@ export default class Player extends GameObjects.Sprite {
     // Horizontal movement
     if (this.cursors.left.isDown || this.keys.left.isDown) {
       this.body.setVelocityX(-this.speed);
+      this.isMoving = true;
     } else if (this.cursors.right.isDown || this.keys.right.isDown) {
       this.body.setVelocityX(this.speed);
+      this.isMoving = true;
     }
 
     // Vertical movement
     if (this.cursors.up.isDown || this.keys.up.isDown) {
       this.body.setVelocityY(-this.speed);
+      this.isMoving = true;
     } else if (this.cursors.down.isDown || this.keys.down.isDown) {
       this.body.setVelocityY(this.speed);
+      this.isMoving = true;
     }
 
     // Gérer les événements de touche en déplaçant le joueur sur la grille
@@ -123,6 +135,7 @@ export default class Player extends GameObjects.Sprite {
       this.ld = "right";
     } else {
       this.anims.stop();
+      this.isMoving = false;
 
       // If we were moving, pick and idle frame to use
       // if (prevVelocity.x < 0) this.setTexture("currentPlayer", "misa-left");
@@ -135,8 +148,8 @@ export default class Player extends GameObjects.Sprite {
   }
 
   showPlayerNickname() {
-    this.playerNickname.x = this.x;
-    this.playerNickname.y = this.y - 25;
+    // this.playerNickname.x = this.x;
+    // this.playerNickname.y = this.y - 25;
   }
 
   isMoved() {
@@ -154,40 +167,12 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
-  changeSceneByMapName(worldName, worldNamePosition) {
-    this.scene.localPlayer.onMap = worldName;
-    this.scene.localPlayer.position.x = this.x;
-    this.scene.localPlayer.position.y = this.y;
-
-    this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
-      _id: this._id,
-      position: {
-        x: this.x,
-        y: this.y,
-        ld: this.ld,
-      },
-      onMap: worldNamePosition ? worldNamePosition : worldName,
-      isMoving: this.isMoving,
-    });
-    // DÉTRUIRE LES OBJETS DE LA SCÈNE
-
-    this.scene.registry.destroy();
-    this.scene.events.off();
-    this.scene.sound.stopAll();
-    // DESTROY AUDIO
-    this.scene.scene.restart({
-      user: this.scene.localPlayer,
-      socket: this.scene.socket,
-      hasChangedScene: true,
-    });
-  }
-
   doorInteraction() {
     this.scene.map.findObject("Doors", (obj) => {
       const objectX = obj.x * 2;
       const objectY = obj.y * 2;
-      const objectWidth = obj.width * 2;
-      const objectHeight = obj.height * 2;
+      const objectWidth = obj.width * 2.5;
+      const objectHeight = obj.height * 3.1;
 
       if (
         this.y >= objectY &&
@@ -196,28 +181,56 @@ export default class Player extends GameObjects.Sprite {
         this.x <= objectX + objectWidth
       ) {
         console.log("Player is by " + obj.name);
-        if (this.spacebar.isDown) {
-          switch (obj.name) {
-            case "DoorB":
-              console.log("Door is open!");
-              this.changeSceneByMapName("SnowTownDoorB", "SnowTownOutDoorB");
-              break;
-            case "DoorC":
-              console.log("Door is open!");
-              this.changeSceneByMapName("SnowTownDoorC", "SnowTownOutDoorC");
-              break;
-          }
+
+        switch (obj.name) {
+          case "DoorB":
+            console.log("Door is open!");
+            this.changeSceneByMapName("SnowTownDoorB");
+            break;
+          case "DoorC":
+            console.log("Door is open!");
+            this.changeSceneByMapName("SnowTownDoorC");
+            break;
         }
       }
     });
+  }
+
+  battleZoneInteraction() {
+    if (this.isMoved() && this.scene.battleZones) {
+      var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
+      var currentTile = this.scene.battleZones.getTileAt(
+        playerTileY.x,
+        playerTileY.y
+      );
+      const levelProperties = this.scene.battleZones.layer.properties;
+      if (currentTile) {
+        if (currentTile.index == 24471) {
+          if (Math.random() <= 0.1 / 35) {
+            // A UNE CHANCE SUR 10 DE SPAWNER UN POKEMON SI LE PLAYER BOUGE
+            // A UNE CHANCE SUR 6 DE SPAWNER UN POKEMON SI LE PLAYER BOUGE
+            console.log(this.generateRandomLevelPokemonSpawn(levelProperties));
+          }
+        }
+      }
+    }
+  }
+
+  generateRandomLevelPokemonSpawn(levelKey) {
+    let [minLevel, maxLevel] = levelKey[0].value.split("|");
+    minLevel = parseInt(minLevel);
+    maxLevel = parseInt(maxLevel);
+    const randomLevel =
+      Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
+    return `Pokemon spawned at level ${randomLevel}`;
   }
 
   worldInteraction() {
     this.scene.map.findObject("Worlds", (world) => {
       const worldX = world.x * 2;
       const worldY = world.y * 2;
-      const worldWidth = world.width * 2;
-      const worldHeight = world.height * 2;
+      const worldWidth = world.width * 3;
+      const worldHeight = world.height * 3;
       if (
         this.y >= worldY &&
         this.y <= worldY + worldHeight &&
@@ -234,23 +247,56 @@ export default class Player extends GameObjects.Sprite {
           );
         if (playerTexturePosition)
           this.playerTexturePosition = playerTexturePosition.value;
+        this.changeSceneByMapName(world.name);
 
         // Load new level (tiles map)
-        this.changeSceneByMapName(world.name);
       }
     });
   }
 
-  // Fonction pour mettre à jour la position du joueur sur la grille
-  updateGridPosition(direction) {
-    // Calculer la nouvelle position sur la grille
-    let newGridPosition = this.currentGridPosition.clone().add(direction);
+  changeSceneByMapName(worldName) {
+    console.log("MA MAP : " + worldName);
+    this.scene.localPlayer.onMap = worldName;
+    this.scene.localPlayer.position.x = this.x;
+    this.scene.localPlayer.position.y = this.y;
+    this.scene.localPlayer.hasConnectedBefore = false;
+    console.log("ma zonneee", this.newZone);
 
-    // Mettre à jour la position actuelle du joueur sur la grille
-    this.currentGridPosition.copy(newGridPosition);
+    // PERMET DE CHANGER LES POINTS D ENTREE ET DE SORTIE
+    this.changedSceneData = {
+      isChanged: this.newZone ? true : false,
+      x: this.newZone
+        ? this.newZone.x != 0
+          ? this.newZone.x
+          : this.scene.localPlayer.x
+        : this.scene.localPlayer.x,
+      y: this.newZone
+        ? this.newZone.y != 0
+          ? this.newZone.y
+          : this.scene.localPlayer.y
+        : this.scene.localPlayer.y,
+    };
 
-    // Mettre à jour la position réelle du joueur
-    this.body.x = this.currentGridPosition.x;
-    this.body.y = this.currentGridPosition.y;
+    this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
+      _id: this._id,
+      position: {
+        x: this.x,
+        y: this.y,
+        ld: this.ld,
+      },
+      onMap: worldName,
+      isMoving: this.isMoving,
+    });
+    // DÉTRUIRE LES OBJETS DE LA SCÈNE
+
+    this.scene.registry.destroy();
+    this.scene.events.off();
+    this.scene.sound.stopAll();
+    // DESTROY AUDIO
+    this.scene.scene.restart({
+      user: this.scene.localPlayer,
+      socket: this.scene.socket,
+      changedSceneData: this.changedSceneData,
+    });
   }
 }

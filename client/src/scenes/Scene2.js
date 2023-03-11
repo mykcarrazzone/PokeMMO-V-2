@@ -18,7 +18,7 @@ export default class Scene2 extends Scene {
       this.mapName = data.user.onMap;
       // Player Texture starter position
       this.localPlayer = data.user;
-      this.hasChangedScene = data.hasChangedScene;
+      this.changedSceneData = data.changedSceneData;
       this.playerTexturePosition = data.user.position.ld;
       // Set container
       this.container = [];
@@ -99,24 +99,31 @@ export default class Scene2 extends Scene {
 
       this.createMap();
 
+      console.log("LE CHANGED SCENE DATA", this.changedSceneData);
       // Set player
       this.player = new Player({
         scene: this,
         worldLayer: this.collides,
         key: "player",
-        x: this.hasChangedScene
-          ? this.spawnPoint.x * 2
-          : this.localPlayer.position.x,
-        y: this.hasChangedScene
-          ? this.spawnPoint.y * 2
-          : this.localPlayer.position.y,
+        x: this.localPlayer.hasConnectedBefore
+          ? this.localPlayer.position.x
+          : this.changedSceneData.isChanged
+          ? this.changedSceneData.x
+          : this.spawnPoint.x * 2,
+        y: this.localPlayer.hasConnectedBefore
+          ? this.localPlayer.position.y
+          : this.changedSceneData.isChanged
+          ? this.changedSceneData.y
+          : this.spawnPoint.y * 2,
         ld: this.localPlayer.position.ld,
+        newZone: this.zone,
+        battleZones : this.battleZones,
       });
 
       const camera = this.cameras.main;
       camera.startFollow(this.player);
       this.player.setScale(1);
-      camera.setZoom(2.5);
+      camera.setZoom(2);
       camera.setBounds(
         0,
         0,
@@ -171,7 +178,7 @@ export default class Scene2 extends Scene {
       console.log("Debug graphics enabled");
       // Create worldLayer collision graphic above the player, but below the help text
       const graphics = this.add.graphics().setAlpha(0.75).setDepth(20);
-      this.worldLayer.renderDebug(graphics, {
+      this.collides.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
@@ -213,6 +220,8 @@ export default class Scene2 extends Scene {
       16
     );
 
+    this.zone = this.map.findObject("Zone", (obj) => obj);
+    console.log("Zone :", this.zone);
     // Parameters: layer name (or index) from Tiled, tileset, x, y
 
     // this.battleZone = this.map.createLayer("Battle Zone", tileset, 0, 0);
@@ -224,47 +233,42 @@ export default class Scene2 extends Scene {
       .createLayer("Collides", tileset, 16, 16)
       .setScale(2)
       .setAlpha(0)
-      .setDepth(-1);
+      .setDepth(-10);
     this.abovePlayer = this.map
       .createLayer("Above Player", tileset, 16, 16)
       .setScale(2)
-      .setDepth(25);
-    this.surfaceWorld = this.map
-      .createLayer("Surface World", tileset, 16, 16)
-      .setScale(2)
-      .setDepth(8);
+      .setDepth(30);
     this.lamp = this.map
       .createLayer("Lamp", tileset, 16, 16)
       .setScale(2)
-      .setDepth(24);
+      .setDepth(28);
     this.aboveWorld = this.map
       .createLayer("Above World", tileset, 16, 16)
       .setScale(2)
-      .setDepth(8);
+      .setDepth(27);
     this.worldLayer = this.map
       .createLayer("World", tileset, 16, 16)
       .setScale(2)
-      .setDepth(7);
+      .setDepth(26);
     this.belowWorld = this.map
       .createLayer("Below World", tileset, 16, 16)
       .setScale(2)
-      .setDepth(4);
-    this.rocks = this.map
-      .createLayer("Rocks", tileset, 16, 16)
+      .setDepth(25);
+    this.grass = this.map
+      .createLayer("Grass", tileset, 16, 16)
       .setScale(2)
-      .setDepth(3);
-    this.shadowHouse = this.map
-      .createLayer("Shadow House", tileset, 16, 16)
-      .setScale(2)
-      .setDepth(5);
-
+      .setDepth(24);
     this.belowPlayer = this.map
       .createLayer("Below Player", tileset, 16, 16)
-      .setScale(2);
+      .setScale(2)
+      .setDepth(23);
+      this.battleZones = this.map
+      .createLayer("Battle Zones", tileset, 16, 16)
+     this.battleZones ?  this.battleZones.setScale(2).setDepth(24) : null;
 
     this.collides.setCollisionByProperty({ collides: true });
-    this.rocks.setCollisionByProperty({ collides: true });
-    this.worldLayer.setDepth(15);
+    // check if player in battleZones
+
 
     // ADD SOUND IF COLLISION
 
@@ -277,6 +281,7 @@ export default class Scene2 extends Scene {
       "SpawnPoints",
       (obj) => obj.name === "Spawn Point"
     );
+
 
     this.map.findObject("Weather", (obj) => {
       startWeather(this, obj.name);

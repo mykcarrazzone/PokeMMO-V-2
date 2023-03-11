@@ -21,7 +21,13 @@ export default function Game({ userData }) {
         parent: gameRef.current,
         width: window.innerWidth,
         height: window.innerHeight,
+        enableTileExtrude: true, // Permet de faire des bordures de tiles
+        enableTileExtrusion: true, // Permet de faire des bordures de tiles (2)
+        // ADD EXTRUSION AND EXTRUDE TO TILED MAPS
+        enableWebGL: true, // Permet d'utiliser le webGL pour les tiles (plus rapide)
+        
         pixelArt: true,
+        beautify: true, // Permet de faire des bordures de tiles (3)
         antialias: true,
         scene: [Scene1, Scene2],
         scale: {
@@ -30,7 +36,7 @@ export default function Game({ userData }) {
         physics: {
           default: "arcade",
           arcade: {
-            gravity: { y: 1 },
+            gravity: { y: 0 },
             fps: 300,
             debug: true,
           },
