@@ -76,6 +76,8 @@ export default class Scene1 extends Scene {
       );
     }
 
+    this.load.audio("bump", "assets/sounds/se/bump.wav");
+
     // Load Town
     // this.load.image(
     //   "TilesTown",

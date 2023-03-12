@@ -117,7 +117,7 @@ export default class Scene2 extends Scene {
           : this.spawnPoint.y * 2,
         ld: this.localPlayer.position.ld,
         newZone: this.zone,
-        battleZones : this.battleZones,
+        battleZones: this.battleZones,
       });
 
       const camera = this.cameras.main;
@@ -196,10 +196,11 @@ export default class Scene2 extends Scene {
   createMap() {
     // This scene element was created in the world interaction method in the player class
     this.map = this.make.tilemap({ key: this.mapName });
+
     this.sound
       .add(`${this.mapName}-Sound`, {
         loop: true,
-        volume: 0.02,
+        volume: 0.05,
       })
       .play();
 
@@ -262,13 +263,11 @@ export default class Scene2 extends Scene {
       .createLayer("Below Player", tileset, 16, 16)
       .setScale(2)
       .setDepth(23);
-      this.battleZones = this.map
-      .createLayer("Battle Zones", tileset, 16, 16)
-     this.battleZones ?  this.battleZones.setScale(2).setDepth(24) : null;
+    this.battleZones = this.map.createLayer("Battle Zones", tileset, 16, 16);
+    this.battleZones ? this.battleZones.setScale(2).setDepth(24) : null;
 
     this.collides.setCollisionByProperty({ collides: true });
     // check if player in battleZones
-
 
     // ADD SOUND IF COLLISION
 
@@ -281,7 +280,6 @@ export default class Scene2 extends Scene {
       "SpawnPoints",
       (obj) => obj.name === "Spawn Point"
     );
-
 
     this.map.findObject("Weather", (obj) => {
       startWeather(this, obj.name);

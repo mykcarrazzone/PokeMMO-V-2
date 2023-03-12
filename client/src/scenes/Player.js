@@ -1,29 +1,33 @@
 import { GameObjects } from "phaser";
-// import { onlinePlayers, room } from "./SocketServer";
+import { attributeKeys } from "./functions/keyboard/attributeKeys";
 
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key);
-
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
+
+    this.bump = this.scene.sound.add("bump", {
+      loop: false,
+      volume: 0.7,
+    });
+
     this.scene.physics.add.collider(this, config.worldLayer, () => {
       // console.log("Collision");
-      // DRAW ON COLLISION
+      if (this.body.touching) {
+        if (!this.bump.isPlaying) {
+          this.bump.play();
+        }
+      }
     });
-    this.keys = {
-      up: this.scene.input.keyboard.addKey("Z"),
-      down: this.scene.input.keyboard.addKey("S"),
-      left: this.scene.input.keyboard.addKey("Q"),
-      right: this.scene.input.keyboard.addKey("D"),
-    };
+
     this._id = this.scene.localPlayer._id;
     // Current direction of player
     this.ld = config.ld;
     this.newZone = config.newZone;
     this.battleZones = config.battleZones;
     this.isMoving = false;
-    console.log("NEW ZONE IN PLAYER", this.newZone);
+
     if (this.newZone) {
       const [x, y] = this.newZone.name.split("|").map(Number);
       this.newZone = { x, y };
@@ -48,46 +52,50 @@ export default class Player extends GameObjects.Sprite {
 
     this.canChangeMap = true;
 
-    // Get player nickname from constructor config.scene
-    const userNickName = this.scene.localPlayer.nickName;
-    // Capitalize first letter of player nickname
-    const capitalizedNickName =
-      userNickName.charAt(0).toUpperCase() + userNickName.slice(1);
+    this.tileSize = 32;
+    this.moveSpeed = 200;
+    this.targetTileX = null;
+    this.targetTileY = null;
+    this.direction = null;
+    this.isMoving = false;
+  }
+  moveLeft() {
+    if (!this.isMoving) {
+      this.targetTileX = Math.floor(this.x / this.tileSize) - 1;
+      this.targetTileY = Math.floor(this.y / this.tileSize);
+      this.ld = "left";
+      this.isMoving = true;
+    }
+  }
 
-    // Player nickname text by role grade
-    // this.playerNickname = this.scene.add
-    //   .text(
-    //     this.x - this.width,
-    //     this.y - this.height - 25,
-    //     this.scene.localPlayer.role !== "admin"
-    //       ? capitalizedNickName
-    //       : `[GM] ${capitalizedNickName}`,
-    //     {
-    //       fontFamily: "Arial",
-    //       fontSize: "13px",
-    //       fill: this.scene.localPlayer.role !== "admin" ? "#ffffff" : "#fae953",
-    //       stroke: "#070701",
-    //       strokeThickness: 0,
-    //       padding: 1,
-    //       backgroundColor: "#030507d7",
-    //     }
-    //   )
-    //   .setOrigin(0.5, 0.5)
-    //   .setDepth(9);
+  moveRight() {
+    if (!this.isMoving) {
+      this.targetTileX = Math.floor(this.x / this.tileSize) + 1;
+      this.targetTileY = Math.floor(this.y / this.tileSize);
+      this.ld = "right";
+      this.isMoving = true;
+    }
+  }
 
-    // Add spacebar input
-    this.spacebar = this.scene.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    ); // Stocker la position actuelle du joueur
-    this.currentGridPosition = new Phaser.Math.Vector2(
-      this.body.x,
-      this.body.y
-    );
+  moveUp() {
+    if (!this.isMoving) {
+      this.targetTileX = Math.floor(this.x / this.tileSize);
+      this.targetTileY = Math.floor(this.y / this.tileSize) - 1;
+      this.ld = "up";
+      this.isMoving = true;
+    }
+  }
+
+  moveDown() {
+    if (!this.isMoving) {
+      this.targetTileX = Math.floor(this.x / this.tileSize);
+      this.targetTileY = Math.floor(this.y / this.tileSize) + 1;
+      this.ld = "down";
+      this.isMoving = true;
+    }
   }
 
   update(time, delta) {
-    const prevVelocity = this.body.velocity.clone();
-
     // Show player nickname above player
     this.showPlayerNickname();
 
@@ -100,57 +108,58 @@ export default class Player extends GameObjects.Sprite {
 
     // Stop any previous movement from the last frame
     this.body.setVelocity(0);
+    this.movePlayerToNextTile();
+  }
 
-    // Horizontal movement
-    if (this.cursors.left.isDown || this.keys.left.isDown) {
-      this.body.setVelocityX(-this.speed);
-      this.isMoving = true;
-    } else if (this.cursors.right.isDown || this.keys.right.isDown) {
-      this.body.setVelocityX(this.speed);
-      this.isMoving = true;
+  movePlayerToNextTile() {
+    attributeKeys(this);
+
+    if (this.isMoving) {
+      const distanceX = this.targetTileX * this.tileSize - this.x;
+      const distanceY = this.targetTileY * this.tileSize - this.y;
+      const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+      if (distance <= (this.moveSpeed * this.scene.game.loop.delta) / 1000) {
+        this.x = this.targetTileX * this.tileSize;
+        this.y = this.targetTileY * this.tileSize;
+        this.isMoving = false;
+        this.body.setVelocity(0);
+      } else {
+        const angle = Math.atan2(distanceY, distanceX);
+        const velocityX = Math.cos(angle) * this.moveSpeed;
+        const velocityY = Math.sin(angle) * this.moveSpeed;
+        this.body.setVelocity(velocityX, velocityY);
+      }
     }
 
-    // Vertical movement
-    if (this.cursors.up.isDown || this.keys.up.isDown) {
-      this.body.setVelocityY(-this.speed);
-      this.isMoving = true;
-    } else if (this.cursors.down.isDown || this.keys.down.isDown) {
-      this.body.setVelocityY(this.speed);
-      this.isMoving = true;
-    }
-
-    // Gérer les événements de touche en déplaçant le joueur sur la grille
-
-    // Normalize and scale the velocity so that player can't move faster along a diagonal
-    this.body.velocity.normalize().scale(this.speed);
-
-    // Update the animation last and give left/right animations precedence over up/down animations
-    if (this.cursors.left.isDown || this.keys.left.isDown) {
-      this.body.setVelocityX(-this.speed);
-      this.anims.play("hero_01_admin_m_walk", true);
-      this.ld = "left";
-    } else if (this.cursors.right.isDown || this.keys.right.isDown) {
-      this.body.setVelocityX(this.speed);
-      this.anims.play("hero_01_admin_m_walk", true);
-      this.ld = "right";
-    } else {
-      this.anims.stop();
-      this.isMoving = false;
-
-      // If we were moving, pick and idle frame to use
-      // if (prevVelocity.x < 0) this.setTexture("currentPlayer", "misa-left");
-      // else if (prevVelocity.x > 0)
-      //   this.setTexture("currentPlayer", "misa-right");
-      // else if (prevVelocity.y < 0)
-      //   this.setTexture("currentPlayer", "misa-down");
-      // else if (prevVelocity.y > 0) this.setTexture("currentPlayer", "misa-up");
+    if (this.isLeftPressed) {
+      if (this.x > 0) {
+        this.moveLeft();
+      } else {
+        this.body.setVelocityX(0);
+      }
+    } else if (this.isRightPressed) {
+      if (this.x < this.scene.physics.world.bounds.width) {
+        this.moveRight();
+      } else {
+        this.body.setVelocityX(0);
+      }
+    } else if (this.isUpPressed) {
+      if (this.y > 0) {
+        this.moveUp();
+      } else {
+        this.body.setVelocityY(0);
+      }
+    } else if (this.isDownPressed) {
+      if (this.y < this.scene.physics.world.bounds.height) {
+        this.moveDown();
+      } else {
+        this.body.setVelocityY(0);
+      }
     }
   }
 
-  showPlayerNickname() {
-    // this.playerNickname.x = this.x;
-    // this.playerNickname.y = this.y - 25;
-  }
+  showPlayerNickname() {}
 
   isMoved() {
     if (
@@ -207,8 +216,6 @@ export default class Player extends GameObjects.Sprite {
       if (currentTile) {
         if (currentTile.index == 24471) {
           if (Math.random() <= 0.1 / 35) {
-            // A UNE CHANCE SUR 10 DE SPAWNER UN POKEMON SI LE PLAYER BOUGE
-            // A UNE CHANCE SUR 6 DE SPAWNER UN POKEMON SI LE PLAYER BOUGE
             console.log(this.generateRandomLevelPokemonSpawn(levelProperties));
           }
         }
@@ -247,9 +254,9 @@ export default class Player extends GameObjects.Sprite {
           );
         if (playerTexturePosition)
           this.playerTexturePosition = playerTexturePosition.value;
-        this.changeSceneByMapName(world.name);
 
-        // Load new level (tiles map)
+        // CHARGE UNE NOUVELLE ZONE DE JEU
+        this.changeSceneByMapName(world.name);
       }
     });
   }
@@ -287,12 +294,11 @@ export default class Player extends GameObjects.Sprite {
       onMap: worldName,
       isMoving: this.isMoving,
     });
-    // DÉTRUIRE LES OBJETS DE LA SCÈNE
 
+    // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
     this.scene.sound.stopAll();
-    // DESTROY AUDIO
     this.scene.scene.restart({
       user: this.scene.localPlayer,
       socket: this.scene.socket,
