@@ -42,10 +42,10 @@ export default class Player extends GameObjects.Sprite {
       characters: [
         {
           id: "player",
-          sprite: this.player,
+          sprite: this,
           startPosition: {
-            x: 26, // 16 pour la taille d'une case, multiplié par 2 pour l'échelle, plus 16 pour être au milieu de la case
-            y: 23,
+            x: 29,
+            y: 25,
           },
         },
       ],
@@ -155,10 +155,6 @@ export default class Player extends GameObjects.Sprite {
       const objectY = obj.y * 2
       const objectWidth = obj.width * 2;
       const objectHeight = obj.height * 2;
-      const graphics = this.scene.add.graphics().setDepth(10);
-
-      graphics.lineStyle(2, 0x00ff00, 1);
-      graphics.strokeRect(objectX, objectY, objectWidth, objectHeight);
 
       if (
         this.y >= objectY &&
