@@ -24,7 +24,6 @@ export default class Player extends GameObjects.Sprite {
     // Current direction of player
     this.ld = config.ld;
     this.newZone = config.newZone;
-    this.battleZones = config.battleZones;
     this.isMoving = false;
 
     if (this.newZone) {
@@ -33,20 +32,18 @@ export default class Player extends GameObjects.Sprite {
     }
 
     // Player Offset
+    this.body.setSize(12, 21); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
+    this.body.setOffset(6, 8); // Décalage du corps physique pour centrer le joueur sur la grille
     this.setOrigin(0.5, 0.5);
-    this.body.setSize(12, 12); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
-    this.body.setOffset(2, 2); // Décalage du corps physique pour centrer le joueur sur la grille
-    // Player can't go out of the world
     this.body.setCollideWorldBounds(true);
-    // Set depth (z-index)
-    this.setDepth(28);
+    this.setDepth(6);
 
     const gridEngineConfig = {
       characters: [
         {
-          id: "hero_01_red_m_walk",
+          id: config.key,
           sprite: this,
-          walkingAnimationMapping: 4, // PERMET DE DEFINIR LA VITESSE DE DEPLACEMENT DU JOUEUR (PLUS LE NOMBRE EST ELEVE, PLUS LE JOUEUR VA VITE)
+          // walkingAnimationMapping: 1, // PERMET DE DEFINIR LA VITESSE DE DEPLACEMENT DU JOUEUR (PLUS LE NOMBRE EST ELEVE, PLUS LE JOUEUR VA VITE)
           startPosition: {
             x: 26, // 16 pour la taille d'une case, multiplié par 2 pour l'échelle, plus 16 pour être au milieu de la case
             y: 23,
@@ -85,21 +82,21 @@ export default class Player extends GameObjects.Sprite {
 
   update(time, delta) {
     // Show player nickname above player
-    this.showPlayerNickname();
+    // this.showPlayerNickname();
 
     // Player door interaction
     this.doorInteraction();
-
-    this.battleZoneInteraction();
+    this.playerMove();
+    // this.battleZoneInteraction();
     // Player world interaction
-    this.worldInteraction();
+    // this.worldInteraction();
 
-    this.movePlayerToNextTile();
   }
+
   createPlayerAnimation(name, startFrame, endFrame) {
     this.anims.create({
       key: name,
-      frames: this.anims.generateFrameNumbers("hero_01_red_m_walk", {
+      frames: this.anims.generateFrameNumbers("hero_01_admin_m_walk", {
         start: startFrame,
         end: endFrame,
       }),
@@ -122,21 +119,21 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
-  movePlayerToNextTile() {
+  playerMove() {
     attributeKeys(this);
 
     if (this.isLeftPressed) {
       console.log("LEFT");
-      this.scene.gridEngine.move("hero_01_red_m_walk", "left");
+      this.scene.gridEngine.move("player", "left");
     } else if (this.isRightPressed) {
       console.log("RIGHT");
-      this.scene.gridEngine.move("hero_01_red_m_walk", "right");
+      this.scene.gridEngine.move("player", "right");
     } else if (this.isUpPressed) {
       console.log("UP");
-      this.scene.gridEngine.move("hero_01_red_m_walk", "up");
+      this.scene.gridEngine.move("player", "up");
     } else if (this.isDownPressed) {
       console.log("DOWN");
-      this.scene.gridEngine.move("hero_01_red_m_walk", "down");
+      this.scene.gridEngine.move("player", "down");
     }
   }
 
@@ -160,9 +157,13 @@ export default class Player extends GameObjects.Sprite {
   doorInteraction() {
     this.scene.map.findObject("Doors", (obj) => {
       const objectX = obj.x * 2;
-      const objectY = obj.y * 2;
-      const objectWidth = obj.width * 2.5;
-      const objectHeight = obj.height * 3.1;
+      const objectY = obj.y * 2
+      const objectWidth = obj.width * 2;
+      const objectHeight = obj.height * 2;
+      const graphics = this.scene.add.graphics().setDepth(10);
+
+      graphics.lineStyle(2, 0x00ff00, 1);
+      graphics.strokeRect(objectX, objectY, objectWidth, objectHeight);
 
       if (
         this.y >= objectY &&
@@ -243,12 +244,10 @@ export default class Player extends GameObjects.Sprite {
   }
 
   changeSceneByMapName(worldName) {
-    console.log("MA MAP : " + worldName);
     this.scene.localPlayer.onMap = worldName;
     this.scene.localPlayer.position.x = this.x;
     this.scene.localPlayer.position.y = this.y;
     this.scene.localPlayer.hasConnectedBefore = false;
-    console.log("ma zonneee", this.newZone);
 
     // PERMET DE CHANGER LES POINTS D ENTREE ET DE SORTIE
     this.changedSceneData = {

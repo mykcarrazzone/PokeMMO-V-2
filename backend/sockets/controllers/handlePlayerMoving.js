@@ -12,6 +12,7 @@ let movementTimeout;
 const saveTimeout = 3000;
 
 export function handlePlayerMoving(data) {
+  console.log("handlePlayerMoving")
   const { playerInfo, io, socket, players, User } = data;
   // Mise à jour de la position du joueur dans l'objet players
   players[socket.id].position.x = playerInfo.position.x;

@@ -9,6 +9,7 @@
  *
  **/
 export function handlePlayerJoin(data) {
+  console.log("handlePlayerJoin")
   const { playerInfo, io, socket, players, onlinePlayers } = data;
   if (players.hasOwnProperty(socket.id)) {
     console.info(`Player [${socket.id}] already exists`);

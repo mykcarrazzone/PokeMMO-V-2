@@ -8,7 +8,6 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     this.scene.physics.world.enableBody(this);
     this.scene.physics.add.collider(this, config.worldLayer);
 
-    this.setTexture("players", "bob_front.png").setScale(0.5);
 
     this.map = config.map;
 
@@ -46,7 +45,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   isWalking(position, x, y) {
     if (this && this.anims) {
       // Player
-      this.anims.play(`misa-${position}-walk`, true);
+      // this.anims.play(`misa-${position}-walk`, true);
       this.setPosition(x, y);
 
       // PlayerId
@@ -57,7 +56,6 @@ export default class OnlinePlayer extends GameObjects.Sprite {
 
   stopWalking(position) {
     this.anims.stop();
-    this.setTexture("players", `misa_${position}.png`);
   }
 
   destroy() {

@@ -45,7 +45,7 @@ export default function Game({ userData }) {
           arcade: {
             gravity: { y: 0 },
             fps: 300,
-            debug: true,
+            debug: false,
           },
         },
 

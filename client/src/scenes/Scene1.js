@@ -77,16 +77,10 @@ export default class Scene1 extends Scene {
 
     this.load.audio("bump", "assets/sounds/se/bump.wav");
 
-    // Load Town
-    // this.load.image(
-    //   "TilesTown",
-    //   "assets/tilesets/tuxmon-sample-33px-extruded.png"
-    // );
     this.load.image(
       "TilesTown",
       "assets/test/pokemmo-sample-16px-extruded.png"
     );
-    // this.load.tilemapTiledJSON("SnowTown", "assets/tilemaps/town.json");
     this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
     this.load.audio("SnowTown-Sound", "assets/sounds/bgm/snowtown.mp3");
 
