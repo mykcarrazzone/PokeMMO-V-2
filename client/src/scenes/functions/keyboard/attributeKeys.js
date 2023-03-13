@@ -15,6 +15,11 @@ export const attributeKeys = (self) => {
   self.isLeftPressed = self.keys.left.isDown;
   self.isRightPressed = self.keys.right.isDown;
   self.isShiftPressed = self.keys.shift.isDown;
+  self.isUpPressedUp = self.keys.up.isUp;
+  self.isDownPressedUp = self.keys.down.isUp;
+  self.isLeftPressedUp = self.keys.left.isUp;
+  self.isRightPressedUp = self.keys.right.isUp;
+  self.isShiftPressedUp = self.keys.shift.isUp;
   // Ajoute une clée pour quand on clique sur le cross (différent du isDown)
   self.isCrossCliqued = Phaser.Input.Keyboard.JustDown(self.keys.cross);
 

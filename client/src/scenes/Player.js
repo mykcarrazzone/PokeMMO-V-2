@@ -11,15 +11,14 @@ export default class Player extends GameObjects.Sprite {
       loop: false,
       volume: 0.7,
     });
-
-    this.scene.physics.add.collider(this, config.worldLayer, () => {
-      // console.log("Collision");
-      if (this.body.touching) {
-        if (!this.bump.isPlaying) {
-          this.bump.play();
-        }
-      }
-    });
+    // this.scene.physics.add.collider(this, config.worldLayer, () => {
+    //   // console.log("Collision");
+    //   if (this.body.touching) {
+    //     if (!this.bump.isPlaying) {
+    //       this.bump.play();
+    //     }
+    //   }
+    // });
 
     this._id = this.scene.localPlayer._id;
     // Current direction of player
@@ -32,67 +31,56 @@ export default class Player extends GameObjects.Sprite {
       const [x, y] = this.newZone.name.split("|").map(Number);
       this.newZone = { x, y };
     }
-    // Register cursors for player movement
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     // Player Offset
-    this.body.setOffset(0, 8); // PREMIER PARAMETRE EST LA POSITION EN X, DEUXIEME PARAMETRE EST LA POSITION EN Y
-    this.body.setSize(24, 24); // PREMIER PARAMETRE EST LA TAILLE EN X, DEUXIEME PARAMETRE EST LA TAILLE EN Y
+    this.setOrigin(0.5, 0.5);
+    this.body.setSize(12, 12); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
+    this.body.setOffset(2, 2); // Décalage du corps physique pour centrer le joueur sur la grille
     // Player can't go out of the world
     this.body.setCollideWorldBounds(true);
     // Set depth (z-index)
     this.setDepth(28);
 
+    const gridEngineConfig = {
+      characters: [
+        {
+          id: "hero_01_red_m_walk",
+          sprite: this,
+          walkingAnimationMapping: 4, // PERMET DE DEFINIR LA VITESSE DE DEPLACEMENT DU JOUEUR (PLUS LE NOMBRE EST ELEVE, PLUS LE JOUEUR VA VITE)
+          startPosition: {
+            x: 26, // 16 pour la taille d'une case, multiplié par 2 pour l'échelle, plus 16 pour être au milieu de la case
+            y: 23,
+          },
+        },
+      ],
+    };
+
+    this.scene.gridEngine.create(this.scene.map, gridEngineConfig);
+    this.setFrame(this.getStopFrame('down'));
+
+    this.createPlayerAnimation.call(this, "up", 12, 15); // 90 CORRESPOND AU DEBUT DE LA FRAME, 92 CORRESPOND A LA FIN DE LA FRAME
+    this.createPlayerAnimation.call(this, "right", 8, 11);
+    this.createPlayerAnimation.call(this, "down", 0, 3);
+    this.createPlayerAnimation.call(this, "left", 4, 7);
+
+    this.scene.gridEngine.movementStarted().subscribe(({ direction }) => {
+      this.anims.play(direction);
+    });
+
+    this.scene.gridEngine.movementStopped().subscribe(({direction}) => {
+      this.anims.stop();
+      this.setFrame(this.getStopFrame(direction));
+    });
+
+    this.scene.gridEngine.directionChanged().subscribe(({ direction }) => {
+      this.setFrame(this.getStopFrame(direction));
+    });
+
     // Container to store old data
     this.container = [];
 
-    // Player speed
-    this.speed = 256;
-    this.body.setMaxVelocity(256, 256);
-
     this.canChangeMap = true;
-
-    this.tileSize = 32;
-    this.moveSpeed = 200;
-    this.targetTileX = null;
-    this.targetTileY = null;
-    this.direction = null;
     this.isMoving = false;
-  }
-  moveLeft() {
-    if (!this.isMoving) {
-      this.targetTileX = Math.floor(this.x / this.tileSize) - 1;
-      this.targetTileY = Math.floor(this.y / this.tileSize);
-      this.ld = "left";
-      this.isMoving = true;
-    }
-  }
-
-  moveRight() {
-    if (!this.isMoving) {
-      this.targetTileX = Math.floor(this.x / this.tileSize) + 1;
-      this.targetTileY = Math.floor(this.y / this.tileSize);
-      this.ld = "right";
-      this.isMoving = true;
-    }
-  }
-
-  moveUp() {
-    if (!this.isMoving) {
-      this.targetTileX = Math.floor(this.x / this.tileSize);
-      this.targetTileY = Math.floor(this.y / this.tileSize) - 1;
-      this.ld = "up";
-      this.isMoving = true;
-    }
-  }
-
-  moveDown() {
-    if (!this.isMoving) {
-      this.targetTileX = Math.floor(this.x / this.tileSize);
-      this.targetTileY = Math.floor(this.y / this.tileSize) + 1;
-      this.ld = "down";
-      this.isMoving = true;
-    }
   }
 
   update(time, delta) {
@@ -106,56 +94,49 @@ export default class Player extends GameObjects.Sprite {
     // Player world interaction
     this.worldInteraction();
 
-    // Stop any previous movement from the last frame
-    this.body.setVelocity(0);
     this.movePlayerToNextTile();
+  }
+  createPlayerAnimation(name, startFrame, endFrame) {
+    this.anims.create({
+      key: name,
+      frames: this.anims.generateFrameNumbers("hero_01_red_m_walk", {
+        start: startFrame,
+        end: endFrame,
+      }),
+      frameRate: 10,
+      repeat: -1,
+      yoyo: true, 
+    });
+  }
+
+  getStopFrame(direction) {
+    switch (direction) {
+      case 'up':
+        return 12;
+      case 'right':
+        return 8;
+      case 'down':
+        return 0;
+      case 'left':
+        return 4;
+    }
   }
 
   movePlayerToNextTile() {
     attributeKeys(this);
 
-    if (this.isMoving) {
-      const distanceX = this.targetTileX * this.tileSize - this.x;
-      const distanceY = this.targetTileY * this.tileSize - this.y;
-      const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
-
-      if (distance <= (this.moveSpeed * this.scene.game.loop.delta) / 1000) {
-        this.x = this.targetTileX * this.tileSize;
-        this.y = this.targetTileY * this.tileSize;
-        this.isMoving = false;
-        this.body.setVelocity(0);
-      } else {
-        const angle = Math.atan2(distanceY, distanceX);
-        const velocityX = Math.cos(angle) * this.moveSpeed;
-        const velocityY = Math.sin(angle) * this.moveSpeed;
-        this.body.setVelocity(velocityX, velocityY);
-      }
-    }
-
     if (this.isLeftPressed) {
-      if (this.x > 0) {
-        this.moveLeft();
-      } else {
-        this.body.setVelocityX(0);
-      }
+      console.log("LEFT");
+      this.scene.gridEngine.move("hero_01_red_m_walk", "left");
     } else if (this.isRightPressed) {
-      if (this.x < this.scene.physics.world.bounds.width) {
-        this.moveRight();
-      } else {
-        this.body.setVelocityX(0);
-      }
+      console.log("RIGHT");
+      this.scene.gridEngine.move("hero_01_red_m_walk", "right");
     } else if (this.isUpPressed) {
-      if (this.y > 0) {
-        this.moveUp();
-      } else {
-        this.body.setVelocityY(0);
-      }
+      console.log("UP");
+      this.scene.gridEngine.move("hero_01_red_m_walk", "up");
     } else if (this.isDownPressed) {
-      if (this.y < this.scene.physics.world.bounds.height) {
-        this.moveDown();
-      } else {
-        this.body.setVelocityY(0);
-      }
+      console.log("DOWN");
+      this.scene.gridEngine.move("hero_01_red_m_walk", "down");
     }
   }
 

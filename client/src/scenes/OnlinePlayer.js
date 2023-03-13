@@ -13,7 +13,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     this.map = config.map;
 
     // Player Offset
-    this.body.setOffset(0, 24);
+    this.body.setOffset(0, 8);// 24
 
     // Get player nickname from constructor config.scene
     const userNickName = config.nickName;

@@ -101,34 +101,35 @@ export default class Scene2 extends Scene {
 
       console.log("LE CHANGED SCENE DATA", this.changedSceneData);
       // Set player
+
       this.player = new Player({
         scene: this,
         worldLayer: this.collides,
-        key: "player",
+        key: "hero_01_red_m_walk",
         x: this.localPlayer.hasConnectedBefore
           ? this.localPlayer.position.x
           : this.changedSceneData.isChanged
           ? this.changedSceneData.x
-          : this.spawnPoint.x * 2,
+          : this.spawnPoint.x ,
         y: this.localPlayer.hasConnectedBefore
           ? this.localPlayer.position.y
           : this.changedSceneData.isChanged
           ? this.changedSceneData.y
-          : this.spawnPoint.y * 2,
+          : this.spawnPoint.y ,
         ld: this.localPlayer.position.ld,
         newZone: this.zone,
         battleZones: this.battleZones,
       });
-
+      this.player.setScale(0.8);
       const camera = this.cameras.main;
-      camera.startFollow(this.player);
-      this.player.setScale(1);
-      camera.setZoom(2);
+      camera.startFollow(this.player, true);
+      camera.setFollowOffset(-this.player.width, -this.player.height)
+      camera.setZoom(3);
       camera.setBounds(
         0,
         0,
-        this.map.widthInPixels * 2,
-        this.map.heightInPixels * 2
+        this.map.widthInPixels ,
+        this.map.heightInPixels 
       );
 
       cursors = this.input.keyboard.createCursorKeys();
@@ -196,11 +197,11 @@ export default class Scene2 extends Scene {
   createMap() {
     // This scene element was created in the world interaction method in the player class
     this.map = this.make.tilemap({ key: this.mapName });
-
+    
     this.sound
       .add(`${this.mapName}-Sound`, {
         loop: true,
-        volume: 0.05,
+        volume: 0.07,
       })
       .play();
 
@@ -208,8 +209,8 @@ export default class Scene2 extends Scene {
     this.scene.scene.physics.world.setBounds(
       0,
       0,
-      this.map.widthInPixels * 2,
-      this.map.heightInPixels * 2
+      this.map.widthInPixels,
+      this.map.heightInPixels
     );
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
@@ -225,48 +226,40 @@ export default class Scene2 extends Scene {
     console.log("Zone :", this.zone);
     // Parameters: layer name (or index) from Tiled, tileset, x, y
 
-    // this.battleZone = this.map.createLayer("Battle Zone", tileset, 0, 0);
+    this.battleZone = this.map.createLayer("Battle Zone", tileset, 0, 0);
     // this.surfaceWorld = this.map
     //   .createLayer("Surface World", tileset, 0, 0)
     //
 
     this.collides = this.map
       .createLayer("Collides", tileset, 16, 16)
-      .setScale(2)
       .setAlpha(0)
-      .setDepth(-10);
+      .setDepth(0);
+
     this.abovePlayer = this.map
       .createLayer("Above Player", tileset, 16, 16)
-      .setScale(2)
       .setDepth(30);
     this.lamp = this.map
       .createLayer("Lamp", tileset, 16, 16)
-      .setScale(2)
       .setDepth(28);
     this.aboveWorld = this.map
       .createLayer("Above World", tileset, 16, 16)
-      .setScale(2)
       .setDepth(27);
     this.worldLayer = this.map
       .createLayer("World", tileset, 16, 16)
-      .setScale(2)
       .setDepth(26);
     this.belowWorld = this.map
       .createLayer("Below World", tileset, 16, 16)
-      .setScale(2)
       .setDepth(25);
     this.grass = this.map
       .createLayer("Grass", tileset, 16, 16)
-      .setScale(2)
       .setDepth(24);
     this.belowPlayer = this.map
       .createLayer("Below Player", tileset, 16, 16)
-      .setScale(2)
       .setDepth(23);
-    this.battleZones = this.map.createLayer("Battle Zones", tileset, 16, 16);
-    this.battleZones ? this.battleZones.setScale(2).setDepth(24) : null;
 
-    this.collides.setCollisionByProperty({ collides: true });
+    this.battleZones = this.map.createLayer("Battle Zones", tileset, 16, 16);
+    this.battleZones ? this.battleZones.setDepth(24) : null;
     // check if player in battleZones
 
     // ADD SOUND IF COLLISION
@@ -288,5 +281,7 @@ export default class Scene2 extends Scene {
     this.effects = this.map.findObject("Effects", (obj) => {
       startEffects(this, obj.name);
     });
+
+
   }
 }

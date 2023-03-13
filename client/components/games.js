@@ -13,6 +13,7 @@ export default function Game({ userData }) {
     const socket = userData.socket;
     async function initPhaser() {
       const Phaser = await import("phaser");
+      const { default: GridEngine } = await import("grid-engine");
       const { default: Scene1 } = await import("../src/scenes/Scene1");
       const { default: Scene2 } = await import("../src/scenes/Scene2");
       const phaserGame = new Phaser.Game({
@@ -24,14 +25,20 @@ export default function Game({ userData }) {
         enableTileExtrude: true, // Permet de faire des bordures de tiles
         enableTileExtrusion: true, // Permet de faire des bordures de tiles (2)
         // ADD EXTRUSION AND EXTRUDE TO TILED MAPS
-        enableWebGL: true, // Permet d'utiliser le webGL pour les tiles (plus rapide)
-        
+
         pixelArt: true,
-        beautify: true, // Permet de faire des bordures de tiles (3)
-        antialias: true,
+        render: {
+          antialias: false, // 
+        },
         scene: [Scene1, Scene2],
-        scale: {
-          zoom: 1,
+        plugins: {
+          scene: [
+            {
+              key: "gridEngine",
+              plugin: GridEngine,
+              mapping: "gridEngine",
+            },
+          ],
         },
         physics: {
           default: "arcade",
@@ -41,6 +48,7 @@ export default function Game({ userData }) {
             debug: true,
           },
         },
+
         backgroundColor: "#000000",
       });
 
