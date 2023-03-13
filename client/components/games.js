@@ -22,10 +22,6 @@ export default function Game({ userData }) {
         parent: gameRef.current,
         width: window.innerWidth,
         height: window.innerHeight,
-        enableTileExtrude: true, // Permet de faire des bordures de tiles
-        enableTileExtrusion: true, // Permet de faire des bordures de tiles (2)
-        // ADD EXTRUSION AND EXTRUDE TO TILED MAPS
-
         pixelArt: true,
         render: {
           antialias: false, // 
@@ -48,7 +44,6 @@ export default function Game({ userData }) {
             debug: false,
           },
         },
-
         backgroundColor: "#000000",
       });
 

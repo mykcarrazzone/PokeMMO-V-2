@@ -11,14 +11,14 @@ export default class Player extends GameObjects.Sprite {
       loop: false,
       volume: 0.7,
     });
-    // this.scene.physics.add.collider(this, config.worldLayer, () => {
-    //   // console.log("Collision");
-    //   if (this.body.touching) {
-    //     if (!this.bump.isPlaying) {
-    //       this.bump.play();
-    //     }
-    //   }
-    // });
+    this.scene.physics.add.collider(this, this.scene.map, () => {
+      // console.log("Collision");
+      if (this.body.touching) {
+        if (!this.bump.isPlaying) {
+          this.bump.play();
+        }
+      }
+    });
 
     this._id = this.scene.localPlayer._id;
     // Current direction of player
@@ -41,9 +41,8 @@ export default class Player extends GameObjects.Sprite {
     const gridEngineConfig = {
       characters: [
         {
-          id: config.key,
-          sprite: this,
-          // walkingAnimationMapping: 1, // PERMET DE DEFINIR LA VITESSE DE DEPLACEMENT DU JOUEUR (PLUS LE NOMBRE EST ELEVE, PLUS LE JOUEUR VA VITE)
+          id: "player",
+          sprite: this.player,
           startPosition: {
             x: 26, // 16 pour la taille d'une case, multiplié par 2 pour l'échelle, plus 16 pour être au milieu de la case
             y: 23,
@@ -53,8 +52,8 @@ export default class Player extends GameObjects.Sprite {
     };
 
     this.scene.gridEngine.create(this.scene.map, gridEngineConfig);
+    
     this.setFrame(this.getStopFrame('down'));
-
     this.createPlayerAnimation.call(this, "up", 12, 15); // 90 CORRESPOND AU DEBUT DE LA FRAME, 92 CORRESPOND A LA FIN DE LA FRAME
     this.createPlayerAnimation.call(this, "right", 8, 11);
     this.createPlayerAnimation.call(this, "down", 0, 3);
@@ -123,16 +122,12 @@ export default class Player extends GameObjects.Sprite {
     attributeKeys(this);
 
     if (this.isLeftPressed) {
-      console.log("LEFT");
       this.scene.gridEngine.move("player", "left");
     } else if (this.isRightPressed) {
-      console.log("RIGHT");
       this.scene.gridEngine.move("player", "right");
     } else if (this.isUpPressed) {
-      console.log("UP");
       this.scene.gridEngine.move("player", "up");
     } else if (this.isDownPressed) {
-      console.log("DOWN");
       this.scene.gridEngine.move("player", "down");
     }
   }

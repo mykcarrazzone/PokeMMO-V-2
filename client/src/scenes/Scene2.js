@@ -39,6 +39,7 @@ export default class Scene2 extends Scene {
   create() {
     if (this.socket && this.localPlayer) {
       let self = this;
+      console.log("Game is running")
 
       this.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
         const otherPlayersData = Object.values(playerInfo).filter(
@@ -114,7 +115,6 @@ export default class Scene2 extends Scene {
           ? this.changedSceneData.y
           : this.spawnPoint.y,
         ld: this.localPlayer.position.ld,
-        newZone: this.zone,
         battleZones: this.battleZones,
       });
       this.player.scale = 1.5
@@ -122,6 +122,8 @@ export default class Scene2 extends Scene {
       camera.startFollow(this.player, true);
       camera.setFollowOffset(-this.player.width, -this.player.height);
       camera.setZoom(2);
+
+    
       // camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
       // Help text that has a "fixed" position on the screen
@@ -199,26 +201,21 @@ export default class Scene2 extends Scene {
         this.layer = this.map.createLayer(i, tileset, 0, 0).setAlpha(0);
       } else {
         this.layer = this.map.createLayer(i, tileset, 0, 0).setDepth(i);
-        console.log(
-          `le layer ${this.map.layers[i].name} est a la profondeur ${i}`
-        );
         this.layer.scale = 2;
       }
     }
-
-    this.zone = this.map.findObject("Zone", (obj) => obj);
 
     this.spawnPoint = this.map.findObject(
       "SpawnPoints",
       (obj) => obj.name === "Spawn Point"
     );
 
-    // this.map.findObject("Weather", (obj) => {
-    //   startWeather(this, obj.name);
-    // });
+    this.map.findObject("Weather", (obj) => {
+      startWeather(this, obj.name);
+    });
 
-    // this.effects = this.map.findObject("Effects", (obj) => {
-    //   startEffects(this, obj.name);
-    // });
+    this.effects = this.map.findObject("Effects", (obj) => {
+      startEffects(this, obj.name);
+    });
   }
 }
