@@ -44,8 +44,8 @@ export default class Player extends GameObjects.Sprite {
           id: "player",
           sprite: this,
           startPosition: {
-            x: 29,
-            y: 25,
+            x: Math.round(this.x / 32),
+            y: Math.round(this.y / 32),
           },
         },
       ],
@@ -53,12 +53,13 @@ export default class Player extends GameObjects.Sprite {
 
     this.scene.gridEngine.create(this.scene.map, gridEngineConfig);
     
-    this.setFrame(this.getStopFrame('down'));
     this.createPlayerAnimation.call(this, "up", 12, 15); // 90 CORRESPOND AU DEBUT DE LA FRAME, 92 CORRESPOND A LA FIN DE LA FRAME
     this.createPlayerAnimation.call(this, "right", 8, 11);
     this.createPlayerAnimation.call(this, "down", 0, 3);
     this.createPlayerAnimation.call(this, "left", 4, 7);
-
+    this.anims.play(this.ld, false);
+    this.anims.stop();
+    
     this.scene.gridEngine.movementStarted().subscribe(({ direction }) => {
       this.anims.play(direction);
     });
@@ -92,7 +93,7 @@ export default class Player extends GameObjects.Sprite {
 
   }
 
-  createPlayerAnimation(name, startFrame, endFrame) {
+  createPlayerAnimation(name, startFrame, endFrame) { //cette fonction permet de créer les animations du joueur
     this.anims.create({
       key: name,
       frames: this.anims.generateFrameNumbers("hero_01_admin_m_walk", {
@@ -105,7 +106,7 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
-  getStopFrame(direction) {
+  getStopFrame(direction) { //cette fonction permet de récupérer la frame de stop du joueur
     switch (direction) {
       case 'up':
         return 12;
@@ -118,23 +119,31 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
-  playerMove() {
+  playerMove() { //cette fonction permet de gérer le déplacement du joueur
     attributeKeys(this);
 
     if (this.isLeftPressed) {
       this.scene.gridEngine.move("player", "left");
+      this.ld = "left";
+      console.log(this.x, this.y);
     } else if (this.isRightPressed) {
       this.scene.gridEngine.move("player", "right");
+      this.ld = "right";
+      console.log(this.x, this.y);
     } else if (this.isUpPressed) {
       this.scene.gridEngine.move("player", "up");
+      this.ld = "up";
+      console.log(this.x, this.y);
     } else if (this.isDownPressed) {
       this.scene.gridEngine.move("player", "down");
+      this.ld = "down";
+      console.log(this.x, this.y);
     }
   }
 
   showPlayerNickname() {}
 
-  isMoved() {
+  isMoved() { //cette fonction permet de vérifier si le joueur a bougé
     if (
       this.container.oldPosition &&
       (this.container.oldPosition.x !== this.x ||
@@ -149,8 +158,8 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
-  doorInteraction() {
-    this.scene.map.findObject("Doors", (obj) => {
+  doorInteraction() { //cette fonction permet de gérer les interactions avec les portes
+    this.scene.map.findObject("Doors", (obj) => { //on cherche l'objet "Doors" dans la map
       const objectX = obj.x * 2;
       const objectY = obj.y * 2
       const objectWidth = obj.width * 2;
