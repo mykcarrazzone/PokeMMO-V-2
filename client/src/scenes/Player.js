@@ -7,12 +7,21 @@ export default class Player extends GameObjects.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
 
+    // Player Defining
+    this.body.setSize(12, 21); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
+    this.body.setOffset(6, 8); // Décalage du corps physique pour centrer le joueur sur la grille
+    this.body.setCollideWorldBounds(true);
+    this.setOrigin(0.5, 0.5); // Décalage de l'image pour centrer le joueur sur la grille
+    this.scale = 1.5;
+    // Player Defining End
+
     this.bump = this.scene.sound.add("bump", {
       loop: false,
       volume: 0.7,
     });
-    this.scene.physics.add.collider(this, this.scene.map, () => {
-      // console.log("Collision");
+    console.log("COLLIDES", this.scene.map.layers[8]);
+    this.scene.physics.add.overlap(this, this.scene.map.layers[8], () => {
+      console.log("Collision");
       if (this.body.touching) {
         if (!this.bump.isPlaying) {
           this.bump.play();
@@ -31,12 +40,10 @@ export default class Player extends GameObjects.Sprite {
       this.newZone = { x, y };
     }
 
-    // Player Offset
-    this.body.setSize(12, 21); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
-    this.body.setOffset(6, 8); // Décalage du corps physique pour centrer le joueur sur la grille
-    this.setOrigin(0.5, 0.5);
-    this.body.setCollideWorldBounds(true);
-    this.setDepth(6);
+    const camera = this.scene.cameras.main;
+    camera.startFollow(this, true);
+    camera.setFollowOffset(-25, -25);
+    camera.setZoom(2);
 
     const gridEngineConfig = {
       characters: [
@@ -52,19 +59,21 @@ export default class Player extends GameObjects.Sprite {
     };
 
     this.scene.gridEngine.create(this.scene.map, gridEngineConfig);
-    
+
     this.createPlayerAnimation.call(this, "up", 12, 15); // 90 CORRESPOND AU DEBUT DE LA FRAME, 92 CORRESPOND A LA FIN DE LA FRAME
     this.createPlayerAnimation.call(this, "right", 8, 11);
     this.createPlayerAnimation.call(this, "down", 0, 3);
     this.createPlayerAnimation.call(this, "left", 4, 7);
-    this.anims.play(this.ld, false);
+
+    // SET FRAME PLAYER ANIMATION ON START GAME
+    this.anims.play(this.ld);
     this.anims.stop();
-    
+
     this.scene.gridEngine.movementStarted().subscribe(({ direction }) => {
       this.anims.play(direction);
     });
 
-    this.scene.gridEngine.movementStopped().subscribe(({direction}) => {
+    this.scene.gridEngine.movementStopped().subscribe(({ direction }) => {
       this.anims.stop();
       this.setFrame(this.getStopFrame(direction));
     });
@@ -73,7 +82,7 @@ export default class Player extends GameObjects.Sprite {
       this.setFrame(this.getStopFrame(direction));
     });
 
-    // Container to store old data
+    // Container to store old data position of player
     this.container = [];
 
     this.canChangeMap = true;
@@ -90,10 +99,10 @@ export default class Player extends GameObjects.Sprite {
     // this.battleZoneInteraction();
     // Player world interaction
     // this.worldInteraction();
-
   }
 
-  createPlayerAnimation(name, startFrame, endFrame) { //cette fonction permet de créer les animations du joueur
+  createPlayerAnimation(name, startFrame, endFrame) {
+    //cette fonction permet de créer les animations du joueur
     this.anims.create({
       key: name,
       frames: this.anims.generateFrameNumbers("hero_01_admin_m_walk", {
@@ -102,48 +111,47 @@ export default class Player extends GameObjects.Sprite {
       }),
       frameRate: 10,
       repeat: -1,
-      yoyo: true, 
+      yoyo: true,
     });
   }
 
-  getStopFrame(direction) { //cette fonction permet de récupérer la frame de stop du joueur
+  getStopFrame(direction) {
+    //cette fonction permet de récupérer la frame de stop du joueur
     switch (direction) {
-      case 'up':
-        return 12;
-      case 'right':
-        return 8;
-      case 'down':
-        return 0;
-      case 'left':
-        return 4;
+      case "up":
+        return "12";
+      case "right":
+        return "8";
+      case "down":
+        return "0";
+      case "left":
+        return "4";
     }
   }
 
-  playerMove() { //cette fonction permet de gérer le déplacement du joueur
+  playerMove() {
+    //cette fonction permet de gérer le déplacement du joueur
     attributeKeys(this);
 
     if (this.isLeftPressed) {
       this.scene.gridEngine.move("player", "left");
       this.ld = "left";
-      console.log(this.x, this.y);
     } else if (this.isRightPressed) {
       this.scene.gridEngine.move("player", "right");
       this.ld = "right";
-      console.log(this.x, this.y);
     } else if (this.isUpPressed) {
       this.scene.gridEngine.move("player", "up");
       this.ld = "up";
-      console.log(this.x, this.y);
     } else if (this.isDownPressed) {
       this.scene.gridEngine.move("player", "down");
       this.ld = "down";
-      console.log(this.x, this.y);
     }
   }
 
   showPlayerNickname() {}
 
-  isMoved() { //cette fonction permet de vérifier si le joueur a bougé
+  isMoved() {
+    //cette fonction permet de vérifier si le joueur a bougé
     if (
       this.container.oldPosition &&
       (this.container.oldPosition.x !== this.x ||
@@ -158,12 +166,13 @@ export default class Player extends GameObjects.Sprite {
     }
   }
 
-  doorInteraction() { //cette fonction permet de gérer les interactions avec les portes
-    this.scene.map.findObject("Doors", (obj) => { //on cherche l'objet "Doors" dans la map
-      const objectX = obj.x * 2;
-      const objectY = obj.y * 2
+  doorInteraction() {
+    // Cette fonction permet de gérer les interactions avec les portes
+    this.scene.map.findObject("Doors", (obj) => {
+      const objectX = obj.x * 1.95;
+      const objectY = obj.y * 1.92;
       const objectWidth = obj.width * 2;
-      const objectHeight = obj.height * 2;
+      const objectHeight = obj.height * 8;
 
       if (
         this.y >= objectY &&
@@ -171,18 +180,18 @@ export default class Player extends GameObjects.Sprite {
         this.x >= objectX &&
         this.x <= objectX + objectWidth
       ) {
-        console.log("Player is by " + obj.name);
+        console.log("Door interaction", obj.name);
 
-        switch (obj.name) {
-          case "DoorB":
-            console.log("Door is open!");
-            this.changeSceneByMapName("SnowTownDoorB");
-            break;
-          case "DoorC":
-            console.log("Door is open!");
-            this.changeSceneByMapName("SnowTownDoorC");
-            break;
-        }
+        // switch (obj.name) {
+        //   case "DoorB":
+        //     this.scene.cameras.main.fadeOut(1000);
+        //     this.changeSceneByMapName("SnowTownDoorB");
+        //     break;
+        //   case "DoorC":
+        //     this.scene.cameras.main.fadeOut(1000);
+        //     this.changeSceneByMapName("SnowTownDoorC");
+        //     break;
+        // }
       }
     });
   }

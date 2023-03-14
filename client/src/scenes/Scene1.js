@@ -87,23 +87,23 @@ export default class Scene1 extends Scene {
     // Load Route1
     this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
     this.load.tilemapTiledJSON(
-      "SnowTownDoorB",
+      "SnowTown-DoorB",
       "assets/test/SnowTown-DoorB.json"
     );
+    this.load.audio(
+      "SnowTown-DoorB-Sound",
+      "assets/sounds/bgm/pokemon_center.mp3"
+    );
     this.load.tilemapTiledJSON(
-      "SnowTownDoorC",
+      "SnowTown-DoorC",
       "assets/test/SnowTown-DoorC.json"
     );
     this.load.audio(
-      "SnowTownDoorC-Sound",
+      "SnowTown-DoorC-Sound",
       "assets/sounds/bgm/pokemon_center.mp3"
     );
-    this.load.audio(
-      "SnowTownDoorB-Sound",
-      "assets/sounds/bgm/pokemon_center.mp3"
-    );
-    this.load.audio("route1-Sound", "assets/sounds/bgm/route1.mp3");
 
+    this.load.audio("route1-Sound", "assets/sounds/bgm/route1.mp3");
     this.load.image("snowflake", "assets/effects/snowball.png");
     this.load.image("fire", "assets/effects/fire.png");
     this.load.image("rain", "assets/effects/rain.png");

@@ -3,7 +3,6 @@ import Player from "./Player";
 import OnlinePlayer from "./OnlinePlayer";
 import { startWeather } from "./functions/weather/weather";
 import { startEffects } from "./functions/effects/fire";
-let cursors, socketKey;
 var onlinePlayers = [];
 
 export default class Scene2 extends Scene {
@@ -39,7 +38,7 @@ export default class Scene2 extends Scene {
   create() {
     if (this.socket && this.localPlayer) {
       let self = this;
-      console.log("Game is running")
+      console.log("Game is running");
 
       this.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
         const otherPlayersData = Object.values(playerInfo).filter(
@@ -102,7 +101,6 @@ export default class Scene2 extends Scene {
 
       this.player = new Player({
         scene: this,
-        worldLayer: this.collides,
         key: "player",
         x: this.localPlayer.hasConnectedBefore
           ? this.localPlayer.position.x
@@ -117,13 +115,7 @@ export default class Scene2 extends Scene {
         ld: this.localPlayer.position.ld,
         battleZones: this.battleZones,
       });
-      this.player.scale = 1.5
-      const camera = this.cameras.main;
-      camera.startFollow(this.player, true);
-      camera.setFollowOffset(-this.player.width, -this.player.height);
-      camera.setZoom(2);
 
-    
       // camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
       // Help text that has a "fixed" position on the screen
@@ -132,7 +124,7 @@ export default class Scene2 extends Scene {
           font: "18px monospace",
           fill: "#000000",
           padding: { x: 20, y: 10 },
-          backgroundColor: "#ffffff",
+          backgroundColor: "#000000",
         })
         .setScrollFactor(0)
         .setDepth(300);
@@ -144,7 +136,7 @@ export default class Scene2 extends Scene {
 
   update(time, delta) {
     if (this.player) {
-      this.player.update(time,delta);
+      this.player.update(time, delta);
       if (this.player.isMoved()) {
         this.socket.emit("PLAYER_MOVING", {
           _id: this.player._id,
@@ -200,10 +192,15 @@ export default class Scene2 extends Scene {
       if (this.map.layers[i].name == "Collides") {
         this.layer = this.map.createLayer(i, tileset, 0, 0).setAlpha(0);
       } else {
-        this.layer = this.map.createLayer(i, tileset, 0, 0).setDepth(i);
-        this.layer.scale = 2;
+        this.layer = this.map.createLayer(i, tileset, 0, 0)
       }
+              this.layer.scale = 2;
+
     }
+
+    console.log("le layer", this.layer)
+    // CREATE OVERLAPS FOR COLLIDES LAYER
+  
 
     this.spawnPoint = this.map.findObject(
       "SpawnPoints",
