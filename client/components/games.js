@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useM } from "react";
 import Chat from "../components/interface/chat";
 import Interface from "../components/interface/layout";
 
@@ -6,18 +6,23 @@ export default function Game({ userData }) {
   const [isMobile, setIsMobile] = useState(false);
   const [gameReady, setGameReady] = useState(false);
   const gameRef = useRef();
+  const [game, setGame] = useState(null);
+  const [gameData, setGameData] = useState({ socket: null, user: null });
+  const [isPhaserInitialized, setIsPhaserInitialized] = useState(false);
 
-  const initPhaser = useCallback(async () => {
-    if (!userData) return;
-    const socket = userData.socket;
+  useEffect(() => {
+    if (userData.socket && userData.user) {
+      setGameData({ socket: userData.socket, user: userData.user });
+    }
+  }, [userData]);
+
+  async function initPhaser() {
     const Phaser = await import("phaser");
-
     const { default: GridEngine } = await import("grid-engine");
     const { default: Scene1 } = await import("../src/scenes/Scene1");
     const { default: Scene2 } = await import("../src/scenes/Scene2");
 
     const phaserGame = new Phaser.Game({
-
       type: Phaser.AUTO,
       title: "Pokemon",
       parent: gameRef.current,
@@ -27,6 +32,10 @@ export default function Game({ userData }) {
 
       render: {
         antialias: false,
+      },
+
+      scale: {
+        zoom: 2,
       },
 
       scene: [Scene1, Scene2],
@@ -52,9 +61,12 @@ export default function Game({ userData }) {
       backgroundColor: "#000000",
     });
 
+    setGame(phaserGame);
+    setIsPhaserInitialized(true);
+
     phaserGame.scene.start("bootGame", {
-      socket: socket,
-      user: userData.user,
+      socket: gameData.socket,
+      user: gameData.user,
     });
 
     window.addEventListener("resize", () => {
@@ -71,16 +83,37 @@ export default function Game({ userData }) {
     ) {
       setIsMobile(true);
     }
-
-    socket.on("gameReadyToClient", () => {
-      setGameReady(true);
-    });
-  }, [userData]);
+  }
 
   useEffect(() => {
-    initPhaser();
-  }, [initPhaser]);
-  
+    if (isPhaserInitialized) {
+      console.log("Returning early");
+    } else if (!isPhaserInitialized && gameData.socket && gameData.user) {
+      console.log("Game is :", game);
+      console.log("Socket is :", gameData.socket);
+      console.log("User is :", gameData.user);
+      initPhaser();
+
+      // gameData.socket.on("gameReadyToClient", () => {
+      //   setGameReady(true);
+      // });
+    }
+
+    return () => {
+      if (game) {
+        game.destroy(true);
+      }
+    };
+  }, [isPhaserInitialized, gameData]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (game) {
+  //       game.destroy(true);
+  //     }
+  //   }
+  // }, [game])
+
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-black">
       <div className="absolute top-0 left-0">

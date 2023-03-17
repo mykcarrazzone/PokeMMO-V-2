@@ -19,15 +19,14 @@ export default class Player extends GameObjects.Sprite {
       loop: false,
       volume: 0.7,
     });
-    console.log("COLLIDES", this.scene.map.layers[8]);
-    this.scene.physics.add.overlap(this, this.scene.map.layers[8], () => {
-      console.log("Collision");
-      if (this.body.touching) {
-        if (!this.bump.isPlaying) {
-          this.bump.play();
-        }
-      }
-    });
+    // this.scene.physics.add.overlap(this, this.scene.map.layers[8], () => {
+    //   console.log("Collision");
+    //   if (this.body.touching) {
+    //     if (!this.bump.isPlaying) {
+    //       this.bump.play();
+    //     }
+    //   }
+    // });
 
     this._id = this.scene.localPlayer._id;
     // Current direction of player
@@ -43,12 +42,10 @@ export default class Player extends GameObjects.Sprite {
     const camera = this.scene.cameras.main;
     camera.startFollow(this, true);
     camera.setFollowOffset(-25, -25);
-    camera.setZoom(2);
-
     const gridEngineConfig = {
       characters: [
         {
-          id: "player",
+          id: "hero_01_admin_m_walk",
           sprite: this,
           startPosition: {
             x: Math.round(this.x / 32),
@@ -134,16 +131,16 @@ export default class Player extends GameObjects.Sprite {
     attributeKeys(this);
 
     if (this.isLeftPressed) {
-      this.scene.gridEngine.move("player", "left");
+      this.scene.gridEngine.move("hero_01_admin_m_walk", "left");
       this.ld = "left";
     } else if (this.isRightPressed) {
-      this.scene.gridEngine.move("player", "right");
+      this.scene.gridEngine.move("hero_01_admin_m_walk", "right");
       this.ld = "right";
     } else if (this.isUpPressed) {
-      this.scene.gridEngine.move("player", "up");
+      this.scene.gridEngine.move("hero_01_admin_m_walk", "up");
       this.ld = "up";
     } else if (this.isDownPressed) {
-      this.scene.gridEngine.move("player", "down");
+      this.scene.gridEngine.move("hero_01_admin_m_walk", "down");
       this.ld = "down";
     }
   }
@@ -287,6 +284,7 @@ export default class Player extends GameObjects.Sprite {
     // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
+    this.scene.gridEngine.destroy();
     this.scene.sound.stopAll();
     this.scene.scene.restart({
       user: this.scene.localPlayer,

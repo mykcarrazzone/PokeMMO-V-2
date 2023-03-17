@@ -3,9 +3,9 @@ import { useUser } from "../context/userContext";
 import { useCharacter } from "../context/characterContext";
 import { getUserById } from "../services/user/getUser";
 import { useRouter } from "next/router";
-import Game from "../components/games";
 import { SocketContext } from "../context/socketProvider";
 import Cookies from "js-cookie";
+import dynamic from 'next/dynamic';
 
 const Home = () => {
   const { user, setUser } = useUser();
@@ -13,6 +13,11 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const router = useRouter();
   const socket = useContext(SocketContext);
+
+  const DynamicGamesComponent = dynamic(
+    () => import('../components/games'),
+    { ssr: false }
+  );
 
   useEffect(() => {
     if (!socket) return;
@@ -54,7 +59,7 @@ const Home = () => {
   return (
     <>
       {Object.keys(userData).length > 0 && socket && (
-        <Game
+        <DynamicGamesComponent
           userData={{
             user: userData,
             socket: socket,

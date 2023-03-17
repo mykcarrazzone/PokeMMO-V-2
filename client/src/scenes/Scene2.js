@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import Phaser, { Scene } from "phaser";
 import Player from "./Player";
 import OnlinePlayer from "./OnlinePlayer";
 import { startWeather } from "./functions/weather/weather";
@@ -98,10 +98,11 @@ export default class Scene2 extends Scene {
       });
 
       this.createMap();
+   
 
+      console.log("Created grid engine");
       this.player = new Player({
         scene: this,
-        key: "player",
         x: this.localPlayer.hasConnectedBefore
           ? this.localPlayer.position.x
           : this.changedSceneData.isChanged
@@ -112,6 +113,8 @@ export default class Scene2 extends Scene {
           : this.changedSceneData.isChanged
           ? this.changedSceneData.y
           : this.spawnPoint.y,
+        key: "hero_01_admin_m_walk",
+        frame: 0,
         ld: this.localPlayer.position.ld,
         battleZones: this.battleZones,
       });
@@ -122,7 +125,7 @@ export default class Scene2 extends Scene {
       this.add
         .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
           font: "18px monospace",
-          fill: "#000000",
+          fill: "#ffffff",
           padding: { x: 20, y: 10 },
           backgroundColor: "#000000",
         })
@@ -192,15 +195,13 @@ export default class Scene2 extends Scene {
       if (this.map.layers[i].name == "Collides") {
         this.layer = this.map.createLayer(i, tileset, 0, 0).setAlpha(0);
       } else {
-        this.layer = this.map.createLayer(i, tileset, 0, 0)
+        this.layer = this.map.createLayer(i, tileset, 0, 0);
       }
-              this.layer.scale = 2;
-
+      this.layer.scale = 2;
     }
 
-    console.log("le layer", this.layer)
+    console.log("le layer", this.layer);
     // CREATE OVERLAPS FOR COLLIDES LAYER
-  
 
     this.spawnPoint = this.map.findObject(
       "SpawnPoints",

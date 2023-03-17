@@ -1,5 +1,6 @@
-const snow = (self) => {
-  self.emitter = self.add.particles("snowflake").setDepth(100);
+const snow = (self, map) => {
+  self.emitter = self.add.particles("snowflake").setDepth(1000);
+  console.log(self.emitter);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
     emitZone: {
@@ -7,24 +8,24 @@ const snow = (self) => {
       source: new Phaser.Geom.Rectangle(
         0,
         0,
-        self.map.widthInPixels * 1.5,
-        self.map.heightInPixels * 1.5
+        map.widthInPixels * 3,
+        map.heightInPixels * 2
       ),
     },
-    lifespan: 11000, // ça sert à définir la durée de vie des particules
-    speedY: { min: 61, max: 61 },
+    lifespan: 20000, // ça sert à définir la durée de vie des particules
+    speedY: { min: 91, max: 91 },
     gravityY: 4, // il faut la monter pour que les particules tombent plus vite
     quantity: 0.6,
-    frequency: 52, // ça sert à définir la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
-    scale: { start: 0.1, end: 0.3 },
+    frequency: 70, // ça sert à définirzds la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
+    scale: { start: 0.4, end: 0.4 },
     follow: self.cameras.main, // ça sert à suivre la caméra
-    followOffset: { x: 0, y: -500 }, // ça sert à définir la position des particules par rapport au joueur
+    followOffset: { x: 0, y: -800 }, // ça sert à définir la position des particules par rapport au joueur
     blendMode: "ADD",
   });
 };
 
-const rain = (self) => {
-  self.emitter = self.add.particles("rain").setDepth(100);
+const rain = (self, map) => {
+  self.emitter = self.add.particles("rain").setDepth(1000);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
     emitZone: {
@@ -32,8 +33,8 @@ const rain = (self) => {
       source: new Phaser.Geom.Rectangle(
         0,
         0,
-        self.map.widthInPixels * 2,
-        self.map.heightInPixels * 2
+        map.widthInPixels * 2,
+        map.heightInPixels * 2
       ),
     },
     lifespan: 5000, // ça sert à définir la durée de vie des particules
@@ -43,20 +44,20 @@ const rain = (self) => {
     frequency: 0,
     quantity: 6, // plus y'a de quantity plus y'a de particules
     alpha: { start: 0.5, end: 0.0 },
-    scale: { start: 0.1, end: 0.1 },
+    scale: { start: 0.4, end: 0.4 },
     follow: self.cameras.main, // ça sert à suivre la caméra
     followOffset: { x: 0, y: -1000 }, // ça sert à définir la position des particules par rapport au joueur
     blendMode: "ADD",
   });
 };
 
-export const startWeather = (self, weather) => {
+export const startWeather = (self, map, weather) => {
   switch (weather) {
     case "Snow":
-      snow(self);
+      snow(self, map);
       break;
     case "Rain":
-      rain(self);
+      rain(self, map);
       break;
     default:
       break;

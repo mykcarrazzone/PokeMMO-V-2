@@ -80,7 +80,8 @@ export default class Scene1 extends Scene {
     this.load.image(
       "TilesTown",
       "assets/test/pokemmo-sample-16px-extruded.png"
-    );
+    )
+
     this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
     this.load.audio("SnowTown-Sound", "assets/sounds/bgm/snowtown.mp3");
 
