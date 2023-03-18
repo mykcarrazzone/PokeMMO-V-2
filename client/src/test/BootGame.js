@@ -39,7 +39,15 @@ export default class BootGame extends Scene {
       "SnowTown-DoorB",
       "assets/test/SnowTown-DoorB.json"
     );
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorC",
+      "assets/test/SnowTown-DoorC.json"
+    );
     this.load.spritesheet("player", "assets/test2/characters2.png", {
+      frameWidth: 72,
+      frameHeight: 96,
+    });
+    this.load.spritesheet("onlinePlayer", "assets/test2/characters2.png", {
       frameWidth: 72,
       frameHeight: 96,
     });
@@ -62,7 +70,7 @@ export default class BootGame extends Scene {
     if (this.data.socket && this.data.user) {
       this.socket.emit("gameReady");
       // START PLAY GAME SCENE
-      console.log("ID USER", this.user._id)
+      console.log("ID USER", this.user._id);
       this.scene.start("Scene1", {
         user: this.user,
         socket: this.socket,

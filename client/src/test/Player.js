@@ -30,16 +30,6 @@ export default class Player extends GameObjects.Sprite {
 
     this.isCrossActivated = false;
 
-    const npcSprite0 = this.scene.add.sprite(0, 0, "npc");
-    npcSprite0.scale = 1.1;
-    const npcSprite1 = this.scene.add.sprite(0, 0, "npc");
-    npcSprite1.scale = 1.1;
-    const npcSprite2 = this.scene.add.sprite(0, 0, "npc");
-    npcSprite2.scale = 1.1;
-    const npcSprite3 = this.scene.add.sprite(0, 0, "npc");
-
-    npcSprite3.scale = 1.1;
-    this.speed = 1;
     this.isCrossActivated = false;
 
     this.newZone = config.newZone;
@@ -48,64 +38,8 @@ export default class Player extends GameObjects.Sprite {
       const [x, y] = this.newZone.name.split("|").map(Number);
       this.newZone = { x, y };
     }
-    console.log("NEW ZONE", this.newZone);
-    const gridEngineConfig = {
-      characters: [
-        {
-          id: "player",
-          sprite: this,
-          walkingAnimationMapping: 0,
-          startPosition: {
-            x: pixelPositionToGrid(this.x),
-            y: pixelPositionToGrid(this.y),
-          },
-          speed: 3,
-          collides: {
-            collidesWithTiles: true,
-          },
-        },
-        {
-          id: "npc0",
-          sprite: npcSprite0,
-          walkingAnimationMapping: 1,
-          startPosition: { x: 25, y: 24 },
-          speed: 2,
-        },
-        {
-          id: "npc1",
-          sprite: npcSprite1,
-          walkingAnimationMapping: 2,
-          startPosition: { x: 26, y: 27 },
-          speed: 2,
-        },
-        {
-          id: "npc2",
-          sprite: npcSprite2,
-          walkingAnimationMapping: 3,
-          startPosition: { x: 26, y: 27 },
-          speed: 2,
-        },
-        {
-          id: "npc3",
-          sprite: npcSprite3,
-          walkingAnimationMapping: 4,
-          startPosition: { x: 37, y: 24 },
-          speed: 2,
-        },
-        {
-          id: "doors",
-          sprite: this.door0,
-          startPosition: { x: 44, y: 24 },
-          collides: false,
-        },
-      ],
-    };
 
-    this.scene.gridEngine.create(config.tileMap, gridEngineConfig);
-    this.scene.gridEngine.moveRandomly("npc0", 5);
-    this.scene.gridEngine.moveRandomly("npc1", 5);
-    this.scene.gridEngine.moveRandomly("npc2", 5);
-    this.scene.gridEngine.moveRandomly("npc3", 5);
+
     this.doorAnimation();
     this.passPorte = false;
     this.passWorld = false;
@@ -173,10 +107,10 @@ export default class Player extends GameObjects.Sprite {
         this.door0.anims.play("porte", true);
         this.scene.gridEngine.stopMovement("player");
         setTimeout(() => {
-        this.scene.gridEngine.moveTo("player", { x: 44, y: 24 });
+          this.scene.gridEngine.moveTo("player", { x: 44, y: 24 });
         }, 100);
         setTimeout(() => {
-        this.scene.cameras.main.fadeOut(700);
+          this.scene.cameras.main.fadeOut(700);
         }, 700);
         setTimeout(() => {
           this.door0.anims.stop();
@@ -237,8 +171,6 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
-
-  
   worldInteraction() {
     // Cette fonction permet de gérer les interactions avec les portes
     this.tileMap.findObject("Worlds", (obj) => {
@@ -254,19 +186,12 @@ export default class Player extends GameObjects.Sprite {
         this.x <= objectX + objectWidth &&
         this.scene.gridEngine.getFacingDirection("player") == "down"
       ) {
-        this.scene.gridEngine.stopMovement("player");    
-        this.scene.gridEngine.moveTo("player", { x: pixelPositionToGrid(this.x), zy: pixelPositionToGrid(this.y +100) });
-        setTimeout(() => {
-          if (!this.passWorld) {
-            this.passWorld = true;
-            console.log(pixelPositionToGrid(this.y +100))
-            this.scene.cameras.main.fadeOut(500);
-
-            console.log("Player is by world entry: " + obj.name);
-            this.scene.localPlayer.position.ld = "down";
-            this.changeSceneByMapName(obj.name);
-          }
-        }, 1000);
+        if (!this.passWorld) {
+          this.passWorld = true;
+          console.log("Player is by world entry: " + obj.name);
+          this.scene.localPlayer.position.ld = "down";
+          this.changeSceneByMapName(obj.name);
+        }
       }
     });
   }

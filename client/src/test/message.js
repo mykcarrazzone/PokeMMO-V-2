@@ -12,37 +12,37 @@ export function setMessageUi(data) {
     padding,
   } = data;
 
-    let texte = scene.add
-      .text(x, y, text, {
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        color: textColor,
-      })
-      .setScrollFactor(0)
-      .setDepth(3020)
-      .setScale(1);
+  let texte = scene.add
+    .text(x, y, text, {
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      color: textColor,
+    })
+    .setScrollFactor(0)
+    .setDepth(3020)
+    .setScale(1);
 
-    // Créer un graphique pour le fond de texte
-    let graphics = scene.add
-      .graphics()
-      .setScrollFactor(0)
-      .setDepth(1009)
-      .setScale(1);
-    let width = texte.width + padding * 2;
-    let height = texte.height + padding * 2;
+  // Créer un graphique pour le fond de texte
+  let graphics = scene.add
+    .graphics()
+    .setScrollFactor(0)
+    .setDepth(1009)
+    .setScale(1);
+  let width = texte.width + padding * 2;
+  let height = texte.height + padding * 2;
 
-    // Dessiner le fond de texte arrondi
-    graphics.fillStyle(parseInt(backgroundColor.replace("#", "0x")), 1, 1);
-    graphics.fillRoundedRect(
-      texte.x + padding - x / 1.25,
-      texte.y + padding - y / 1.25,
-      width,
-      height,
-      radius
-    );
+  // Dessiner le fond de texte arrondi
+  graphics.fillStyle(parseInt(backgroundColor.replace("#", "0x")), 1, 1);
+  graphics.fillRoundedRect(
+    x - padding ,
+    y - padding ,
+    width,
+    height,
+    radius
+  );
 
-    // Regrouper le texte et le graphique
-    let group = scene.add.group();
-    group.add(graphics);
-    group.add(texte);
+  // Regrouper le texte et le graphique
+  let group = scene.add.group();
+  group.add(graphics);
+  group.add(texte);
 }
