@@ -31,8 +31,8 @@ export default class Player extends GameObjects.Sprite {
     this._id = this.scene.localPlayer._id;
     // Current direction of player
     this.ld = config.ld;
-    this.newZone = config.newZone;
     this.isMoving = false;
+    this.newZone = config.newZone;
 
     if (this.newZone) {
       const [x, y] = this.newZone.name.split("|").map(Number);
@@ -42,6 +42,7 @@ export default class Player extends GameObjects.Sprite {
     const camera = this.scene.cameras.main;
     camera.startFollow(this, true);
     camera.setFollowOffset(-25, -25);
+    
     const gridEngineConfig = {
       characters: [
         {

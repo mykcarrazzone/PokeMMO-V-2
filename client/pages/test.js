@@ -17,6 +17,7 @@ export default function Game() {
       const Phaser = await import("phaser");
       const { default: GridEngine } = await import("grid-engine");
       const { default: Scene1 } = await import("../src/test/Scene1");
+      const { default: BootGame } = await import("../src/test/BootGame");
       //   const { default: Scene2 } = await import("../src/test/Scene2");
 
       const phaserGame = new Phaser.Game({
@@ -29,7 +30,7 @@ export default function Game() {
         render: {
           antialias: false,
         },
-        scene: [Scene1],
+        scene: [BootGame],
         physics: {
           default: "arcade",
           arcade: {

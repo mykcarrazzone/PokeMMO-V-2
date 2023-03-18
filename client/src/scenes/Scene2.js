@@ -98,7 +98,6 @@ export default class Scene2 extends Scene {
       });
 
       this.createMap();
-   
 
       console.log("Created grid engine");
       this.player = new Player({

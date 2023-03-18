@@ -1,10 +1,10 @@
-export const fire = (self) => {
+export const fire = (self, obj) => {
   self.flameEmitter = self.add.particles("fire").setDepth(101);
   self.flameEmitter.createEmitter({
-    x: { min: 1130, max: 1131 },
-    y: 655,
+    x: { min: obj.x * 3.96, max: obj.x * 3.98 },
+    y: obj.y * 3.97,
     gravityY: -52,
-    lifespan: 425,
+    lifespan: 825,
     quantity: 0.001,
     speed: { min: 130, max: 130 },
     angle: { min: 215, max: 250 },
@@ -14,9 +14,9 @@ export const fire = (self) => {
 };
 
 export const startEffects = (self, effect) => {
-  switch (effect) {
+  switch (effect.name) {
     case "Fire":
-      fire(self);
+      fire(self, effect);
       break;
     default:
       break;
