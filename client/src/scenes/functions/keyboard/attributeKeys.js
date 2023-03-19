@@ -7,8 +7,6 @@ export const attributeKeys = (self) => {
     shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
     cross: "R",
   });
-
-  console.log(keys)
   
   const isLeftPressed = keys.left.isDown;
   const isRightPressed = keys.right.isDown;
@@ -23,7 +21,7 @@ export const attributeKeys = (self) => {
     self.isCrossActivated = !self.isCrossActivated;
     console.log("isCrossActivated", self.isCrossActivated);
     if (self.isCrossActivated) {
-      self.scene.gridEngine.setSpeed("player", 7);
+      self.gridEngine.setSpeed("player", 7);
       self.gridEngine.setWalkingAnimationMapping("player", 2);
     } else {
       self.gridEngine.setSpeed("player", 3);
@@ -40,12 +38,13 @@ export const attributeKeys = (self) => {
   }
 
   if (isLeftPressed) {
-    self.scene.gridEngine.move("player", "left");
+    console.log("LEFT")
+    self.gridEngine.move("player", "left");
   } else if (isRightPressed) {
-    self.scene.gridEngine.move("player", "right");
+    self.gridEngine.move("player", "right");
   } else if (isUpPressed) {
-    self.scene.gridEngine.move("player", "up");
+    self.gridEngine.move("player", "up");
   } else if (isDownPressed) {
-    self.scene.gridEngine.move("player", "down");
+    self.gridEngine.move("player", "down");
   }
 };

@@ -152,7 +152,6 @@ export default class Scene1 extends Scene {
 
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
-    attributeKeys(this);
 
 
     for (let i = 1; i < 3; i++) {

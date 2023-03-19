@@ -1,5 +1,6 @@
 import Player from "./Player";
 import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
+import { attributeKeys } from "../scenes/functions/keyboard/attributeKeys";
 export class GridEngineCreate {
   gridEngineConfig = {
     characters: [],
@@ -59,7 +60,7 @@ export class GridEngineCreate {
 
   playerUpdate() {
     if (this.gridEngine.isMoving("player")) {
-      this.self.scene.socket.emit("PLAYER_MOVING", {
+      this.self.socket.emit("PLAYER_MOVING", {
         _id: this.player._id,
         position: {
           x: this.player.x,
@@ -70,6 +71,7 @@ export class GridEngineCreate {
       });
     }
     this.player.update();
+    attributeKeys(this.self);
   }
 
   moveNpc(id, delay) {
