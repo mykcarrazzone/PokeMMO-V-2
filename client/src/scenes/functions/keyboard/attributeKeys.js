@@ -15,8 +15,6 @@ export const attributeKeys = (self) => {
   const isShiftPressed = keys.shift.isDown;
   const isCrossCliqued = Phaser.Input.Keyboard.JustDown(keys.cross);
 
-  console.log("attributeKeys")
-  console.log(self)
   if (isCrossCliqued) {
     self.isCrossActivated = !self.isCrossActivated;
     console.log("isCrossActivated", self.isCrossActivated);
@@ -38,7 +36,6 @@ export const attributeKeys = (self) => {
   }
 
   if (isLeftPressed) {
-    console.log("LEFT")
     self.gridEngine.move("player", "left");
   } else if (isRightPressed) {
     self.gridEngine.move("player", "right");

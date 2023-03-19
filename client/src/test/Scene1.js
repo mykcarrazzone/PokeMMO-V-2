@@ -153,7 +153,6 @@ export default class Scene1 extends Scene {
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
 
-
     for (let i = 1; i < 3; i++) {
       this.gridEngineClass.addNpc({
         id: `npc${i}`,

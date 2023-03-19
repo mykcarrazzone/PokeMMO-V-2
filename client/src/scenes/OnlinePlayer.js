@@ -70,6 +70,11 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     // // Recréer la grille avec la nouvelle configuration
     // this.scene.gridEngine.create(this.scene.map, this.scene.gridEngineConfig);
     this.setFrame(this.getStopFrame(this.ld));
+    this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
+      x: pixelPositionToGrid(this.x),
+      y: pixelPositionToGrid(this.y),
+    });
+    console.log(this.scene.gridEngineClass);
   }
   getStopFrame(frame) {
     switch (frame) {
@@ -86,13 +91,9 @@ export default class OnlinePlayer extends GameObjects.Sprite {
 
   isWalking(position, x, y) {
     if (this && this.anims) {
-      // Player
-      // this.anims.play(`misa-${position}-walk`, true);
-      // PlayerId
       this.playerNickname.x = this.x;
       this.playerNickname.y = this.y - 15;
-      this.scene.gridEngine.move(this.sessionId, position);
-      console.log("OnlinePlayer is walking", position, x, y);
+      this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, position);
     }
   }
 

@@ -131,8 +131,6 @@ export default class Player extends GameObjects.Sprite {
         : this.scene.localPlayer.y,
     };
 
-    console.log("PASSED IN NEW MAP", worldName);
-
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
       position: {

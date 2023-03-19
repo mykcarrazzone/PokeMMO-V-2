@@ -27,6 +27,24 @@ export class GridEngineCreate {
     this.gridEngine.create(this.map, this.gridEngineConfig);
   }
 
+  addOnlinePlayer(sessionId, spriteId, position) {
+    const newSprite = this.add.sprite(0, 0, "onlinePlayer");
+    newSprite.scale = 1.1;
+    this.gridEngineConfig.characters.push({
+      id: sessionId,
+      sprite: newSprite,
+      walkingAnimationMapping: spriteId,
+      startPosition: { x: position.x, y: position.y },
+      speed: 3,
+      collides: false,
+    });
+    this.gridEngine.create(this.map, this.gridEngineConfig);
+  }
+
+  moveOnlinePlayer(sessionId, direction) {
+    this.gridEngine.move(sessionId, direction);
+  }
+
   setPlayer() {
     this.player = new Player({
       scene: this.self,
