@@ -1,5 +1,4 @@
 import { GameObjects } from "phaser";
-import { attributeKeys } from "../scenes/functions/keyboard/attributeKeys";
 import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
@@ -39,28 +38,14 @@ export default class Player extends GameObjects.Sprite {
       this.newZone = { x, y };
     }
 
-
     this.doorAnimation();
     this.passPorte = false;
     this.passWorld = false;
     this.setFrame(this.getStopFrame(this.scene.localPlayer.position.ld));
-    console.log("DERNIERE MOUVEMENT", this.scene.localPlayer.position.ld);
   }
 
   update() {
-    if (this.scene.gridEngine.isMoving("player")) {
-      this.scene.socket.emit("PLAYER_MOVING", {
-        _id: this._id,
-        position: {
-          x: this.x,
-          y: this.y,
-          ld: this.scene.gridEngine.getFacingDirection("player"),
-        },
-        isMoving: this.scene.gridEngine.isMoving("player"),
-      });
-    }
-    attributeKeys(this);
-    this.doorInteraction();
+       this.doorInteraction();
     this.worldInteraction();
   }
 

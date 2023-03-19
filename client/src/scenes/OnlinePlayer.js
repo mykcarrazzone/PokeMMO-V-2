@@ -3,7 +3,10 @@ import { pixelPositionToGrid } from "./functions/player/pixelPositionToGrid";
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
-
+    this.sprites = this.scene.add.sprite(0, 0, "onlinePlayer");
+    this.sprites.scale = 1.1;
+    console.log("SESSION ID : " + config.sessionId);
+    this.sessionId = config.sessionId;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
     this.scene.physics.add.collider(this, config.worldLayer);
@@ -18,7 +21,10 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     const capitalizedNickName =
       userNickName.charAt(0).toUpperCase() + userNickName.slice(1);
     console.log(`Map of ${capitalizedNickName} is ${this.map}`);
-
+    this.position = {
+      x: this.x,
+      y: this.y,
+    };
     // Display playerId above player
     this.playerNickname = this.scene.add
       .text(
@@ -45,24 +51,25 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       y: this.y,
       name: capitalizedNickName,
     });
+
+    this.setFrame(this.getStopFrame(this.ld));
   }
 
   updateGridEngineConfig(newPlayer) {
-    const { x, y, name } = newPlayer;
-    
-    // Ajouter le nouveau joueur à la configuration Grid Engine
-    this.scene.gridEngineConfig.characters.push({
-      id: "onlinePlayer",
-      sprite : this,
-      walkingAnimationMapping: 0,
-      startPosition: { x: pixelPositionToGrid(x), y: pixelPositionToGrid(y) },
-      speed: 3,
-    });
+    // const { x, y, name } = newPlayer;
 
-    // Recréer la grille avec la nouvelle configuration
-    this.scene.gridEngine.create(this.scene.map, this.scene.gridEngineConfig);
-    this.setFrame(this.getStopFrame(this.ld))
-    console.log(this.scene.gridEngine);
+    // // Ajouter le nouveau joueur à la configuration Grid Engine
+    // this.scene.gridEngineConfig.characters.push({
+    //   id: this.sessionId,
+    //   sprite: this.sprites,
+    //   walkingAnimationMapping: 0,
+    //   startPosition: { x: pixelPositionToGrid(x), y: pixelPositionToGrid(y) },
+    //   speed: 3,
+    // });
+
+    // // Recréer la grille avec la nouvelle configuration
+    // this.scene.gridEngine.create(this.scene.map, this.scene.gridEngineConfig);
+    this.setFrame(this.getStopFrame(this.ld));
   }
   getStopFrame(frame) {
     switch (frame) {
@@ -82,9 +89,9 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       // Player
       // this.anims.play(`misa-${position}-walk`, true);
       // PlayerId
-      this.playerNickname.x = this.x + 50;
+      this.playerNickname.x = this.x;
       this.playerNickname.y = this.y - 15;
-      this.scene.gridEngine.move("onlinePlayer", position)
+      this.scene.gridEngine.move(this.sessionId, position);
       console.log("OnlinePlayer is walking", position, x, y);
     }
   }

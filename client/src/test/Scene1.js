@@ -5,6 +5,8 @@ import { startWeather } from "../scenes/functions/weather/weather";
 import { startEffects } from "../scenes/functions/effects/fire";
 import OnlinePlayer from "../scenes/OnlinePlayer";
 import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
+import { GridEngineCreate } from "./gridEngineConfig";
+import { attributeKeys } from "../scenes/functions/keyboard/attributeKeys";
 var onlinePlayers = [];
 
 export default class Scene1 extends Scene {
@@ -56,76 +58,6 @@ export default class Scene1 extends Scene {
     }
   }
 
-  gridEngineCreate(map) {
-    const npcSprite0 = this.add.sprite(0, 0, "npc");
-    npcSprite0.scale = 1.1;
-    const npcSprite1 = this.add.sprite(0, 0, "npc");
-    npcSprite1.scale = 1.1;
-    const npcSprite2 = this.add.sprite(0, 0, "npc");
-    npcSprite2.scale = 1.1;
-    const npcSprite3 = this.add.sprite(0, 0, "npc");
-
-    npcSprite3.scale = 1.1;
-    this.speed = 1;
-
-    this.gridEngineConfig = {
-      characters: [
-        {
-          id: "player",
-          sprite: this.player,
-          walkingAnimationMapping: 0,
-          startPosition: {
-            x: pixelPositionToGrid(this.player.x),
-            y: pixelPositionToGrid(this.player.y),
-          },
-          speed: 3,
-          collides: true,
-        },
-        {
-          id: "npc0",
-          sprite: npcSprite0,
-          walkingAnimationMapping: 1,
-          startPosition: { x: 25, y: 24 },
-          speed: 2,
-        },
-        {
-          id: "npc1",
-          sprite: npcSprite1,
-          walkingAnimationMapping: 2,
-          startPosition: { x: 26, y: 27 },
-          speed: 2,
-        },
-        {
-          id: "npc2",
-          sprite: npcSprite2,
-          walkingAnimationMapping: 3,
-          startPosition: { x: 26, y: 27 },
-          speed: 2,
-        },
-        {
-          id: "npc3",
-          sprite: npcSprite3,
-          walkingAnimationMapping: 4,
-          startPosition: { x: 37, y: 24 },
-          speed: 2,
-        },
-        {
-          id: "doors",
-          sprite: this.door0,
-          startPosition: { x: 44, y: 24 },
-          collides: false,
-        },
-      ],
-    };
-
-    this.gridEngine.create(map, this.gridEngineConfig);
-
-    this.gridEngine.moveRandomly("npc0", 5);
-    this.gridEngine.moveRandomly("npc1", 5);
-    this.gridEngine.moveRandomly("npc2", 5);
-    this.gridEngine.moveRandomly("npc3", 5);
-  }
-
   createMapAndPlayer() {
     let self = this;
     console.log("Game is running");
@@ -153,6 +85,10 @@ export default class Scene1 extends Scene {
 
     this.socket.on("PLAYER_LEFT", function (sessionId) {
       if (onlinePlayers[sessionId]) {
+        console.log(this.gridEngineConfig.characters);
+        this.gridEngineConfig.characters
+          .find((character) => character.id === sessionId)
+          .destroy();
         onlinePlayers[sessionId].destroy();
         delete onlinePlayers[sessionId];
       }
@@ -214,25 +150,25 @@ export default class Scene1 extends Scene {
       return obj;
     });
 
-    this.player = new Player({
-      scene: this,
-      x: this.localPlayer.hasConnectedBefore
-        ? this.localPlayer.position.x
-        : this.changedSceneData.isChanged
-        ? this.changedSceneData.x
-        : this.spawnPoint.x * 3.89,
-      y: this.localPlayer.hasConnectedBefore
-        ? this.localPlayer.position.y
-        : this.changedSceneData.isChanged
-        ? this.changedSceneData.y
-        : this.spawnPoint.y * 3.9,
-      texture: "player",
-      frame: "up",
-      tileMap: this.map,
-      newZone: this.newZone,
-    });
+    this.gridEngineClass = new GridEngineCreate(this);
+    this.gridEngineClass.setPlayer();
 
-    this.gridEngineCreate(this.map);
+    attributeKeys(this, this.gridEngine);
+
+    for (let i = 1; i < 3; i++) {
+      this.gridEngineClass.addNpc({
+        id: `npc${i}`,
+        x: 42,
+        y: 30,
+        speed: 2,
+        walkingAnimationMapping: Math.floor(Math.random() * 7) + 1,
+        collides: true,
+      });
+    }
+
+    for (let i = 1; i < 3; i++) {
+      this.gridEngineClass.moveNpc(`npc${i}`, 3);
+    }
 
     this.cameras.main.fadeIn(1000);
 
@@ -246,7 +182,7 @@ export default class Scene1 extends Scene {
   }
 
   update() {
-    this.player.update();
+    this.gridEngineClass.playerUpdate();
   }
 
   fps() {
