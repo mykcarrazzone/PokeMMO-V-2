@@ -152,8 +152,8 @@ export default class Scene1 extends Scene {
 
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
+    attributeKeys(this);
 
-    attributeKeys(this, this.gridEngine);
 
     for (let i = 1; i < 3; i++) {
       this.gridEngineClass.addNpc({

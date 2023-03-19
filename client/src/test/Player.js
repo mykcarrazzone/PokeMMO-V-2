@@ -1,5 +1,4 @@
 import { GameObjects } from "phaser";
-import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(
@@ -45,7 +44,7 @@ export default class Player extends GameObjects.Sprite {
   }
 
   update() {
-       this.doorInteraction();
+    this.doorInteraction();
     this.worldInteraction();
   }
 

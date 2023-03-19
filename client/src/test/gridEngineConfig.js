@@ -1,8 +1,6 @@
 import Player from "./Player";
 import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
-
 export class GridEngineCreate {
-
   gridEngineConfig = {
     characters: [],
   };
@@ -12,7 +10,6 @@ export class GridEngineCreate {
     this.map = self.map;
     this.gridEngine = self.gridEngine;
     this.add = self.add;
-
   }
 
   addNpc(npc) {
@@ -52,11 +49,11 @@ export class GridEngineCreate {
       id: "player",
       sprite: this.player,
       walkingAnimationMapping: 0,
-      startPosition: { x:  this.player.x, y:  this.player.y },
+      startPosition: { x: this.player.x, y: this.player.y },
       speed: 3,
       collides: true,
     });
-    
+
     this.gridEngine.create(this.map, this.gridEngineConfig);
   }
 
