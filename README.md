@@ -58,3 +58,6 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 ## Auteur
 
 Ce projet a été créé par Lorenzo Giralt
+
+Licence
+© 2023 Lorenzo Giralt. Tous droits réservés. La copie de ce projet, en tout ou en partie, est illégale et soumise à des poursuites.
