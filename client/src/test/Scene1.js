@@ -85,10 +85,9 @@ export default class Scene1 extends Scene {
 
     this.socket.on("PLAYER_LEFT", function (sessionId) {
       if (onlinePlayers[sessionId]) {
-        console.log(this.gridEngineConfig.characters);
-        this.gridEngineConfig.characters
-          .find((character) => character.id === sessionId)
-          .destroy();
+        console.log("SESSION ID : ", sessionId, "LEFT");
+        self.gridEngine.removeCharacter(sessionId);
+        console.log(self.gridEngineClass.characters);
         onlinePlayers[sessionId].destroy();
         delete onlinePlayers[sessionId];
       }
@@ -138,7 +137,7 @@ export default class Scene1 extends Scene {
         0
       );
       layer.scale = 4;
-      layer.setDepth(i);
+      // layer.setDepth(i);
     }
 
     this.spawnPoint = this.map.findObject(

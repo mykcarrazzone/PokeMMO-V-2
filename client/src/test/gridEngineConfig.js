@@ -28,17 +28,23 @@ export class GridEngineCreate {
   }
 
   addOnlinePlayer(sessionId, spriteId, position) {
-    const newSprite = this.add.sprite(0, 0, "onlinePlayer");
-    newSprite.scale = 1.1;
+    this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
+    this.onlinePlayerSprite.scale = 1.1;
+    console.log("NEW ONLINE PLAYER SESSION ID: ", sessionId);
     this.gridEngineConfig.characters.push({
       id: sessionId,
-      sprite: newSprite,
+      sprite: this.onlinePlayerSprite,
       walkingAnimationMapping: spriteId,
       startPosition: { x: position.x, y: position.y },
       speed: 3,
       collides: false,
     });
-    this.gridEngine.create(this.map, this.gridEngineConfig);
+    // this.gridEngine.create(this.map, this.gridEngineConfig);
+  }
+
+  removeOnlinePlayer(sessionId) {
+    this.gridEngine.removeCharacter(sessionId);
+    this.onlinePlayerSprite.destroy();
   }
 
   moveOnlinePlayer(sessionId, direction) {

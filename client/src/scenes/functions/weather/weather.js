@@ -15,9 +15,9 @@ const snow = (self, map) => {
     lifespan: 20000, // ça sert à définir la durée de vie des particules
     speedY: { min: 91, max: 91 },
     gravityY: 4, // il faut la monter pour que les particules tombent plus vite
-    quantity: 0.6,
+    quantity: 0.5,
     frequency: 70, // ça sert à définirzds la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
-    scale: { start: 0.4, end: 0.4 },
+    scale: { start: 0.3, end: 0.3 },
     follow: self.cameras.main, // ça sert à suivre la caméra
     followOffset: { x: 0, y: -800 }, // ça sert à définir la position des particules par rapport au joueur
     blendMode: "ADD",
