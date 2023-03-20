@@ -30,7 +30,8 @@ Les fonctionnalités suivantes sont en cours de développement :
 - Choix des sprites : ✔️
 - Enregistrement de la position sur la map : ✔️
 - Intégration des Pokémon : ❌
-- Entrée dans les maisons : ❌
+- Entrer dans les maisons : ✔️
+- Changer de map : ✔️
 - Combat Pokémon : ❌
 
 ## Technologies utilisées
@@ -38,11 +39,11 @@ Les fonctionnalités suivantes sont en cours de développement :
 Les technologies suivantes ont été utilisées dans le développement de ce projet :
 
 - [Next.js](https://nextjs.org/) <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next-dot-js&logoColor=white" alt="Next.js logo">
+- [GridEngine](https://github.com/Annoraaq/grid-engine) <img src="https://github.com/Annoraaq/grid-engine/raw/master/images/grid-engine-logo.png" alt="MongoDB logo">
 - [Phaser](https://phaser.io/) <img src="https://img.shields.io/badge/-Phaser-ffffff?style=flat-square&logo=phaser&logoColor=CECECE" alt="Phaser logo">
 - [Express](https://expressjs.com/) <img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express logo">
 - [Socket.io](https://socket.io/) <img src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket-dot-io&logoColor=white" alt="Socket.io logo">
 - [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
-
 ## Comment jouer
 
 1. Clonez ce dépôt sur votre machine locale.
