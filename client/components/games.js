@@ -10,7 +10,6 @@ export default function Game({ userData }) {
 
   useEffect(() => {
     async function initPhaser() {
-
       if (!userData) {
         console.log("Return earlying userData");
         return;
@@ -69,7 +68,7 @@ export default function Game({ userData }) {
         socket: userData.socket,
         user: userData.user,
       });
-      
+
       // window.addEventListener("resize", () => {
       //   phaserGame.scale.resize(window.innerWidth, window.innerHeight);
       //   setIsMobile(
@@ -89,38 +88,39 @@ export default function Game({ userData }) {
   }, [userData]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black">
-      <div className="absolute top-0 left-0">
-        <div ref={gameRef} className="bg-black"></div>
-      </div>
-
-      {isMobile ? (
-        <div
-          className={`absolute bottom-0 left-0 w-1/2 sm:w-auto ${
-            gameReady ? "" : "hidden"
-          }`}
-          style={{
-            zIndex: 9999,
-          }}
-        >
-          <Chat isClose={isMobile} />
+  
+      <div className="relative w-screen h-screen overflow-hidden bg-black">
+        <div className="absolute top-0 left-0">
+          <div ref={gameRef} className="bg-black"></div>
         </div>
-      ) : (
-        <div
-          className={`absolute bottom-0 left-0 w-1/2 sm:w-auto ${
-            gameReady ? "" : "hidden"
-          }`}
-          style={{
-            zIndex: 9999,
-          }}
-        >
-          <Chat isClose={isMobile} />
-        </div>
-      )}
 
-      <div className={`${gameReady ? "" : "hidden"}`}>
-        <Interface isMobile={isMobile} />
+        {isMobile ? (
+          <div
+            className={`absolute bottom-0 left-0 w-1/2 sm:w-auto ${
+              gameReady ? "" : "hidden"
+            }`}
+            style={{
+              zIndex: 9999,
+            }}
+          >
+            <Chat isClose={isMobile} />
+          </div>
+        ) : (
+          <div
+            className={`absolute bottom-0 left-0 w-1/2 sm:w-auto ${
+              gameReady ? "" : "hidden"
+            }`}
+            style={{
+              zIndex: 9999,
+            }}
+          >
+            <Chat isClose={isMobile} />
+          </div>
+        )}
+
+        <div className={`${gameReady ? "" : "hidden"}`}>
+          <Interface isMobile={isMobile} />
+        </div>
       </div>
-    </div>
   );
 }

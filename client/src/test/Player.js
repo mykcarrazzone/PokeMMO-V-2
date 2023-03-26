@@ -16,7 +16,7 @@ export default class Player extends GameObjects.Sprite {
     this.door0.scale = 1.22;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
-    this.setOrigin(0.5, 1);
+    this.setOrigin(0.5, 0.5);
     this.scale = 1.1;
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
@@ -94,14 +94,14 @@ export default class Player extends GameObjects.Sprite {
           if (!this.passPorte) {
             this.passPorte = true;
             this.scene.gridEngine.turnTowards("player", "up");
-            this.changeSceneByMapName(obj.properties[0].value);
+            this.changeSceneByMapName(obj.properties[0].value, "up");
           }
         }, 1500);
       }
     });
   }
 
-  changeSceneByMapName(worldName) {
+  changeSceneByMapName(worldName, direction) {
     this.scene.localPlayer.onMap = worldName;
     this.scene.localPlayer.position.x = this.x;
     this.scene.localPlayer.position.y = this.y;
@@ -124,15 +124,14 @@ export default class Player extends GameObjects.Sprite {
 
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
-      // position: {
-      //   x: this.scene.gridEngine.getPosition("player").x,
-      //   y: this.scene.gridEngine.getPosition("player").y,
-      //   ld: this.scene.gridEngine.getFacingDirection("player"),
-      // },
+      position: {
+        ld: direction,
+      },
       onMap: worldName,
-      isMoving: this.isMoving,
     });
 
+    this.scene.localPlayer.position.ld = direction;
+    console.log("Player is by door: " + worldName);
     // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
@@ -163,7 +162,7 @@ export default class Player extends GameObjects.Sprite {
           this.passWorld = true;
           console.log("Player is by world entry: " + obj.name);
           this.scene.localPlayer.position.ld = "down";
-          this.changeSceneByMapName(obj.name);
+          this.changeSceneByMapName(obj.name, "down");
         }
       }
     });

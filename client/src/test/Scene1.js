@@ -86,8 +86,7 @@ export default class Scene1 extends Scene {
     this.socket.on("PLAYER_LEFT", function (sessionId) {
       if (onlinePlayers[sessionId]) {
         console.log("SESSION ID : ", sessionId, "LEFT");
-        self.gridEngine.removeCharacter(sessionId);
-        console.log(self.gridEngineClass.characters);
+        self.gridEngineClass.removeOnlinePlayer(sessionId);
         onlinePlayers[sessionId].destroy();
         delete onlinePlayers[sessionId];
       }
@@ -123,8 +122,9 @@ export default class Scene1 extends Scene {
 
     this.socket.on("PLAYER_CHANGED_MAP", function (data) {
       if (onlinePlayers[data]) {
+        self.gridEngineClass.removeOnlinePlayer(data);
         onlinePlayers[data].destroy();
-        delete onlinePlayers[data];
+        delete onlinePlayers[data];      
       }
     });
 

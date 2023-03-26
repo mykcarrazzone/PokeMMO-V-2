@@ -29,7 +29,8 @@ export function handlePlayerMoving(data) {
         console.error(err);
         return;
       }
-      console.log(user);
+      console.log(user.onMap);
+      
       user.onMap.position.x = playerInfo.position.x;
       user.onMap.position.y = playerInfo.position.y;
       user.onMap.position.ld = playerInfo.position.ld;

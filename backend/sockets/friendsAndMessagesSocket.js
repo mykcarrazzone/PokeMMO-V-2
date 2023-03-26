@@ -74,7 +74,7 @@ export default async function friendsAndMessagesSocket(data) {
   try {
     const messages = await GeneralMessage.find()
       .sort({ createdAt: "desc" }) // Trier les messages par date de création (du plus récent au plus ancien) pour afficher les 10 derniers messages
-      .limit(9);
+      .limit(25);
 
     const formattedMessages = messages.map((message) => ({
       from: message.sender,

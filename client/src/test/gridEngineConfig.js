@@ -144,7 +144,7 @@ export class GridEngineCreate {
       walkingAnimationMapping: spriteId,
       startPosition: { x: position.x, y: position.y },
       speed: position.speed,
-      collides: true,
+      collides: false,
     });
   }
 

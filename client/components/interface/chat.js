@@ -113,11 +113,11 @@ const Chat = ({ isClose }) => {
         <div
           className="fixed bottom-0 left-0 w-full sm:w-1/2"
           style={{
-            maxWidth: "550px",
+            maxWidth: "540px",
           }}
         >
           <div
-            className="flex w-full h-10 items-center flex justify-center bg-gray-700 rounded-tr-[8px]"
+            className="flex w-full h-10 items-center flex justify-center bg-[#2c3440e3] rounded-tr-[8px]"
             style={{
               boxShadow: "inset -18px -18px 25px 0px rgba(0,0,0,0.5)",
               borderBottom: "1px solid rgba(0,0,0,0.6)",
@@ -143,7 +143,7 @@ const Chat = ({ isClose }) => {
             ref={messageBoxRef}
             className="h-64 text-white overflow-y-auto"
             style={{
-              backgroundColor : "#1f2937e3"
+              backgroundColor : "#1f2937c7"
             }}
           >
             {messages.map((message, index) => (
@@ -171,7 +171,7 @@ const Chat = ({ isClose }) => {
             {/* Zone de texte pour afficher les messages du chat */}
           </div>
           <form
-            className="flex p-4 bg-gray-700"
+            className="flex p-4 bg-[#2c3440dc]"
             onSubmit={handleSubmit}
             style={{
               boxShadow: "inset -18px -18px 25px 0px rgba(0,0,0,0.5)",
