@@ -42,6 +42,11 @@ const userSchema = new mongoose.Schema(
         required: true,
         default: "hero_01_red_m_walk",
       },
+      walkingAnimationMapping: {
+        type: Number,
+        required: false,
+        default: 0,
+      },
       currentTexture: {
         type: String,
         required: false,
@@ -78,6 +83,11 @@ const userSchema = new mongoose.Schema(
         ld: {
           type: String,
           default: "down",
+          required: false,
+        },
+        speed: {
+          type: Number,
+          default: 3,
           required: false,
         },
       },

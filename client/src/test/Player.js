@@ -8,7 +8,8 @@ export default class Player extends GameObjects.Sprite {
       config.texture,
       config.frame,
       config.tileMap,
-      config.newZone
+      config.newZone,
+      config.speed
     );
     this._id = this.scene.localPlayer._id;
     this.door0 = this.scene.add.sprite(0, 0, "doors");
@@ -20,11 +21,8 @@ export default class Player extends GameObjects.Sprite {
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
     this.tileMap = config.tileMap;
-
-    this.bump = this.scene.sound.add("bump", {
-      loop: false,
-      volume: 0.7,
-    });
+    this.speed = config.speed;
+    this.scene.physics.world.enable(this);
 
     this.isCrossActivated = false;
 
@@ -88,21 +86,14 @@ export default class Player extends GameObjects.Sprite {
         this.x <= objectX + objectWidth &&
         this.scene.gridEngine.getFacingDirection("player") == "up"
       ) {
-        this.door0.anims.play("porte", true);
         this.scene.gridEngine.stopMovement("player");
-        setTimeout(() => {
-          this.scene.gridEngine.moveTo("player", { x: 44, y: 24 });
-        }, 100);
         setTimeout(() => {
           this.scene.cameras.main.fadeOut(700);
         }, 700);
         setTimeout(() => {
-          this.door0.anims.stop();
-        }, 1100);
-        setTimeout(() => {
           if (!this.passPorte) {
             this.passPorte = true;
-            this.scene.localPlayer.position.ld = "up";
+            this.scene.gridEngine.turnTowards("player", "up");
             this.changeSceneByMapName(obj.properties[0].value);
           }
         }, 1500);
@@ -133,11 +124,11 @@ export default class Player extends GameObjects.Sprite {
 
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
-      position: {
-        x: this.x,
-        y: this.y,
-        ld: this.scene.gridEngine.getFacingDirection("player"),
-      },
+      // position: {
+      //   x: this.scene.gridEngine.getPosition("player").x,
+      //   y: this.scene.gridEngine.getPosition("player").y,
+      //   ld: this.scene.gridEngine.getFacingDirection("player"),
+      // },
       onMap: worldName,
       isMoving: this.isMoving,
     });

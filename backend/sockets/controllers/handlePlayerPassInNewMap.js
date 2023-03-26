@@ -16,9 +16,9 @@ export function handlePlayerPassInNewMap(data) {
   // Update player position and map in players object
   players[socket.id]._id = playerInfo._id;
   players[socket.id].onMap = playerInfo.onMap;
-  players[socket.id].position.x = playerInfo.position.x;
-  players[socket.id].position.y = playerInfo.position.y;
-  players[socket.id].position.ld = playerInfo.position.ld;
+  // players[socket.id].position.x = playerInfo.position.x;
+  // players[socket.id].position.y = playerInfo.position.y;
+  // players[socket.id].position.ld = playerInfo.position.ld;
   console.log("PASSED MAP", playerInfo);
   // User.findOne({ _id: playerInfo._id }, function (err, user) {
   //   if (err) {

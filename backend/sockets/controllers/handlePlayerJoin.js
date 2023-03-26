@@ -9,7 +9,7 @@
  *
  **/
 export function handlePlayerJoin(data) {
-  console.log("handlePlayerJoin")
+  console.log("handlePlayerJoin");
   const { playerInfo, io, socket, players, onlinePlayers } = data;
   if (players.hasOwnProperty(socket.id)) {
     console.info(`Player [${socket.id}] already exists`);
@@ -25,6 +25,7 @@ export function handlePlayerJoin(data) {
     currentTexture: playerInfo.currentTexture,
     role: playerInfo.role,
     position: playerInfo.position,
+    walkingAnimationMapping: playerInfo.walkingAnimationMapping,
     isMoving: playerInfo.isMoving,
     onMap: playerInfo.onMap,
   };

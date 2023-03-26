@@ -113,7 +113,9 @@ export default class Scene1 extends Scene {
           existingPlayer.isWalking(
             data.position.ld,
             data.position.x,
-            data.position.y
+            data.position.y,
+            data.position.speed,
+            data.walkingAnimationMapping
           );
         }
       }
@@ -137,7 +139,6 @@ export default class Scene1 extends Scene {
         0
       );
       layer.scale = 4;
-      // layer.setDepth(i);
     }
 
     this.spawnPoint = this.map.findObject(
@@ -152,20 +153,14 @@ export default class Scene1 extends Scene {
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
 
-    for (let i = 1; i < 3; i++) {
-      this.gridEngineClass.addNpc({
-        id: `npc${i}`,
-        x: 42,
-        y: 30,
-        speed: 2,
-        walkingAnimationMapping: Math.floor(Math.random() * 7) + 1,
-        collides: true,
-      });
-    }
-
-    for (let i = 1; i < 3; i++) {
-      this.gridEngineClass.moveNpc(`npc${i}`, 3);
-    }
+    this.gridEngineClass.addNpc({
+      id: `npc1`,
+      x: 42,
+      y: 50,
+      speed: 0,
+      walkingAnimationMapping: Math.floor(Math.random() * 7) + 1,
+      collides: true,
+    });
 
     this.cameras.main.fadeIn(1000);
 
@@ -179,6 +174,7 @@ export default class Scene1 extends Scene {
   }
 
   update() {
+    // USE TIME AND DELTA
     this.gridEngineClass.playerUpdate();
   }
 

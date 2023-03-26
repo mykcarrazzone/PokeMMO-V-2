@@ -24,7 +24,10 @@ export default class BootGame extends Scene {
         x: this.dataPlayer.onMap.position.x,
         y: this.dataPlayer.onMap.position.y,
         ld: this.dataPlayer.onMap.position.ld,
+        speed: this.dataPlayer.onMap.position.speed,
       },
+      walkingAnimationMapping:
+        this.dataPlayer.character.walkingAnimationMapping,
       onMap: this.dataPlayer.onMap.map_id,
       isMoving: false,
       hasConnectedBefore: true,

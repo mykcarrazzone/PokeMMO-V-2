@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, useM } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Chat from "../components/interface/chat";
 import Interface from "../components/interface/layout";
 
@@ -10,10 +10,12 @@ export default function Game({ userData }) {
 
   useEffect(() => {
     async function initPhaser() {
+
       if (!userData) {
         console.log("Return earlying userData");
         return;
       }
+
       if (game) {
         console.log("Return earlying Phaser");
         return;
@@ -62,10 +64,12 @@ export default function Game({ userData }) {
       userData.socket.on("gameReadyToClient", () => {
         setGameReady(true);
       });
+
       phaserGame.scene.start("bootGame", {
         socket: userData.socket,
         user: userData.user,
       });
+      
       // window.addEventListener("resize", () => {
       //   phaserGame.scale.resize(window.innerWidth, window.innerHeight);
       //   setIsMobile(

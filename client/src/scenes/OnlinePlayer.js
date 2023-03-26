@@ -1,5 +1,6 @@
 import { GameObjects } from "phaser";
 import { pixelPositionToGrid } from "./functions/player/pixelPositionToGrid";
+
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
@@ -56,26 +57,13 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   }
 
   updateGridEngineConfig(newPlayer) {
-    // const { x, y, name } = newPlayer;
-
-    // // Ajouter le nouveau joueur à la configuration Grid Engine
-    // this.scene.gridEngineConfig.characters.push({
-    //   id: this.sessionId,
-    //   sprite: this.sprites,
-    //   walkingAnimationMapping: 0,
-    //   startPosition: { x: pixelPositionToGrid(x), y: pixelPositionToGrid(y) },
-    //   speed: 3,
-    // });
-
-    // // Recréer la grille avec la nouvelle configuration
-    // this.scene.gridEngine.create(this.scene.map, this.scene.gridEngineConfig);
     this.setFrame(this.getStopFrame(this.ld));
     this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
-      x: pixelPositionToGrid(this.x),
-      y: pixelPositionToGrid(this.y),
+      x: this.x,
+      y: this.y,
     });
-    console.log(this.scene.gridEngineClass);
   }
+
   getStopFrame(frame) {
     switch (frame) {
       case "down":
@@ -89,12 +77,13 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     }
   }
 
-  isWalking(position, x, y) {
-    if (this && this.anims) {
-      this.playerNickname.x = this.x;
-      this.playerNickname.y = this.y - 15;
-      this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, position);
-    }
+  isWalking(ld, x, y, speed, walkMapping) {
+      this.playerNickname.x = x;
+      this.playerNickname.y = y - 15;
+      this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
+      this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
+      this.scene.gridEngineClass.setWalkingAnimationMapping(this.sessionId, walkMapping);
+      console.log("speed online player : " + speed);
   }
 
   stopWalking(position) {

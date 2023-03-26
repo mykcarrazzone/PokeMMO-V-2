@@ -1,6 +1,7 @@
 import Player from "./Player";
 import { pixelPositionToGrid } from "../scenes/functions/player/pixelPositionToGrid";
 import { attributeKeys } from "../scenes/functions/keyboard/attributeKeys";
+
 export class GridEngineCreate {
   gridEngineConfig = {
     characters: [],
@@ -13,10 +14,11 @@ export class GridEngineCreate {
     this.add = self.add;
   }
 
+  //*************** ADD NPC *****************//
   addNpc(npc) {
     const newSprite = this.add.sprite(0, 0, "npc");
     newSprite.scale = 1.1;
-    this.gridEngineConfig.characters.push({
+    this.gridEngine.addCharacter({
       id: npc.id,
       sprite: newSprite,
       walkingAnimationMapping: npc.walkingAnimationMapping,
@@ -24,81 +26,141 @@ export class GridEngineCreate {
       speed: npc.speed,
       collides: npc.collides,
     });
-    this.gridEngine.create(this.map, this.gridEngineConfig);
   }
 
+  //*************** GETTERS WALKING ANIMATION MAPPING BY ID *****************//
+  moveNpc(id, delay) {
+    this.gridEngine.moveRandomly(id, delay);
+  }
+
+  //*************** SETTERS SPEED BY ID *****************//
+  setSpeed(id, speed) {
+    this.gridEngine.setSpeed(id, speed);
+  }
+
+  //*************** GETTERS POSITION BY ID *****************//
+  getPosition(id) {
+    return this.gridEngine.getPosition(id);
+  }
+
+  //*************** SETTERS POSITION BY ID *****************//
+  setPosition(id, position) {
+    this.gridEngine.setPosition(id, position);
+  }
+
+  //*************** SETTERS WALKING ANIMATION MAPPING BY ID *****************//
+  setWalkingAnimationMapping(id, walkingAnimationMapping) {
+    this.gridEngine.setWalkingAnimationMapping(id, walkingAnimationMapping);
+  }
+
+  //*************** ADD LOCAL CURRENT PLAYER *****************//
+  setPlayer() {
+    this.player = new Player({
+      scene: this.self,
+      x: this.self.localPlayer.hasConnectedBefore
+        ? this.self.localPlayer.position.x
+        : this.self.changedSceneData.isChanged
+        ? this.self.changedSceneData.x
+        : this.self.spawnPoint.x,
+      y: this.self.localPlayer.hasConnectedBefore
+        ? this.self.localPlayer.position.y
+        : this.self.changedSceneData.isChanged
+        ? this.self.changedSceneData.y
+        : this.self.spawnPoint.y,
+      texture: "player",
+      frame: "up",
+      tileMap: this.self.map,
+      newZone: this.self.newZone,
+      speed: this.self.localPlayer.position.speed,
+    });
+
+    this.player.body.onWorldBounds = true;
+    this.self.physics.add.collider(this.player, this.self.collides);
+
+    this.gridEngineConfig.characters.push({
+      id: "player",
+      sprite: this.player,
+      walkingAnimationMapping: this.self.localPlayer.walkingAnimationMapping,
+      startPosition: { x: this.player.x, y: this.player.y },
+      speed: this.player.speed,
+      collides: true,
+    });
+
+    this.gridEngine.create(this.map, this.gridEngineConfig);
+    console.log("ACTUAL PLAYER POSITION: ", this.gridEngine.getPosition("player"));
+    // INIT LAST DIRECTON
+    this.gridEngine.turnTowards("player", this.self.localPlayer.position.ld);
+
+    this.bump = this.self.sound.add("bump", {
+      loop: false,
+      volume: 0.7,
+    });
+
+    this.gridEngine.directionChanged().subscribe(({ charId, direction }) => {
+      if (charId == "player") {
+        if (this.bump.isPlaying) {
+          this.bump.stop();
+        } else {
+          this.bump.play();
+        }
+      }
+    });
+
+    this.gridEngine.positionChangeStarted().subscribe(({ charId }) => {
+      if (charId == "player") {
+        this.self.socket.emit("PLAYER_MOVING", {
+          _id: this.player._id,
+          position: {
+            x: this.gridEngine.getPosition("player").x,
+            y: this.gridEngine.getPosition("player").y,
+            ld: this.gridEngine.getFacingDirection("player"),
+            speed: this.gridEngine.getSpeed("player"),
+          },
+          walkingAnimationMapping:
+            this.gridEngine.getWalkingAnimationMapping("player"),
+          isMoving: this.gridEngine.isMoving("player"),
+        });
+      }
+    });
+  }
+  //*************** END ADD LOCAL CURRENT PLAYER *****************//
+
+  //*************** MOVE LOCAL CURRENT PLAYER *****************//
+  playerUpdate() {
+    attributeKeys(this.self);
+    if (this.gridEngine.isMoving("player")) {
+      this.player.update();
+    }
+  }
+
+  //*************** ADD ONLINE PLAYER *****************//
   addOnlinePlayer(sessionId, spriteId, position) {
     this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
     this.onlinePlayerSprite.scale = 1.1;
     console.log("NEW ONLINE PLAYER SESSION ID: ", sessionId);
-    this.gridEngineConfig.characters.push({
+    this.gridEngine.addCharacter({
       id: sessionId,
       sprite: this.onlinePlayerSprite,
       walkingAnimationMapping: spriteId,
       startPosition: { x: position.x, y: position.y },
-      speed: 3,
-      collides: false,
+      speed: position.speed,
+      collides: true,
     });
-    // this.gridEngine.create(this.map, this.gridEngineConfig);
   }
 
+  //*************** REMOVE ONLINE PLAYER *****************//
   removeOnlinePlayer(sessionId) {
     this.gridEngine.removeCharacter(sessionId);
     this.onlinePlayerSprite.destroy();
   }
 
+  //*************** MOVE ONLINE PLAYER *****************//
   moveOnlinePlayer(sessionId, direction) {
+    console.log(
+      "Online player moved at position: ",
+      this.gridEngine.getPosition(sessionId)
+    );
+
     this.gridEngine.move(sessionId, direction);
-  }
-
-  setPlayer() {
-    this.player = new Player({
-      scene: this.self,
-      x: this.self.localPlayer.hasConnectedBefore
-        ? pixelPositionToGrid(this.self.localPlayer.position.x)
-        : this.self.changedSceneData.isChanged
-        ? pixelPositionToGrid(this.self.changedSceneData.x)
-        : pixelPositionToGrid(this.self.spawnPoint.x * 3.89),
-      y: this.self.localPlayer.hasConnectedBefore
-        ? pixelPositionToGrid(this.self.localPlayer.position.y)
-        : this.self.changedSceneData.isChanged
-        ? pixelPositionToGrid(this.self.changedSceneData.y)
-        : pixelPositionToGrid(this.self.spawnPoint.y * 3.9),
-      texture: "player",
-      frame: "up",
-      tileMap: this.self.map,
-      newZone: this.self.newZone,
-    });
-
-    this.gridEngineConfig.characters.push({
-      id: "player",
-      sprite: this.player,
-      walkingAnimationMapping: 0,
-      startPosition: { x: this.player.x, y: this.player.y },
-      speed: 3,
-      collides: true,
-    });
-
-    this.gridEngine.create(this.map, this.gridEngineConfig);
-  }
-
-  playerUpdate() {
-    if (this.gridEngine.isMoving("player")) {
-      this.self.socket.emit("PLAYER_MOVING", {
-        _id: this.player._id,
-        position: {
-          x: this.player.x,
-          y: this.player.y,
-          ld: this.gridEngine.getFacingDirection("player"),
-        },
-        isMoving: this.gridEngine.isMoving("player"),
-      });
-    }
-    this.player.update();
-    attributeKeys(this.self);
-  }
-
-  moveNpc(id, delay) {
-    this.gridEngine.moveRandomly(id, delay);
   }
 }
