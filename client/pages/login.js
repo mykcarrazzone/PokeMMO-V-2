@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { login } from "../services/login/login";
-import Alert from "../components/alert/alert";
-import { useUser } from "../context/userContext";
+import { login } from "../src/Services/Login/Login";
+import Alert from "../src/components/molecules/Alert/Alert";
+import { useUser } from "../src/context/userContext";
 import { useRouter } from "next/router";
-import { getUserById } from "../services/user/getUser";
+import { getUserById } from "../src/Services/User/GetUser";
 import Cookies from "js-cookie";
+
 const Login = () => {
   const { user, setUser } = useUser();
   const router = useRouter();

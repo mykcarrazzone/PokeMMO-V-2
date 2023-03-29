@@ -1,10 +1,9 @@
 import "../styles/globals.css";
-import "../global.css";
 import Head from "next/head";
-import SocketProvider from "../context/socketProvider";
-import { ChatActiveProvider } from "../context/chatActiveProvider";
-import UserProvider from "../context/userContext";
-import CharacterProvider from "../context/characterContext";
+import SocketProvider from "../src/context/socketProvider";
+import { ChatActiveProvider } from "../src/context/chatActiveProvider";
+import UserProvider from "../src/context/userContext";
+import CharacterProvider from "../src/context/characterContext";
 import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useUser } from "../context/userContext";
-import { useCharacter } from "../context/characterContext";
-import { getUserById } from "../services/user/getUser";
+import { useUser } from "../src/context/userContext";
+import { useCharacter } from "../src/context/characterContext";
+import { getUserById } from "../src/Services/User/GetUser";
 import { useRouter } from "next/router";
-import { SocketContext } from "../context/socketProvider";
+import { SocketContext } from "../src/context/socketProvider";
 import Cookies from "js-cookie";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 const Home = () => {
   const { user, setUser } = useUser();
@@ -15,8 +15,10 @@ const Home = () => {
   const socket = useContext(SocketContext);
 
   const DynamicGamesComponent = dynamic(
-    () => import('../components/games'),
-    { ssr: false }
+    () => import("../src/components/organisms/Launcher/Launcher"),
+    {
+      ssr: false,
+    }
   );
 
   useEffect(() => {

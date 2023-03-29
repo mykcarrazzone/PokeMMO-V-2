@@ -1,5 +1,5 @@
 import { GameObjects } from "phaser";
-import { pixelPositionToGrid } from "./functions/player/pixelPositionToGrid";
+import { pixelPositionToGrid } from "../utils/CenterSpriteOnTile/centerSpriteOnTile";
 
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
@@ -78,12 +78,15 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   }
 
   isWalking(ld, x, y, speed, walkMapping) {
-      this.playerNickname.x = x;
-      this.playerNickname.y = y - 15;
-      this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
-      this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
-      this.scene.gridEngineClass.setWalkingAnimationMapping(this.sessionId, walkMapping);
-      console.log("speed online player : " + speed);
+    this.playerNickname.x = x;
+    this.playerNickname.y = y - 15;
+    this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
+    this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
+    this.scene.gridEngineClass.setWalkingAnimationMapping(
+      this.sessionId,
+      walkMapping
+    );
+    console.log("speed online player : " + speed);
   }
 
   stopWalking(position) {

@@ -1,7 +1,10 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('tailwindcss').Config} */
 const nextConfig = {
   reactStrictMode: false,
-  // ADD URL TO ALLOWED ORIGINS
-};
 
+  // ACCEPTE URL IMAGE WEBSITE
+  images: {
+    domains: ["images.unsplash.com", "fastly.picsum.photos"],
+  },
+};
 module.exports = nextConfig;

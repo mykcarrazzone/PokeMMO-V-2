@@ -1,37 +1,33 @@
 import { GameObjects } from "phaser";
-import { attributeKeys } from "./functions/keyboard/attributeKeys";
-
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
-    super(config.scene, config.x, config.y, config.key);
+    super(
+      config.scene,
+      config.x,
+      config.y,
+      config.texture,
+      config.frame,
+      config.tileMap,
+      config.newZone,
+      config.speed
+    );
+    this._id = this.scene.localPlayer._id;
+    this.door0 = this.scene.add.sprite(0, 0, "doors");
+    this.door0.scale = 1.22;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
+    this.setOrigin(0.5, 0.5);
+    this.scale = 1.1;
+    this.scene.cameras.main.startFollow(this, true);
+    this.scene.cameras.main.setZoom(1);
+    this.tileMap = config.tileMap;
+    this.speed = config.speed;
+    this.scene.physics.world.enable(this);
 
-    // Player Defining
-    this.body.setSize(12, 21); // Taille du corps physique (ici 12x12 pour un joueur de 16x16)
-    this.body.setOffset(6, 8); // Décalage du corps physique pour centrer le joueur sur la grille
-    this.body.setCollideWorldBounds(true);
-    this.setOrigin(0.5, 0.5); // Décalage de l'image pour centrer le joueur sur la grille
-    this.scale = 1.5;
-    // Player Defining End
+    this.isCrossActivated = false;
 
-    this.bump = this.scene.sound.add("bump", {
-      loop: false,
-      volume: 0.7,
-    });
-    // this.scene.physics.add.overlap(this, this.scene.map.layers[8], () => {
-    //   console.log("Collision");
-    //   if (this.body.touching) {
-    //     if (!this.bump.isPlaying) {
-    //       this.bump.play();
-    //     }
-    //   }
-    // });
+    this.isCrossActivated = false;
 
-    this._id = this.scene.localPlayer._id;
-    // Current direction of player
-    this.ld = config.ld;
-    this.isMoving = false;
     this.newZone = config.newZone;
 
     if (this.newZone) {
@@ -39,218 +35,73 @@ export default class Player extends GameObjects.Sprite {
       this.newZone = { x, y };
     }
 
-    const camera = this.scene.cameras.main;
-    camera.startFollow(this, true);
-    camera.setFollowOffset(-25, -25);
-    
-    const gridEngineConfig = {
-      characters: [
-        {
-          id: "hero_01_admin_m_walk",
-          sprite: this,
-          startPosition: {
-            x: Math.round(this.x / 32),
-            y: Math.round(this.y / 32),
-          },
-        },
-      ],
-    };
-
-    this.scene.gridEngine.create(this.scene.map, gridEngineConfig);
-
-    this.createPlayerAnimation.call(this, "up", 12, 15); // 90 CORRESPOND AU DEBUT DE LA FRAME, 92 CORRESPOND A LA FIN DE LA FRAME
-    this.createPlayerAnimation.call(this, "right", 8, 11);
-    this.createPlayerAnimation.call(this, "down", 0, 3);
-    this.createPlayerAnimation.call(this, "left", 4, 7);
-
-    // SET FRAME PLAYER ANIMATION ON START GAME
-    this.anims.play(this.ld);
-    this.anims.stop();
-
-    this.scene.gridEngine.movementStarted().subscribe(({ direction }) => {
-      this.anims.play(direction);
-    });
-
-    this.scene.gridEngine.movementStopped().subscribe(({ direction }) => {
-      this.anims.stop();
-      this.setFrame(this.getStopFrame(direction));
-    });
-
-    this.scene.gridEngine.directionChanged().subscribe(({ direction }) => {
-      this.setFrame(this.getStopFrame(direction));
-    });
-
-    // Container to store old data position of player
-    this.container = [];
-
-    this.canChangeMap = true;
-    this.isMoving = false;
+    this.doorAnimation();
+    this.passPorte = false;
+    this.passWorld = false;
+    this.setFrame(this.getStopFrame(this.scene.localPlayer.position.ld));
   }
 
-  update(time, delta) {
-    // Show player nickname above player
-    // this.showPlayerNickname();
-
-    // Player door interaction
+  update() {
     this.doorInteraction();
-    this.playerMove();
-    // this.battleZoneInteraction();
-    // Player world interaction
-    // this.worldInteraction();
+    this.worldInteraction();
   }
 
-  createPlayerAnimation(name, startFrame, endFrame) {
-    //cette fonction permet de créer les animations du joueur
-    this.anims.create({
-      key: name,
-      frames: this.anims.generateFrameNumbers("hero_01_admin_m_walk", {
-        start: startFrame,
-        end: endFrame,
-      }),
-      frameRate: 10,
-      repeat: -1,
-      yoyo: true,
-    });
-  }
-
-  getStopFrame(direction) {
-    //cette fonction permet de récupérer la frame de stop du joueur
-    switch (direction) {
-      case "up":
-        return "12";
-      case "right":
-        return "8";
+  getStopFrame(frame) {
+    switch (frame) {
       case "down":
-        return "0";
+        return 1;
       case "left":
-        return "4";
+        return 13;
+      case "right":
+        return 25;
+      case "up":
+        return 37;
     }
   }
 
-  playerMove() {
-    //cette fonction permet de gérer le déplacement du joueur
-    attributeKeys(this);
-
-    if (this.isLeftPressed) {
-      this.scene.gridEngine.move("hero_01_admin_m_walk", "left");
-      this.ld = "left";
-    } else if (this.isRightPressed) {
-      this.scene.gridEngine.move("hero_01_admin_m_walk", "right");
-      this.ld = "right";
-    } else if (this.isUpPressed) {
-      this.scene.gridEngine.move("hero_01_admin_m_walk", "up");
-      this.ld = "up";
-    } else if (this.isDownPressed) {
-      this.scene.gridEngine.move("hero_01_admin_m_walk", "down");
-      this.ld = "down";
-    }
-  }
-
-  showPlayerNickname() {}
-
-  isMoved() {
-    //cette fonction permet de vérifier si le joueur a bougé
-    if (
-      this.container.oldPosition &&
-      (this.container.oldPosition.x !== this.x ||
-        this.container.oldPosition.y !== this.y ||
-        this.container.oldPosition.ld !== this.ld)
-    ) {
-      this.container.oldPosition = { x: this.x, y: this.y, ld: this.ld };
-      return true;
-    } else {
-      this.container.oldPosition = { x: this.x, y: this.y, ld: this.ld };
-      return false;
-    }
+  doorAnimation() {
+    this.door0.anims.create({
+      key: "porte",
+      frames: this.door0.anims.generateFrameNumbers("doors", {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 5,
+      repeat: 0,
+    });
   }
 
   doorInteraction() {
     // Cette fonction permet de gérer les interactions avec les portes
-    this.scene.map.findObject("Doors", (obj) => {
-      const objectX = obj.x * 1.95;
-      const objectY = obj.y * 1.92;
-      const objectWidth = obj.width * 2;
-      const objectHeight = obj.height * 8;
+    this.tileMap.findObject("Doors", (obj) => {
+      const objectX = obj.x * 3.95;
+      const objectY = obj.y * 4.05;
+      const objectWidth = obj.width * 4;
+      const objectHeight = obj.height * 2;
 
       if (
         this.y >= objectY &&
         this.y <= objectY + objectHeight &&
         this.x >= objectX &&
-        this.x <= objectX + objectWidth
+        this.x <= objectX + objectWidth &&
+        this.scene.gridEngine.getFacingDirection("player") == "up"
       ) {
-        console.log("Door interaction", obj.name);
-
-        // switch (obj.name) {
-        //   case "DoorB":
-        //     this.scene.cameras.main.fadeOut(1000);
-        //     this.changeSceneByMapName("SnowTownDoorB");
-        //     break;
-        //   case "DoorC":
-        //     this.scene.cameras.main.fadeOut(1000);
-        //     this.changeSceneByMapName("SnowTownDoorC");
-        //     break;
-        // }
-      }
-    });
-  }
-
-  battleZoneInteraction() {
-    if (this.isMoved() && this.scene.battleZones) {
-      var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
-      var currentTile = this.scene.battleZones.getTileAt(
-        playerTileY.x,
-        playerTileY.y
-      );
-      const levelProperties = this.scene.battleZones.layer.properties;
-      if (currentTile) {
-        if (currentTile.index == 24471) {
-          if (Math.random() <= 0.1 / 35) {
-            console.log(this.generateRandomLevelPokemonSpawn(levelProperties));
+        this.scene.gridEngine.stopMovement("player");
+        setTimeout(() => {
+          this.scene.cameras.main.fadeOut(700);
+        }, 700);
+        setTimeout(() => {
+          if (!this.passPorte) {
+            this.passPorte = true;
+            this.scene.gridEngine.turnTowards("player", "up");
+            this.changeSceneByMapName(obj.properties[0].value, "up");
           }
-        }
-      }
-    }
-  }
-
-  generateRandomLevelPokemonSpawn(levelKey) {
-    let [minLevel, maxLevel] = levelKey[0].value.split("|");
-    minLevel = parseInt(minLevel);
-    maxLevel = parseInt(maxLevel);
-    const randomLevel =
-      Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
-    return `Pokemon spawned at level ${randomLevel}`;
-  }
-
-  worldInteraction() {
-    this.scene.map.findObject("Worlds", (world) => {
-      const worldX = world.x * 2;
-      const worldY = world.y * 2;
-      const worldWidth = world.width * 3;
-      const worldHeight = world.height * 3;
-      if (
-        this.y >= worldY &&
-        this.y <= worldY + worldHeight &&
-        this.x >= worldX &&
-        this.x <= worldX + worldWidth
-      ) {
-        console.log("Player is by world entry: " + world.name);
-
-        // Get playerTexturePosition from from Worlds object property
-        let playerTexturePosition;
-        if (world.properties)
-          playerTexturePosition = world.properties.find(
-            (property) => property.name === "playerTexturePosition"
-          );
-        if (playerTexturePosition)
-          this.playerTexturePosition = playerTexturePosition.value;
-
-        // CHARGE UNE NOUVELLE ZONE DE JEU
-        this.changeSceneByMapName(world.name);
+        }, 1500);
       }
     });
   }
 
-  changeSceneByMapName(worldName) {
+  changeSceneByMapName(worldName, direction) {
     this.scene.localPlayer.onMap = worldName;
     this.scene.localPlayer.position.x = this.x;
     this.scene.localPlayer.position.y = this.y;
@@ -274,23 +125,73 @@ export default class Player extends GameObjects.Sprite {
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
       position: {
-        x: this.x,
-        y: this.y,
-        ld: this.ld,
+        ld: direction,
       },
       onMap: worldName,
-      isMoving: this.isMoving,
     });
 
+    this.scene.localPlayer.position.ld = direction;
+    console.log("Player is by door: " + worldName);
     // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
-    this.scene.gridEngine.destroy();
     this.scene.sound.stopAll();
     this.scene.scene.restart({
       user: this.scene.localPlayer,
       socket: this.scene.socket,
       changedSceneData: this.changedSceneData,
     });
+  }
+
+  worldInteraction() {
+    // Cette fonction permet de gérer les interactions avec les portes
+    this.tileMap.findObject("Worlds", (obj) => {
+      const objectX = obj.x * 4.1;
+      const objectY = obj.y * 3.82;
+      const objectWidth = obj.width * 1.8;
+      const objectHeight = obj.height * 2;
+
+      if (
+        this.y >= objectY &&
+        this.y <= objectY + objectHeight &&
+        this.x >= objectX &&
+        this.x <= objectX + objectWidth &&
+        this.scene.gridEngine.getFacingDirection("player") == "down"
+      ) {
+        if (!this.passWorld) {
+          this.passWorld = true;
+          console.log("Player is by world entry: " + obj.name);
+          this.scene.localPlayer.position.ld = "down";
+          this.changeSceneByMapName(obj.name, "down");
+        }
+      }
+    });
+  }
+
+  generateRandomLevelPokemonSpawn(levelKey) {
+    let [minLevel, maxLevel] = levelKey[0].value.split("|");
+    minLevel = parseInt(minLevel);
+    maxLevel = parseInt(maxLevel);
+    const randomLevel =
+      Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
+    return `Pokemon spawned at level ${randomLevel}`;
+  }
+
+  battleZoneInteraction() {
+    if (this.isMoved() && this.scene.battleZones) {
+      var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
+      var currentTile = this.scene.battleZones.getTileAt(
+        playerTileY.x,
+        playerTileY.y
+      );
+      const levelProperties = this.scene.battleZones.layer.properties;
+      if (currentTile) {
+        if (currentTile.index == 24471) {
+          if (Math.random() <= 0.1 / 35) {
+            console.log(this.generateRandomLevelPokemonSpawn(levelProperties));
+          }
+        }
+      }
+    }
   }
 }
