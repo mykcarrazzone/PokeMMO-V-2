@@ -1,5 +1,5 @@
 import Player from "./Player";
-import { pixelPositionToGrid } from "../utils/CenterSpriteOnTile/centerSpriteOnTile";
+import { centerSpriteOnTile } from "../utils/CenterSpriteOnTile/centerSpriteOnTile";
 import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
 
 export class GridEngineCreate {

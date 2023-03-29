@@ -1,26 +1,27 @@
 module.exports = {
-  // ... other config options ...
-  testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  // ... autres options de configuration ...
+  snapshotResolver: "<rootDir>/custom-resolver.js",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
     "^@/lib/(.*)$": "<rootDir>/src/lib/$1",
     "^@/styles/(.*)$": "<rootDir>/src/styles/$1",
   },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.jsx?$",
   snapshotSerializers: ["enzyme-to-json/serializer"],
   transform: {
-    "^.+\\.tsx?$": "babel-jest",
+    "^.+\\.jsx?$": "babel-jest",
   },
   globals: {
-    "ts-jest": {
-      tsconfig: "<rootDir>/tsconfig.jest.json",
+    "js-jest": {
+      jsconfig: "<rootDir>/jsconfig.jest.json",
     },
     NODE_ENV: "test",
   },
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
-    "!**/*.d.ts",
+    "**/*.{js,jsx}",
+    "!**/*.d.js",
     "!**/node_modules/**",
     "!**/.next/**",
     "!**/coverage/**",

@@ -6,7 +6,7 @@ import LatencyPlayer from "../../molecules/LatencyBar/LatencyBar";
 import FullScreenButton from "../../atoms/ButtonFullScreen/ButtonFullScreen";
 import Gamepad from "../../molecules/GamePad/GamePad";
 import IsNight from "../../molecules/DayNightIcon/DayNightIcon";
-
+import React from "react";
 // import FullScreenPrompt from "./fullScreenPrompt";
 const Interface = ({ isMobile }) => {
   const [isOpen, setIsOpen] = useState(false);

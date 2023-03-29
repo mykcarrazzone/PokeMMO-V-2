@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { login } from "../src/Services/Login/Login";
+import { login } from "../src/services/Login/Login";
 import Alert from "../src/components/molecules/Alert/Alert";
 import { useUser } from "../src/context/userContext";
 import { useRouter } from "next/router";
-import { getUserById } from "../src/Services/User/GetUser";
+import { getUserById } from "../src/services/User/GetUser";
 import Cookies from "js-cookie";
 
 const Login = () => {

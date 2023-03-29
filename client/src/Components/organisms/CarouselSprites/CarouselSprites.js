@@ -6,12 +6,6 @@ const SpritesCarousel = ({ onSpriteSelect }) => {
   const sprites = [
     "/assets-web/images/register/sprites/hero_01_red_m_walk.png",
     "/assets-web/images/register/sprites/hero_01_white_f_walk.png",
-    // "/assets-web/images/register/sprites/sprite3.png",
-    // "/assets-web/images/register/sprites/sprite4.png",
-    // "/assets-web/images/register/sprites/sprite5.png",
-    // "/assets-web/images/register/sprites/sprite6.png",
-    // "/assets-web/images/register/sprites/sprite7.png",
-    // "/assets-web/images/register/sprites/sprite8.png",
   ];
 
   const selectedSpriteByIndex = (path) => {

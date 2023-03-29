@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect, useRef, useContext } from "react";
-import { SocketContext } from "../../../context/socketProvider";
+import { SocketContext } from "../../../Context/socketProvider";
 
-const Chat = ({ isClose }) => {
+const Tchat = ({ isClose }) => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const messageBoxRef = useRef(null);
@@ -217,4 +217,4 @@ const Chat = ({ isClose }) => {
   );
 };
 
-export default Chat;
+export default Tchat;

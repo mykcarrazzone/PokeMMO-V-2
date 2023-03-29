@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import Chat from "../Tchat/Tchat";
+import Tchat from "../../molecules/Tchat/Tchat";
 import Interface from "../Layout/Layout";
 
-export default function Game({ userData }) {
+export default function Launcher({ userData }) {
   const [gameReady, setGameReady] = useState(false);
   const gameRef = useRef();
   const [game, setGame] = useState(null);
@@ -22,8 +22,8 @@ export default function Game({ userData }) {
 
       const Phaser = await import("phaser");
       const { default: GridEngine } = await import("grid-engine");
-      const { default: Scene1 } = await import("../../../Scenes/Scene1");
-      const { default: BootGame } = await import("../../../Scenes/BootGame");
+      const { default: Scene1 } = await import("../../../scenes/Scene1");
+      const { default: BootGame } = await import("../../../scenes/BootGame");
 
       const phaserGame = new Phaser.Game({
         type: Phaser.AUTO,
@@ -101,7 +101,7 @@ export default function Game({ userData }) {
             zIndex: 9999,
           }}
         >
-          <Chat isClose={isMobile} />
+          <Tchat isClose={isMobile} />
         </div>
       ) : (
         <div
@@ -112,7 +112,7 @@ export default function Game({ userData }) {
             zIndex: 9999,
           }}
         >
-          <Chat isClose={isMobile} />
+          <Tchat isClose={isMobile} />
         </div>
       )}
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConfigPanel from "../../molecules/SettingItems/SettingItems";
 const Popup = ({ isPopup }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import React from "react";
 const GameBar = ({ onToggleMenu }) => {
   const [isOpen, setIsOpen] = useState(false);
 
