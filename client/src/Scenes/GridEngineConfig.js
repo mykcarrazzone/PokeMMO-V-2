@@ -1,5 +1,4 @@
 import Player from "./Player";
-import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
 
 export class GridEngineCreate {
   gridEngineConfig = {
@@ -134,7 +133,6 @@ export class GridEngineCreate {
 
   //*************** MOVE LOCAL CURRENT PLAYER *****************//
   playerUpdate() {
-    initKeyboardControls(this.self);
     if (this.gridEngine.isMoving("player")) {
       this.player.update();
     }

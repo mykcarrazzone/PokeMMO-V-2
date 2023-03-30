@@ -1,10 +1,10 @@
-import { Scene } from "phaser";
+import Phaser, { Scene } from "phaser";
 import { createMessageBoxUi } from "../utils/MessageBoxUi/MessageBoxUi";
-import { startWeather } from "../utils/VisualEffects/weatherEffects";
-import { startEffects } from "../utils/VisualEffects/fireEffects";
+import { objectInit } from "@/utils/ObjectsInit/ObjectsInit";
 import { GridEngineCreate } from "./GridEngineConfig";
 import { fpsDisplay } from "../utils/FpsDisplay/FpsDisplay";
 import { socketHandler } from "../services/SocketEvents/SocketEvents";
+import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
 
 var onlinePlayers = [];
 
@@ -40,6 +40,7 @@ export default class Scene1 extends Scene {
 
   create() {
     if (this.socket && this.localPlayer) {
+      this.gameHasFocused = true;
       // CREATE MAP AND PLAYER
       this.createMapAndPlayer();
 
@@ -100,39 +101,40 @@ export default class Scene1 extends Scene {
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
 
-    this.addNpc(self);
-
+    objectInit(this, this.map.objects);
     this.cameras.main.fadeIn(1000);
 
-    this.map.findObject("Weather", (obj) => {
-      startWeather(this, this.map, obj.name);
-    });
+    console.log(this.map);
+    // this.map.findObject("Weather", (obj) => {
+    //   startWeather(this, this.map, obj.name);
+    // });
 
-    this.map.findObject("Effects", (obj) => {
-      startEffects(this, obj);
-    });
+    // this.map.findObject("Effects", (obj) => {
+    //   startEffects(this, obj);
+    // });
   }
 
-  addNpc(self) {
-    this.map.findObject("Npc", (obj) => {
-      console.log("Name", obj.name);
-      console.log("Direction", obj.properties[0].value);
-      console.log("Position", obj.properties[1].value);
-      const direction = obj.properties[0].value;
-      const [x, y] = obj.properties[1].value.split("|");
-      self.gridEngineClass.addNpc({
-        id: obj.name,
-        x: parseInt(x),
-        y: parseInt(y),
-        speed: 0,
-        walkingAnimationMapping: obj.properties[2].value,
-        collides: true,
-      });
-      self.gridEngineClass.setTurnTowards(obj.name, direction);
-    });
-  }
+  // addNpc(self) {
+  //   this.map.findObject("Npc", (obj) => {
+  //     console.log("Name", obj.name);
+  //     console.log("Direction", obj.properties[0].value);
+  //     console.log("Position", obj.properties[1].value);
+  //     const direction = obj.properties[0].value;
+  //     const [x, y] = obj.properties[1].value.split("|");
+  //     self.gridEngineClass.addNpc({
+  //       id: obj.name,
+  //       x: parseInt(x),
+  //       y: parseInt(y),
+  //       speed: 0,
+  //       walkingAnimationMapping: obj.properties[2].value,
+  //       collides: true,
+  //     });
+  //     self.gridEngineClass.setTurnTowards(obj.name, direction);
+  //   });
+  // }
 
   update() {
     this.gridEngineClass.playerUpdate();
+    initKeyboardControls(this);
   }
 }

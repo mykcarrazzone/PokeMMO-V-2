@@ -77,7 +77,10 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       this.sessionId,
       walkMapping
     );
-    console.log("speed online player : " + speed);
+    this.scene.gridEngineClass.setTurnTowards(
+      this.sessionId,
+      this.scene.gridEngineClass.getFacingDirection(ld)
+    );
   }
 
   stopWalking() {

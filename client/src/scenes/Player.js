@@ -27,8 +27,7 @@ export default class Player extends GameObjects.Sprite {
     this.scene.physics.world.enable(this);
 
     this.isCrossActivated = false;
-
-    this.isCrossActivated = false;
+    this.isRunning = false;
 
     this.newZone = config.newZone;
 
@@ -75,6 +74,7 @@ export default class Player extends GameObjects.Sprite {
         this.x <= objectX + objectWidth &&
         this.scene.gridEngine.getFacingDirection("player") == "up"
       ) {
+        console.log("Player is by door: " + obj.name);
         this.scene.gridEngine.stopMovement("player");
         setTimeout(() => {
           this.scene.cameras.main.fadeOut(700);
@@ -138,6 +138,15 @@ export default class Player extends GameObjects.Sprite {
       const objectY = obj.y * 3.82;
       const objectWidth = obj.width * 1.8;
       const objectHeight = obj.height * 2;
+      // DRAW COLLISION BOX
+      this.scene.add.rectangle(
+        objectX,
+        objectY,
+        objectWidth,
+        objectHeight,
+        0xff0000,
+        0.5
+      );
 
       if (
         this.y >= objectY &&
