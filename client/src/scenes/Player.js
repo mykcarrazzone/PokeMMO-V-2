@@ -19,7 +19,7 @@ export default class Player extends GameObjects.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
     this.setOrigin(0.5, 0.5);
-    this.scale = 1.1;
+    this.scale = 1.15;
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
     this.tileMap = config.tileMap;

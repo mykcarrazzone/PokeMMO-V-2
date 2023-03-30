@@ -5,7 +5,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
     this.sprites = this.scene.add.sprite(0, 0, "onlinePlayer");
-    this.sprites.scale = 1.1;
+    this.sprites.scale = 1.15;
     this.sessionId = config.sessionId;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);

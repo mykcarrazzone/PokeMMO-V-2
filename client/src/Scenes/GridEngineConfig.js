@@ -16,7 +16,7 @@ export class GridEngineCreate {
   //*************** ADD NPC *****************//
   addNpc(npc) {
     const newSprite = this.add.sprite(0, 0, "npc");
-    newSprite.scale = 1.1;
+    newSprite.scale = 1.15;
     this.gridEngine.addCharacter({
       id: npc.id,
       sprite: newSprite,
