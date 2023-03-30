@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SocketContext } from "../../../context/socketProvider";
 
-const LatencyPlayer = () => {
+const LatencyBar = () => {
   const [latencePlayer, setLatencePlayer] = useState("");
   const [currentFps, setCurrentFps] = useState(0);
   const socket = useContext(SocketContext);
@@ -82,4 +82,4 @@ const LatencyPlayer = () => {
   );
 };
 
-export default LatencyPlayer;
+export default LatencyBar;

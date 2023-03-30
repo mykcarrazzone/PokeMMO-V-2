@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { SocketContext } from "../../../context/socketProvider";
+
 const Gamepad = () => {
   const [leftBtn, setLeftBtn] = useState(false);
   const [rightBtn, setRightBtn] = useState(false);

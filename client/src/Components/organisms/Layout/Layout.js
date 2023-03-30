@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "../Popup/Popup";
 import GameBar from "../../molecules/GameBar/GameBar";
 import OnlineBar from "../../molecules/OnlineBar/OnlineBar";
@@ -6,9 +6,8 @@ import LatencyPlayer from "../../molecules/LatencyBar/LatencyBar";
 import FullScreenButton from "../../atoms/ButtonFullScreen/ButtonFullScreen";
 import Gamepad from "../../molecules/GamePad/GamePad";
 import IsNight from "../../molecules/DayNightIcon/DayNightIcon";
-import React from "react";
-// import FullScreenPrompt from "./fullScreenPrompt";
-const Interface = ({ isMobile }) => {
+
+const Layout = ({ isMobile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   //GAME BAR TOGGLE TO OPEN POPUP
@@ -77,4 +76,4 @@ const Interface = ({ isMobile }) => {
   );
 };
 
-export default Interface;
+export default Layout;

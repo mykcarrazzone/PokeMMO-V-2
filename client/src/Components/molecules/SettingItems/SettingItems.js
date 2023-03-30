@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const ConfigPanel = () => {
+const SettingItems = () => {
   const [volume, setVolume] = useState(50);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -311,4 +311,4 @@ const ConfigPanel = () => {
   );
 };
 
-export default ConfigPanel;
+export default SettingItems;

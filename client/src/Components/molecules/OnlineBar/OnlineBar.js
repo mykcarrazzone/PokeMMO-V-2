@@ -1,6 +1,7 @@
 import React from "react";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { SocketContext } from "../../../context/socketProvider";
+
 const OnlineBar = () => {
   const [onlinePlayers, setOnlinePlayers] = useState([]);
   const socket = useContext(SocketContext);

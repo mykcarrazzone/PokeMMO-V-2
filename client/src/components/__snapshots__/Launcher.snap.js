@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Launcher rendre correctement 1`] = `
+exports[`Launcher component Matches the snapshot 1`] = `
 <div
   className="relative w-screen h-screen overflow-hidden bg-black"
 >
