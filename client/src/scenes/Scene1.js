@@ -118,7 +118,6 @@ export default class Scene1 extends Scene {
   }
 
   update() {
-    // USE TIME AND DELTA
     this.gridEngineClass.playerUpdate();
   }
 }

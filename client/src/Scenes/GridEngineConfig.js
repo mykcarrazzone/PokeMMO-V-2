@@ -1,5 +1,4 @@
 import Player from "./Player";
-import { centerSpriteOnTile } from "../utils/CenterSpriteOnTile/centerSpriteOnTile";
 import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
 
 export class GridEngineCreate {
