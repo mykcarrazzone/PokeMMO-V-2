@@ -1,12 +1,11 @@
 import { GameObjects } from "phaser";
-import { pixelPositionToGrid } from "../utils/CenterSpriteOnTile/centerSpriteOnTile";
+import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
 
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
     this.sprites = this.scene.add.sprite(0, 0, "onlinePlayer");
     this.sprites.scale = 1.1;
-    console.log("SESSION ID : " + config.sessionId);
     this.sessionId = config.sessionId;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
@@ -16,16 +15,21 @@ export default class OnlinePlayer extends GameObjects.Sprite {
 
     // Player Offset
     this.body.setOffset(0, 8); // 24
+
     // Get player nickname from constructor config.scene
     const userNickName = config.nickName;
+
     // Capitalize first letter of player nickname
     const capitalizedNickName =
       userNickName.charAt(0).toUpperCase() + userNickName.slice(1);
-    console.log(`Map of ${capitalizedNickName} is ${this.map}`);
+
+    console.info(`Map of ${capitalizedNickName} is ${this.map}`);
+
     this.position = {
       x: this.x,
       y: this.y,
     };
+
     // Display playerId above player
     this.playerNickname = this.scene.add
       .text(
@@ -53,28 +57,15 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       name: capitalizedNickName,
     });
 
-    this.setFrame(this.getStopFrame(this.ld));
+    this.setFrame(getStopFrame(this.ld));
   }
 
-  updateGridEngineConfig(newPlayer) {
-    this.setFrame(this.getStopFrame(this.ld));
+  updateGridEngineConfig() {
+    this.setFrame(getStopFrame(this.ld));
     this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
       x: this.x,
       y: this.y,
     });
-  }
-
-  getStopFrame(frame) {
-    switch (frame) {
-      case "down":
-        return 1;
-      case "left":
-        return 13;
-      case "right":
-        return 25;
-      case "up":
-        return 37;
-    }
   }
 
   isWalking(ld, x, y, speed, walkMapping) {
@@ -89,7 +80,7 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     console.log("speed online player : " + speed);
   }
 
-  stopWalking(position) {
+  stopWalking() {
     this.anims.stop();
   }
 

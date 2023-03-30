@@ -2,8 +2,10 @@ import { Scene } from "phaser";
 import { createMessageBoxUi } from "../utils/MessageBoxUi/MessageBoxUi";
 import { startWeather } from "../utils/VisualEffects/weatherEffects";
 import { startEffects } from "../utils/VisualEffects/fireEffects";
-import OnlinePlayer from "./OnlinePlayer";
 import { GridEngineCreate } from "./GridEngineConfig";
+import { fpsDisplay } from "../utils/FpsDisplay/FpsDisplay";
+import { socketHandler } from "../services/SocketEvents/SocketEvents";
+
 var onlinePlayers = [];
 
 export default class Scene1 extends Scene {
@@ -38,7 +40,10 @@ export default class Scene1 extends Scene {
 
   create() {
     if (this.socket && this.localPlayer) {
+      // CREATE MAP AND PLAYER
       this.createMapAndPlayer();
+
+      // CREATE DIALOGUE BOX ON UI
       createMessageBoxUi({
         scene: this,
         x: 200,
@@ -51,79 +56,21 @@ export default class Scene1 extends Scene {
         fontSize: 18,
         padding: 20,
       });
-      this.fps();
+      fpsDisplay(this);
     }
   }
 
   createMapAndPlayer() {
     let self = this;
-    console.log("Game is running");
 
-    this.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
-      const otherPlayersData = Object.values(playerInfo).filter(
-        (player) =>
-          player.sessionId !== self.socket.id && player.onMap === self.mapName
-      );
-      otherPlayersData.forEach(function (player) {
-        onlinePlayers[player.sessionId] = new OnlinePlayer({
-          scene: self,
-          sessionId: player.sessionId,
-          key: player.sessionId,
-          map: player.onMap,
-          x: player.position.x,
-          y: player.position.y,
-          nickName: player.nickName,
-          role: player.role,
-          ld: player.position.ld,
-          texture: "onlinePlayer",
-        });
-      });
-    });
-
-    this.socket.on("PLAYER_LEFT", function (sessionId) {
-      if (onlinePlayers[sessionId]) {
-        console.log("SESSION ID : ", sessionId, "LEFT");
-        self.gridEngineClass.removeOnlinePlayer(sessionId);
-        onlinePlayers[sessionId].destroy();
-        delete onlinePlayers[sessionId];
-      }
-    });
-
-    this.socket.on("PLAYER_MOVED", function (data) {
-      if (self.mapName == data.onMap) {
-        const existingPlayer = onlinePlayers[data.sessionId];
-        if (existingPlayer == undefined) {
-          onlinePlayers[data.sessionId] = new OnlinePlayer({
-            scene: self,
-            sessionId: data.sessionId,
-            key: data.sessionId,
-            map: data.onMap,
-            x: data.position.x,
-            y: data.position.y,
-            nickName: data.nickName,
-            role: data.role,
-            ld: data.position.ld,
-            texture: "onlinePlayer",
-          });
-        } else {
-          existingPlayer.isWalking(
-            data.position.ld,
-            data.position.x,
-            data.position.y,
-            data.position.speed,
-            data.walkingAnimationMapping
-          );
-        }
-      }
-    });
-
-    this.socket.on("PLAYER_CHANGED_MAP", function (data) {
-      if (onlinePlayers[data]) {
-        self.gridEngineClass.removeOnlinePlayer(data);
-        onlinePlayers[data].destroy();
-        delete onlinePlayers[data];
-      }
-    });
+    /**
+     * This function handles the socket events related to player interaction on the map.
+     * It creates, updates or removes the corresponding player objects on the scene based on the received data.
+     * @param {Object} thisCopy - A copy of the current `this` object.
+     * @param {Object} self - The `this` object.
+     * @param {Object} onlinePlayers - An object that contains all the online player objects currently on the scene.
+     */
+    socketHandler(this, self, onlinePlayers);
 
     this.map = this.make.tilemap({ key: this.mapName });
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
@@ -173,12 +120,5 @@ export default class Scene1 extends Scene {
   update() {
     // USE TIME AND DELTA
     this.gridEngineClass.playerUpdate();
-  }
-
-  fps() {
-    // Send fps to server
-    setInterval(() => {
-      this.socket.emit("sendFps", parseInt(this.game.loop.actualFps));
-    }, 500);
   }
 }

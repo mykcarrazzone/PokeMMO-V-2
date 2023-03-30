@@ -1,4 +1,6 @@
 import { GameObjects } from "phaser";
+import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
+
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(
@@ -38,25 +40,12 @@ export default class Player extends GameObjects.Sprite {
     this.doorAnimation();
     this.passPorte = false;
     this.passWorld = false;
-    this.setFrame(this.getStopFrame(this.scene.localPlayer.position.ld));
+    this.setFrame(getStopFrame(this.scene.localPlayer.position.ld));
   }
 
   update() {
     this.doorInteraction();
     this.worldInteraction();
-  }
-
-  getStopFrame(frame) {
-    switch (frame) {
-      case "down":
-        return 1;
-      case "left":
-        return 13;
-      case "right":
-        return 25;
-      case "up":
-        return 37;
-    }
   }
 
   doorAnimation() {
@@ -131,7 +120,6 @@ export default class Player extends GameObjects.Sprite {
     });
 
     this.scene.localPlayer.position.ld = direction;
-    console.log("Player is by door: " + worldName);
     // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
