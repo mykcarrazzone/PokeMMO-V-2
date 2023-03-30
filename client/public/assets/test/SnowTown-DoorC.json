@@ -676,7 +676,7 @@
          "height":64,
          "id":14,
          "name":"Collides",
-         "opacity":0.43,
+         "opacity":0,
          "properties":[
                 {
                  "name":"ge_collide",

@@ -14,22 +14,26 @@ export const initKeyboardControls = (self) => {
   const isDownPressed = keys.down.isDown;
   const isShiftPressed = keys.shift.isDown;
   const isCrossCliqued = Phaser.Input.Keyboard.JustDown(keys.cross);
-
+  console.log(self.walk);
   if (isCrossCliqued) {
     self.isCrossActivated = !self.isCrossActivated;
     if (self.isCrossActivated) {
+      self.walk.rate = 4;
       self.gridEngine.setSpeed("player", 7);
       self.gridEngine.setWalkingAnimationMapping("player", 2);
     } else {
+      self.walk.rate = 1;
       self.gridEngine.setSpeed("player", 3);
       self.gridEngine.setWalkingAnimationMapping("player", 0);
     }
   }
 
   if (isShiftPressed && !self.isCrossActivated) {
+    self.walk.rate = 1.5;
     self.gridEngine.setSpeed("player", 4);
     self.gridEngine.setWalkingAnimationMapping("player", 1);
   } else if (!self.isCrossActivated) {
+    self.walk.rate = 1;
     self.gridEngine.setSpeed("player", 3);
     self.gridEngine.setWalkingAnimationMapping("player", 0);
   }

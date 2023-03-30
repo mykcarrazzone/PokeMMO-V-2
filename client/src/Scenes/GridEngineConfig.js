@@ -42,6 +42,11 @@ export class GridEngineCreate {
     return this.gridEngine.getPosition(id);
   }
 
+  //*************** SET TURNTOWARD DIRECTION BY ID *****************//
+  setTurnTowards(id, direction) {
+    this.gridEngine.turnTowards(id, direction);
+  }
+
   //*************** SETTERS POSITION BY ID *****************//
   setPosition(id, position) {
     this.gridEngine.setPosition(id, position);
@@ -132,6 +137,12 @@ export class GridEngineCreate {
     initKeyboardControls(this.self);
     if (this.gridEngine.isMoving("player")) {
       this.player.update();
+    }
+
+    if (this.gridEngine.isMoving("player")) {
+      if (!this.self.walk.isPlaying) {
+        this.self.walk.play();
+      }
     }
   }
 

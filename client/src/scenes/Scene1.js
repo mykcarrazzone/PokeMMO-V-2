@@ -62,9 +62,10 @@ export default class Scene1 extends Scene {
 
   createMapAndPlayer() {
     let self = this;
+    this.walk = this.sound.add("walk", { loop: false, volume: 0.05, rate: 1 });
 
     /**
-     * This function handles the socket events related to player interaction on the map.
+     * This socketHandler function handles the socket events related to player interaction on the map.
      * It creates, updates or removes the corresponding player objects on the scene based on the received data.
      * @param {Object} thisCopy - A copy of the current `this` object.
      * @param {Object} self - The `this` object.
@@ -73,6 +74,8 @@ export default class Scene1 extends Scene {
     socketHandler(this, self, onlinePlayers);
 
     this.map = this.make.tilemap({ key: this.mapName });
+    this.sound.add(`${this.mapName}-Audio`, { loop: true, volume: 0.2 }).play();
+
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
 
     for (let i = 0; i < this.map.layers.length; i++) {
@@ -97,14 +100,7 @@ export default class Scene1 extends Scene {
     this.gridEngineClass = new GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
 
-    this.gridEngineClass.addNpc({
-      id: `npc1`,
-      x: 42,
-      y: 50,
-      speed: 0,
-      walkingAnimationMapping: Math.floor(Math.random() * 7) + 1,
-      collides: true,
-    });
+    this.addNpc(self);
 
     this.cameras.main.fadeIn(1000);
 
@@ -114,6 +110,25 @@ export default class Scene1 extends Scene {
 
     this.map.findObject("Effects", (obj) => {
       startEffects(this, obj);
+    });
+  }
+
+  addNpc(self) {
+    this.map.findObject("Npc", (obj) => {
+      console.log("Name", obj.name);
+      console.log("Direction", obj.properties[0].value);
+      console.log("Position", obj.properties[1].value);
+      const direction = obj.properties[0].value;
+      const [x, y] = obj.properties[1].value.split("|");
+      self.gridEngineClass.addNpc({
+        id: obj.name,
+        x: parseInt(x),
+        y: parseInt(y),
+        speed: 0,
+        walkingAnimationMapping: obj.properties[2].value,
+        collides: true,
+      });
+      self.gridEngineClass.setTurnTowards(obj.name, direction);
     });
   }
 

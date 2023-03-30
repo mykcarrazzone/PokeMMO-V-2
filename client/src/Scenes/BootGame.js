@@ -36,29 +36,52 @@ export default class BootGame extends Scene {
   }
 
   preload() {
+    /** LOAD TILESETS FOR ALL */
     this.load.image("tiles", "assets/test/pokemmo-sample-16px-extruded.png");
+    /** LOAD JSON SNOWTOWN MAP 1  */
     this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
+    /** LOAD JSON ROUTE1 MAP 2  */
     this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
+    /** LOAD JSON SNOWTOWN DOOR B */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorB",
       "assets/test/SnowTown-DoorB.json"
     );
+    /** LOAD JSON SNOWTOWN DOOR C */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorC",
       "assets/test/SnowTown-DoorC.json"
     );
+
+    /** AUDIO MAP SNOWTOWN DOOR B */
+    this.load.audio(
+      "SnowTown-DoorB-Audio",
+      "assets/sounds/bgm/pokemon_center.mp3"
+    );
+    /** AUDIO MAP SNOWTOWN DOOR C */
+    this.load.audio(
+      "SnowTown-DoorC-Audio",
+      "assets/sounds/bgm/SnowTown-DoorC.mp3"
+    );
+    /** AUDIO MAP SNOWTOWN */
+    this.load.audio("SnowTown-Audio", "assets/sounds/bgm/SnowTown.mp3");
+
+    /** LOAD SPRITESSHEET PLAYER */
     this.load.spritesheet("player", "assets/test2/characters2.png", {
       frameWidth: 72,
       frameHeight: 96,
     });
+    /** LOAD SPRITESSHEET ONLINE PLAYER */
     this.load.spritesheet("onlinePlayer", "assets/test2/characters2.png", {
       frameWidth: 72,
       frameHeight: 96,
     });
+    /** LOAD SPRITESSHEET NPC */
     this.load.spritesheet("npc", "assets/test2/characters3.png", {
       frameWidth: 72,
       frameHeight: 96,
     });
+    /** LOAD SPRITESSHEET DOORS */
     this.load.spritesheet("doors", "assets/test2/doorsTest.png", {
       frameWidth: 72,
       frameHeight: 92,
@@ -67,6 +90,7 @@ export default class BootGame extends Scene {
     this.load.image("fire", "assets/effects/fire.png");
     this.load.audio("bump", "assets/sounds/se/bump.wav");
     this.load.image("rain", "assets/effects/rain.png");
+    this.load.audio("walk", "assets/sounds/se/walk.mp3");
     gameLoader(this);
   }
 
