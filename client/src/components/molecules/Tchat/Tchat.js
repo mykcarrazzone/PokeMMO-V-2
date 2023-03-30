@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef, useContext } from "react";
-import { SocketContext } from "../../../Context/socketProvider";
+import { SocketContext } from "../../../context/socketProvider";
 
 const Tchat = ({ isClose }) => {
   const [messages, setMessages] = useState([]);
