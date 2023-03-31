@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser";
-import { getStopFrame } from "../utils/GetStopFrame/UtilsGetStopFrame";
 import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
+
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
