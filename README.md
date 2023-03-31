@@ -34,7 +34,7 @@ Les fonctionnalités suivantes sont en cours de développement :
 - Choix des sprites : ✔️
 - Enregistrement de la position sur la map : ✔️
 - Intégration des Pokémon : ❌
-- Entrée dans les maisons : ❌
+- Entrée dans les maisons : ✔️
 - Combat Pokémon : ❌
 
 ## Technologies utilisées
@@ -42,10 +42,14 @@ Les fonctionnalités suivantes sont en cours de développement :
 Les technologies suivantes ont été utilisées dans le développement de ce projet :
 
 - [Next.js](https://nextjs.org/) <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next-dot-js&logoColor=white" alt="Next.js logo">
+- [Tailwind CSS](https://tailwindcss.com/) <img src="https://img.shields.io/badge/-Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS logo">
+- [GridEngine](https://github.com/Annoraaq/grid-engine) <img src="https://github.com/Annoraaq/grid-engine/raw/master/images/grid-engine-logo.png" width="70px" alt="MongoDB logo">
 - [Phaser](https://phaser.io/) <img src="https://img.shields.io/badge/-Phaser-ffffff?style=flat-square&logo=phaser&logoColor=CECECE" alt="Phaser logo">
 - [Express](https://expressjs.com/) <img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express logo">
 - [Socket.io](https://socket.io/) <img src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket-dot-io&logoColor=white" alt="Socket.io logo">
 - [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
+- [Jest](https://jestjs.io/) <img src="https://img.shields.io/badge/-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest logo">
+- [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
 
 ## Normes de convention
 
