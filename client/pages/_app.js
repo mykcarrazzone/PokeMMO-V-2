@@ -1,10 +1,10 @@
 import "../styles/globals.css";
-import "../global.css";
+import React from "react";
 import Head from "next/head";
-import SocketProvider from "../context/socketProvider";
-import { ChatActiveProvider } from "../context/chatActiveProvider";
-import UserProvider from "../context/userContext";
-import CharacterProvider from "../context/characterContext";
+import SocketProvider from "../src/context/socketProvider";
+import { ChatActiveProvider } from "../src/context/chatActiveProvider";
+import UserProvider from "../src/context/userContext";
+import CharacterProvider from "../src/context/characterContext";
 import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
         <ChatActiveProvider>
           <SocketProvider>
             <Head>
-              <title>PokéLorenzo</title>
+              <title>PokeMMO</title>
               <meta
                 name="viewport"
                 content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0, minimal-ui, viewport-fit=cover, orientation=landscape"

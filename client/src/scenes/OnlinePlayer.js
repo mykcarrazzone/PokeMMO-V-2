@@ -1,12 +1,11 @@
 import { GameObjects } from "phaser";
-import { pixelPositionToGrid } from "./functions/player/pixelPositionToGrid";
-
+import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
+import { GameInfos } from "@/constants/GameInfos/GameInfos";
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
     this.sprites = this.scene.add.sprite(0, 0, "onlinePlayer");
-    this.sprites.scale = 1.1;
-    console.log("SESSION ID : " + config.sessionId);
+    this.sprites.scale = GameInfos.spriteScale;
     this.sessionId = config.sessionId;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
@@ -16,16 +15,21 @@ export default class OnlinePlayer extends GameObjects.Sprite {
 
     // Player Offset
     this.body.setOffset(0, 8); // 24
+
     // Get player nickname from constructor config.scene
     const userNickName = config.nickName;
+
     // Capitalize first letter of player nickname
     const capitalizedNickName =
       userNickName.charAt(0).toUpperCase() + userNickName.slice(1);
-    console.log(`Map of ${capitalizedNickName} is ${this.map}`);
+
+    console.info(`Map of ${capitalizedNickName} is ${this.map}`);
+
     this.position = {
       x: this.x,
       y: this.y,
     };
+
     // Display playerId above player
     this.playerNickname = this.scene.add
       .text(
@@ -44,7 +48,6 @@ export default class OnlinePlayer extends GameObjects.Sprite {
           backgroundColor: "#030507d7",
         }
       )
-      .setOrigin(0.5, 0.5)
       .setDepth(8);
 
     this.updateGridEngineConfig({
@@ -53,40 +56,33 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       name: capitalizedNickName,
     });
 
-    this.setFrame(this.getStopFrame(this.ld));
+    this.setFrame(getStopFrame(this.ld));
   }
 
-  updateGridEngineConfig(newPlayer) {
-    this.setFrame(this.getStopFrame(this.ld));
+  updateGridEngineConfig() {
+    this.setFrame(getStopFrame(this.ld));
     this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
       x: this.x,
       y: this.y,
     });
   }
 
-  getStopFrame(frame) {
-    switch (frame) {
-      case "down":
-        return 1;
-      case "left":
-        return 13;
-      case "right":
-        return 25;
-      case "up":
-        return 37;
-    }
-  }
-
   isWalking(ld, x, y, speed, walkMapping) {
-      this.playerNickname.x = x;
-      this.playerNickname.y = y - 15;
-      this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
-      this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
-      this.scene.gridEngineClass.setWalkingAnimationMapping(this.sessionId, walkMapping);
-      console.log("speed online player : " + speed);
+    this.playerNickname.x = x;
+    this.playerNickname.y = y - 15;
+    this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
+    this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
+    this.scene.gridEngineClass.setWalkingAnimationMapping(
+      this.sessionId,
+      walkMapping
+    );
+    this.scene.gridEngineClass.setTurnTowards(
+      this.sessionId,
+      this.scene.gridEngineClass.getFacingDirection(ld)
+    );
   }
 
-  stopWalking(position) {
+  stopWalking() {
     this.anims.stop();
   }
 

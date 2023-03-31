@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SpritesCarousel from "../components/SpriteCarroussel/SpriteCaroussel";
-import { register } from "../services/register/register";
-import { useUser } from "../context/userContext";
+import SpritesCarousel from "../src/components/organisms/CarouselSprites/CarouselSprites";
+import { register } from "../src/services/Register/Register";
+import { useUser } from "../src/context/userContext";
 import { useRouter } from "next/router";
 import Link from "next/link";
 const SignUp = () => {
@@ -129,10 +129,10 @@ const SignUp = () => {
                 S'inscrire
               </button>
               <Link href="/login">
-              <label className="block mt-4 text-center text-red-500 hover:text-red-800 cursor-pointer">
-                Déjà un compte ? Connectez-vous
-              </label>
-            </Link>
+                <label className="block mt-4 text-center text-red-500 hover:text-red-800 cursor-pointer">
+                  Déjà un compte ? Connectez-vous
+                </label>
+              </Link>
             </form>
           </div>
           <div

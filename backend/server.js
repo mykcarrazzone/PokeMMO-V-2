@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
 // Middleware
 app.use(
   cors({
-    origin: "http://127.0.0.1:4070",
+    origin: ["http://127.0.0.1:4070", "http://localhost:4070"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

@@ -1,136 +1,95 @@
 import { Scene } from "phaser";
-import { preloaderFile } from "../../components/gameFunctions/loader/preloaderFile";
+import { objectInit } from "@/utils/ObjectsInit/ObjectsInit";
+import { GridEngineCreate } from "./GridEngineConfig";
+import { fpsDisplay } from "../utils/FpsDisplay/FpsDisplay";
+import { socketHandler } from "../services/SocketEvents/SocketEvents";
+import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
+import { GameInfos } from "@/constants/GameInfos/GameInfos";
+var onlinePlayers = [];
 
 export default class Scene1 extends Scene {
   constructor() {
-    super("bootGame");
+    super("Scene1");
   }
 
   init(data) {
-    this.dataPlayer = data.user;
-    this.socket = data.socket;
-    var texture = this.dataPlayer.character.baseTexture;
+    if (this.data) {
+      this.socket = data.socket;
+      // Map data
+      this.mapName = data.user.onMap;
+      // Player Texture starter position
+      this.localPlayer = data.user;
+      this.changedSceneData = data.changedSceneData;
+      this.playerTexturePosition = data.user.position.ld;
+      // Set container
+      this.container = [];
 
-    this.user = {
-      _id: this.dataPlayer._id,
-      sessionId: this.socket.id,
-      nickName: this.dataPlayer.username,
-      pokedollar: this.dataPlayer.character.pokedollar,
-      baseTexture: texture.split("_", 4).join("_"),
-      chatColor: this.dataPlayer.character.chatColor,
-      currentTexture: this.dataPlayer.character.currentTexture,
-      role: this.dataPlayer.role,
-      position: {
-        x: this.dataPlayer.onMap.position.x,
-        y: this.dataPlayer.onMap.position.y,
-        ld: this.dataPlayer.onMap.position.ld,
-      },
-      onMap: this.dataPlayer.onMap.map_id,
-      isMoving: false,
-      hasConnectedBefore: true,
-    };
-  }
-
-  preload() {
-    // Load sprites
-    // Charger les sprites
-    let spritesExist = {
-      hero: ["hero_01_red_m", "hero_01_admin_m", "hero_01_white_f"],
-    };
-
-    for (let i = 0; i < spritesExist.hero.length; i++) {
-      this.load.spritesheet(
-        `${spritesExist.hero[i]}_walk`,
-        `assets/sprites/${spritesExist.hero[i]}_walk.png`,
-        {
-          frameWidth: 25,
-          frameHeight: 32,
-        }
-      );
-
-      this.load.spritesheet(
-        `${spritesExist.hero[i]}_run`,
-        `assets/sprites/${spritesExist.hero[i]}_run.png`,
-        {
-          frameWidth: 25,
-          frameHeight: 32,
-        }
-      );
-
-      this.load.spritesheet(
-        `${spritesExist.hero[i]}_cross`,
-        `assets/sprites/${spritesExist.hero[i]}_cycle.png`,
-        {
-          frameWidth: 25,
-          frameHeight: 32,
-        }
-      );
-      this.load.spritesheet(
-        `${spritesExist.hero[i]}_cross_run`,
-        `assets/sprites/${spritesExist.hero[i]}_cycle_roll_wheel.png`,
-        {
-          frameWidth: 25,
-          frameHeight: 32,
-        }
-      );
-    }
-
-    this.load.audio("bump", "assets/sounds/se/bump.wav");
-
-    this.load.image(
-      "TilesTown",
-      "assets/test/pokemmo-sample-16px-extruded.png"
-    )
-
-    this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
-    this.load.audio("SnowTown-Sound", "assets/sounds/bgm/snowtown.mp3");
-
-    // Load Route1
-    this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorB",
-      "assets/test/SnowTown-DoorB.json"
-    );
-    this.load.audio(
-      "SnowTown-DoorB-Sound",
-      "assets/sounds/bgm/pokemon_center.mp3"
-    );
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorC",
-      "assets/test/SnowTown-DoorC.json"
-    );
-    this.load.audio(
-      "SnowTown-DoorC-Sound",
-      "assets/sounds/bgm/pokemon_center.mp3"
-    );
-
-    this.load.audio("route1-Sound", "assets/sounds/bgm/route1.mp3");
-    this.load.image("snowflake", "assets/effects/snowball.png");
-    this.load.image("fire", "assets/effects/fire.png");
-    this.load.image("rain", "assets/effects/rain.png");
-    preloaderFile(this);
-  }
-
-  create(data) {
-    if (data.socket && data.user) {
-      this.socket.emit("gameReady");
-      // START PLAY GAME SCENE
-      this.scene.start("playGame", {
-        user: this.user,
-        socket: this.socket,
-        changedSceneData: {
-          isChanged: false,
-          x: 0,
-          y: 0,
-        },
-      });
+      if (this.localPlayer) {
+        this.socket.emit("PLAYER_JOIN", this.localPlayer);
+        this.socket.emit("localPlayer", {
+          id: this.localPlayer._id,
+          nickName:
+            this.localPlayer.nickName.charAt(0).toUpperCase() +
+            this.localPlayer.nickName.slice(1),
+          role: this.localPlayer.role,
+        });
+      }
     }
   }
 
-  loadSprites() {}
+  create() {
+    if (this.socket && this.localPlayer) {
+      this.gameHasFocused = true;
+      /** CREATE MAP AND PLAYER */
+      this.createMapAndPlayer();
+      /** FPS DISPLAY */
+      fpsDisplay(this);
+    }
+  }
 
-  playerAnims() {
-    // Create the player's walking animations from the texture currentPlayer. These are stored in the global
-    // animation manager so any sprite can access them.
+  createMapAndPlayer() {
+    let self = this;
+
+    this.walk = this.sound.add("walk", { loop: false, volume: 0.05, rate: 1 });
+
+    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
+    socketHandler(this, self, onlinePlayers);
+
+    this.map = this.make.tilemap({ key: this.mapName });
+    this.sound.add(`${this.mapName}-Audio`, { loop: true, volume: 0.2 }).play();
+
+    this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
+
+    for (let i = 0; i < this.map.layers.length; i++) {
+      const layer = this.map.createLayer(
+        i,
+        "pokemmo-sample-16px-extruded",
+        0,
+        0
+      );
+      layer.scale = GameInfos.gameScale;
+    }
+
+    this.spawnPoint = this.map.findObject(
+      "SpawnPoints",
+      (obj) => obj.name === "Spawn Point"
+    );
+
+    this.newZone = this.map.findObject("Zone", (obj) => {
+      return obj;
+    });
+
+    this.gridEngineClass = new GridEngineCreate(this);
+    this.gridEngineClass.setPlayer();
+
+    objectInit(this, this.map.objects);
+    this.isCrossActivated = this.gridEngineClass.getCantCrossRun();
+    this.cameras.main.fadeIn(1000);
+    console.log(this.map);
+  }
+
+  update() {
+    this.gridEngineClass.playerUpdate();
+    initKeyboardControls(this);
   }
 }

@@ -1,0 +1,77 @@
+import OnlinePlayer from "../../scenes/OnlinePlayer";
+
+/**
+ * This function handles the socket events related to player interaction on the map.
+ * It creates, updates or removes the corresponding player objects on the scene based on the received data.
+ * @param {Object} thisCopy - A copy of the current `this` object.
+ * @param {Object} self - The `this` object.
+ * @param {Object} onlinePlayers - An object that contains all the online player objects currently on the scene.
+ */
+
+export const socketHandler = (thisCopy, self, onlinePlayers) => {
+  thisCopy.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
+    const otherPlayersData = Object.values(playerInfo).filter(
+      (player) =>
+        player.sessionId !== self.socket.id && player.onMap === self.mapName
+    );
+    otherPlayersData.forEach(function (player) {
+      onlinePlayers[player.sessionId] = new OnlinePlayer({
+        scene: self,
+        sessionId: player.sessionId,
+        key: player.sessionId,
+        map: player.onMap,
+        x: player.position.x,
+        y: player.position.y,
+        nickName: player.nickName,
+        role: player.role,
+        ld: player.position.ld,
+        texture: "onlinePlayer",
+      });
+    });
+  });
+
+  thisCopy.socket.on("PLAYER_LEFT", function (sessionId) {
+    if (onlinePlayers[sessionId]) {
+      console.log("SESSION ID : ", sessionId, "LEFT");
+      self.gridEngineClass.removeOnlinePlayer(sessionId);
+      onlinePlayers[sessionId].destroy();
+      delete onlinePlayers[sessionId];
+    }
+  });
+
+  thisCopy.socket.on("PLAYER_MOVED", function (data) {
+    if (self.mapName == data.onMap) {
+      const existingPlayer = onlinePlayers[data.sessionId];
+      if (existingPlayer == undefined) {
+        onlinePlayers[data.sessionId] = new OnlinePlayer({
+          scene: self,
+          sessionId: data.sessionId,
+          key: data.sessionId,
+          map: data.onMap,
+          x: data.position.x,
+          y: data.position.y,
+          nickName: data.nickName,
+          role: data.role,
+          ld: data.position.ld,
+          texture: "onlinePlayer",
+        });
+      } else {
+        existingPlayer.isWalking(
+          data.position.ld,
+          data.position.x,
+          data.position.y,
+          data.position.speed,
+          data.walkingAnimationMapping
+        );
+      }
+    }
+  });
+
+  thisCopy.socket.on("PLAYER_CHANGED_MAP", function (data) {
+    if (onlinePlayers[data]) {
+      self.gridEngineClass.removeOnlinePlayer(data);
+      onlinePlayers[data].destroy();
+      delete onlinePlayers[data];
+    }
+  });
+};
