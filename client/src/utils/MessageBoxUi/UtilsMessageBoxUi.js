@@ -51,7 +51,7 @@ export function createMessageBoxUi(data) {
     targets: graphics,
     y: graphics.y + height,
     alpha: 1,
-    duration: 2000,
+    duration: 3000,
     ease: "Cubic.easeOut",
   });
 
@@ -61,7 +61,7 @@ export function createMessageBoxUi(data) {
     targets: texte,
     y: y,
     alpha: 1,
-    duration: 2000,
+    duration: 3000,
     ease: "Cubic.easeOut",
   });
 
