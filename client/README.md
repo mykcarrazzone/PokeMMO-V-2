@@ -34,8 +34,7 @@ Les fonctionnalités suivantes sont en cours de développement :
 - Choix des sprites : ✔️
 - Enregistrement de la position sur la map : ✔️
 - Intégration des Pokémon : ❌
-- Entrer dans les maisons : ✔️
-- Changer de map : ✔️
+- Entrée dans les maisons : ✔️
 - Combat Pokémon : ❌
 
 ## Technologies utilisées
@@ -51,15 +50,6 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 - [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
 - [Jest](https://jestjs.io/) <img src="https://img.shields.io/badge/-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest logo">
 - [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
-
-## Normes de convention
-
-- Convention Atomic Design
-- PascalCase
-
-## Suivis de développement sur Jira Atlassian
-
-=> Me contacter si vous souhaitez rejoindre mon projet
 
 ## Normes de convention
 
@@ -102,6 +92,3 @@ Pour lancer les tests, utiliser cette commande
 ## Auteur
 
 Ce projet a été créé par Lorenzo Giralt
-
-Licence
-© 2023 Lorenzo Giralt. Tous droits réservés. La copie de ce projet, en tout ou en partie, est illégale et soumise à des poursuites.
