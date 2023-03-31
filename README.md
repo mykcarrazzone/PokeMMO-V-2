@@ -9,7 +9,7 @@
 
 Pokémon Multijoueur est un jeu vidéo en ligne qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
 
-Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.5 pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
+Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.55.2 et GridEngine pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
 
 ## Checklist des fonctionnalités
 
@@ -50,7 +50,10 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 
 ## Normes de convention ##
 - Convention Atomic Design
-- CamelCase
+- PascalCase
+
+## Suivis de développement sur Jira Atlassian ##
+=> Me contacter si vous souhaitez rejoindre mon projet
 
 ## Comment jouer
 
