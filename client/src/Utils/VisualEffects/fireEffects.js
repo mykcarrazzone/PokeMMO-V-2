@@ -14,9 +14,9 @@ export const fireEffects = (self, obj) => {
 };
 
 export const startEffects = (self, effect) => {
-  switch (effect.name) {
+  switch (effect.objects[0].name) {
     case "Fire":
-      fireEffects(self, effect);
+      fireEffects(self, effect.objects[0]);
       break;
     default:
       break;

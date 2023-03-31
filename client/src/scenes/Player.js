@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser";
 import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
-
+import { GameInfos } from "@/constants/GameInfos/GameInfos";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(
@@ -15,19 +15,17 @@ export default class Player extends GameObjects.Sprite {
     );
     this._id = this.scene.localPlayer._id;
     this.door0 = this.scene.add.sprite(0, 0, "doors");
-    this.door0.scale = 1.22;
+    this.door0.scale = GameInfos.spriteScale;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
-    this.setOrigin(0.5, 0.5);
-    this.scale = 1.13;
+
+    this.scale = GameInfos.spriteScale;
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
     this.tileMap = config.tileMap;
     this.speed = config.speed;
     this.scene.physics.world.enable(this);
 
-    this.isCrossActivated = false;
-    this.isRunning = false;
 
     this.newZone = config.newZone;
 
@@ -44,6 +42,7 @@ export default class Player extends GameObjects.Sprite {
 
   update() {
     this.doorInteraction();
+
     this.worldInteraction();
   }
 
@@ -60,32 +59,53 @@ export default class Player extends GameObjects.Sprite {
   }
 
   doorInteraction() {
-    // Cette fonction permet de gérer les interactions avec les portes
     this.tileMap.findObject("Doors", (obj) => {
-      const objectX = obj.x * 3.95;
-      const objectY = obj.y * 4.05;
-      const objectWidth = obj.width * 4;
-      const objectHeight = obj.height * 2;
+      const objectX = obj.x * GameInfos.gameScale;
+      const objectY = obj.y * GameInfos.gameScale - 50;
+      const objectWidth = obj.width;
+      const objectHeight = obj.height;
 
       if (
         this.y >= objectY &&
         this.y <= objectY + objectHeight &&
-        this.x >= objectX &&
-        this.x <= objectX + objectWidth &&
-        this.scene.gridEngine.getFacingDirection("player") == "up"
+        this.x + GameInfos.tileSize >= objectX &&
+        this.x + GameInfos.tileSize <= objectX + objectWidth
       ) {
         console.log("Player is by door: " + obj.name);
         this.scene.gridEngine.stopMovement("player");
         setTimeout(() => {
           this.scene.cameras.main.fadeOut(700);
-        }, 700);
+        }, 500);
         setTimeout(() => {
           if (!this.passPorte) {
             this.passPorte = true;
             this.scene.gridEngine.turnTowards("player", "up");
             this.changeSceneByMapName(obj.properties[0].value, "up");
           }
-        }, 1500);
+        }, 1000);
+      }
+    });
+  }
+
+  worldInteraction() {
+    // Cette fonction permet de gérer les interactions avec les portes
+    this.tileMap.findObject("Worlds", (obj) => {
+      const objectWidth = obj.width;
+      const objectHeight = obj.height;
+      const objectX = obj.x * GameInfos.gameScale + objectWidth;
+      const objectY = obj.y * GameInfos.gameScale - 125;
+      if (
+        this.y >= objectY &&
+        this.y <= objectY + objectHeight &&
+        this.x + GameInfos.tileSize >= objectX &&
+        this.x + GameInfos.tileSize <= objectX + objectWidth
+      ) {
+        if (!this.passWorld) {
+          this.passWorld = true;
+          console.log("Player is by world entry: " + obj.name);
+          this.scene.localPlayer.position.ld = "down";
+          this.changeSceneByMapName(obj.name, "down");
+        }
       }
     });
   }
@@ -131,46 +151,11 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
-  worldInteraction() {
-    // Cette fonction permet de gérer les interactions avec les portes
-    this.tileMap.findObject("Worlds", (obj) => {
-      const objectX = obj.x * 4.1;
-      const objectY = obj.y * 3.82;
-      const objectWidth = obj.width * 1.8;
-      const objectHeight = obj.height * 2;
-      // DRAW COLLISION BOX
-      this.scene.add.rectangle(
-        objectX,
-        objectY,
-        objectWidth,
-        objectHeight,
-        0xff0000,
-        0.5
-      );
-
-      if (
-        this.y >= objectY &&
-        this.y <= objectY + objectHeight &&
-        this.x >= objectX &&
-        this.x <= objectX + objectWidth &&
-        this.scene.gridEngine.getFacingDirection("player") == "down"
-      ) {
-        if (!this.passWorld) {
-          this.passWorld = true;
-          console.log("Player is by world entry: " + obj.name);
-          this.scene.localPlayer.position.ld = "down";
-          this.changeSceneByMapName(obj.name, "down");
-        }
-      }
-    });
-  }
-
   generateRandomLevelPokemonSpawn(levelKey) {
     let [minLevel, maxLevel] = levelKey[0].value.split("|");
     minLevel = parseInt(minLevel);
     maxLevel = parseInt(maxLevel);
-    const randomLevel =
-      Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
+    const randomLevel = Math.random() * (maxLevel - minLevel + 1) + minLevel;
     return `Pokemon spawned at level ${randomLevel}`;
   }
 

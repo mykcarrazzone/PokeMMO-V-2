@@ -52,7 +52,7 @@ const rain = (self, map) => {
 };
 
 export const startWeather = (self, map, weather) => {
-  switch (weather) {
+  switch (weather.objects[0].name) {
     case "Snow":
       snow(self, map);
       break;

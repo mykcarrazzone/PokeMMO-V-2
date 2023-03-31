@@ -1,10 +1,10 @@
 import Player from "./Player";
-
+import { GameInfos } from "../constants/GameInfos/GameInfos";
 export class GridEngineCreate {
   gridEngineConfig = {
     characters: [],
   };
-
+  canCrossRun = false;
   constructor(self) {
     this.self = self;
     this.map = self.map;
@@ -15,7 +15,7 @@ export class GridEngineCreate {
   //*************** ADD NPC *****************//
   addNpc(npc) {
     const newSprite = this.add.sprite(0, 0, "npc");
-    newSprite.scale = 1.13;
+    newSprite.scale = GameInfos.spriteScale;
     this.gridEngine.addCharacter({
       id: npc.id,
       sprite: newSprite,
@@ -24,6 +24,14 @@ export class GridEngineCreate {
       speed: npc.speed,
       collides: npc.collides,
     });
+  }
+
+  setCantCrossRun(bool) {
+    this.canCrossRun = bool;
+  }
+
+  getCantCrossRun() {
+    return this.canCrossRun;
   }
 
   //*************** GETTERS WALKING ANIMATION MAPPING BY ID *****************//
@@ -58,24 +66,32 @@ export class GridEngineCreate {
 
   //*************** ADD LOCAL CURRENT PLAYER *****************//
   setPlayer() {
+    if (this.self.spawnPoint !== undefined && this.self.spawnPoint !== null) {
+      console.log(this.self.spawnPoint);
+      this.value = this.self.spawnPoint.properties[0].value.split("|");
+      this.spawnPointX = parseInt(this.value[0]);
+      this.spawnPointY = parseInt(this.value[1]);
+    }
     this.player = new Player({
       scene: this.self,
       x: this.self.localPlayer.hasConnectedBefore
         ? this.self.localPlayer.position.x
         : this.self.changedSceneData.isChanged
         ? this.self.changedSceneData.x
-        : this.self.spawnPoint.x,
+        : this.spawnPointX,
       y: this.self.localPlayer.hasConnectedBefore
         ? this.self.localPlayer.position.y
         : this.self.changedSceneData.isChanged
         ? this.self.changedSceneData.y
-        : this.self.spawnPoint.y,
+        : this.spawnPointY,
       texture: "player",
       frame: "up",
       tileMap: this.self.map,
       newZone: this.self.newZone,
       speed: this.self.localPlayer.position.speed,
     });
+
+    this.player.isCrossActivated = this.getCantCrossRun();
 
     this.player.body.onWorldBounds = true;
     this.self.physics.add.collider(this.player, this.self.collides);
@@ -90,6 +106,7 @@ export class GridEngineCreate {
     });
 
     this.gridEngine.create(this.map, this.gridEngineConfig);
+
     console.log(
       "ACTUAL PLAYER POSITION: ",
       this.gridEngine.getPosition("player")

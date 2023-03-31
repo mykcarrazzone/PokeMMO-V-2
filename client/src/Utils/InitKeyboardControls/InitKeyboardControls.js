@@ -9,12 +9,10 @@ export const initKeyboardControls = (self) => {
       self.gameHasFocused = true;
       self.input.keyboard.enabled = true;
       self.input.keyboard.enableGlobalCapture();
-      console.log("Game has focused");
     } else {
       self.gameHasFocused = false;
       self.input.keyboard.enabled = false;
       self.input.keyboard.disableGlobalCapture();
-      console.log("Game has unfocused");
     }
   });
 
@@ -41,6 +39,7 @@ export const initKeyboardControls = (self) => {
             "player",
             self.gridEngine.getFacingDirection("player")
           );
+
           break;
         case "shift":
           self.walk.rate = 1.5;
@@ -64,7 +63,10 @@ export const initKeyboardControls = (self) => {
     }
   };
 
-  if (Phaser.Input.Keyboard.JustDown(keys.cross)) {
+  if (
+    Phaser.Input.Keyboard.JustDown(keys.cross) &&
+    self.gridEngineClass.getCantCrossRun()
+  ) {
     self.isCrossActivated = !self.isCrossActivated;
     if (self.isCrossActivated) {
       currentState = "cross";

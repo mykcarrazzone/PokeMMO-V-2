@@ -1,11 +1,10 @@
-import Phaser, { Scene } from "phaser";
-import { createMessageBoxUi } from "../utils/MessageBoxUi/MessageBoxUi";
+import { Scene } from "phaser";
 import { objectInit } from "@/utils/ObjectsInit/ObjectsInit";
 import { GridEngineCreate } from "./GridEngineConfig";
 import { fpsDisplay } from "../utils/FpsDisplay/FpsDisplay";
 import { socketHandler } from "../services/SocketEvents/SocketEvents";
 import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
-
+import { GameInfos } from "@/constants/GameInfos/GameInfos";
 var onlinePlayers = [];
 
 export default class Scene1 extends Scene {
@@ -45,18 +44,7 @@ export default class Scene1 extends Scene {
       this.createMapAndPlayer();
 
       // CREATE DIALOGUE BOX ON UI
-      createMessageBoxUi({
-        scene: this,
-        x: 200,
-        y: 83,
-        text: "Utiliser les touches\nZ, Q, S, D pour vous déplacer !",
-        radius: 10,
-        fontFamily: "Comic Sans Ms",
-        textColor: "#ffffffff",
-        backgroundColor: "#1a3d04ff",
-        fontSize: 18,
-        padding: 20,
-      });
+
       fpsDisplay(this);
     }
   }
@@ -86,7 +74,7 @@ export default class Scene1 extends Scene {
         0,
         0
       );
-      layer.scale = 4;
+      layer.scale = GameInfos.gameScale;
     }
 
     this.spawnPoint = this.map.findObject(
@@ -102,6 +90,7 @@ export default class Scene1 extends Scene {
     this.gridEngineClass.setPlayer();
 
     objectInit(this, this.map.objects);
+    this.isCrossActivated = this.gridEngineClass.getCantCrossRun();
     this.cameras.main.fadeIn(1000);
 
     console.log(this.map);

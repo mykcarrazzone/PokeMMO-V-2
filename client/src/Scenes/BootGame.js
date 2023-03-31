@@ -42,6 +42,11 @@ export default class BootGame extends Scene {
     this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
     /** LOAD JSON ROUTE1 MAP 2  */
     this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
+    /** LOAD JSON SNOWTOWN DOOR A */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorA",
+      "assets/test/SnowTown-DoorA.json"
+    );
     /** LOAD JSON SNOWTOWN DOOR B */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorB",
@@ -52,7 +57,19 @@ export default class BootGame extends Scene {
       "SnowTown-DoorC",
       "assets/test/SnowTown-DoorC.json"
     );
+    /** LOAD JSON SNOWTOWN DOOR D */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorD",
+      "assets/test/SnowTown-DoorD.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR E */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorE",
+      "assets/test/SnowTown-DoorE.json"
+    );
 
+    /** AUDIO MAP SNOWTOWN DOOR A */
+    this.load.audio("SnowTown-DoorA-Audio", "assets/sounds/bgm/SnowTown.mp3");
     /** AUDIO MAP SNOWTOWN DOOR B */
     this.load.audio(
       "SnowTown-DoorB-Audio",
@@ -63,6 +80,10 @@ export default class BootGame extends Scene {
       "SnowTown-DoorC-Audio",
       "assets/sounds/bgm/SnowTown-DoorC.mp3"
     );
+    /** AUDIO MAP SNOWTOWN DOOR D */
+    this.load.audio("SnowTown-DoorD-Audio", "assets/sounds/bgm/SnowTown.mp3");
+    /** AUDIO MAP SNOWTOWN DOOR E */
+    this.load.audio("SnowTown-DoorE-Audio", "assets/sounds/bgm/SnowTown.mp3");
     /** AUDIO MAP SNOWTOWN */
     this.load.audio("SnowTown-Audio", "assets/sounds/bgm/SnowTown.mp3");
 

@@ -1,11 +1,11 @@
 import { GameObjects } from "phaser";
 import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
-
+import { GameInfos } from "@/constants/GameInfos/GameInfos";
 export default class OnlinePlayer extends GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.playerId, config.texture);
     this.sprites = this.scene.add.sprite(0, 0, "onlinePlayer");
-    this.sprites.scale = 1.13;
+    this.sprites.scale = GameInfos.spriteScale;
     this.sessionId = config.sessionId;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
@@ -48,7 +48,6 @@ export default class OnlinePlayer extends GameObjects.Sprite {
           backgroundColor: "#030507d7",
         }
       )
-      .setOrigin(0.5, 0.5)
       .setDepth(8);
 
     this.updateGridEngineConfig({
