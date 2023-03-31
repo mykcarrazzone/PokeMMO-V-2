@@ -37,7 +37,6 @@ export default class Player extends GameObjects.Sprite {
 
   update() {
     this.doorInteraction();
-
     this.worldInteraction();
   }
 

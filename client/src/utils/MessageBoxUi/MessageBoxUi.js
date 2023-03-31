@@ -13,7 +13,8 @@ export function createMessageBoxUi(data) {
     padding,
   } = data;
 
-  let texte = scene.add
+  // Ajouter le texte
+  const texte = scene.add
     .text(x, y, text, {
       fontFamily: fontFamily,
       shadow: {
@@ -31,20 +32,38 @@ export function createMessageBoxUi(data) {
     .setDepth(3020)
     .setScale(1);
 
-  // Créer un graphique pour le fond de texte
+  // Ajouter le graphique
   let graphics = scene.add
     .graphics()
     .setScrollFactor(0)
-    .setDepth(1009)
+    .setDepth(3010)
     .setScale(1);
-  graphics.beginPath();
 
-  let width = texte.width + padding * 2;
-  let height = texte.height + padding * 2;
-
-  // Dessiner le fond de texte arrondi
+  const width = texte.width + padding * 2;
+  const height = texte.height + padding * 2;
   graphics.fillStyle(backgroundColor.replace("#", "0x"), 1);
   graphics.fillRoundedRect(x - padding, y - padding, width, height, radius);
+
+  // Animation de transition
+  graphics.alpha = 0;
+  graphics.y -= height;
+  scene.tweens.add({
+    targets: graphics,
+    y: graphics.y + height,
+    alpha: 1,
+    duration: 2000,
+    ease: "Cubic.easeOut",
+  });
+
+  texte.alpha = 0;
+  texte.setPosition(x, y - height);
+  scene.tweens.add({
+    targets: texte,
+    y: y,
+    alpha: 1,
+    duration: 2000,
+    ease: "Cubic.easeOut",
+  });
 
   // Regrouper le texte et le graphique
   let group = scene.add.group();
