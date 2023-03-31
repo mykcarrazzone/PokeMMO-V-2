@@ -34,6 +34,7 @@ export default class Scene1 extends Scene {
 
   create() {
     if (this.socket && this.localPlayer) {
+      console.warn = function () {}; // Désactive les avertissements dans la console
       this.gameHasFocused = true;
       /** CREATE MAP AND PLAYER */
       this.initGame();
@@ -75,12 +76,11 @@ export default class Scene1 extends Scene {
   }
 
   initGameObjectsBeforeCreatingPlayer() {
-    this.spawnPoint = this.map.findObject(
-      "SpawnPoints",
-      (obj) => obj.name === "Spawn Point"
+    this.spawnPoint = this.map?.findObject("SpawnPoints", (obj) =>
+      obj.name === "Spawn Point" ? obj : null
     );
-    this.newZone = this.map.findObject("Zone", (obj) => {
-      return obj;
+    this.newZone = this.map?.findObject("Zone", (obj) => {
+      return obj ? obj : null;
     });
   }
 

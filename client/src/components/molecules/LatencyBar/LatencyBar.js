@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { SocketContext } from "../../../context/socketProvider";
+import { SocketContext } from "../../../context/ContextSocket";
 
 const LatencyBar = () => {
   const [latencePlayer, setLatencePlayer] = useState("");

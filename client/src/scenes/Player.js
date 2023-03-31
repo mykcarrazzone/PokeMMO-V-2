@@ -32,7 +32,6 @@ export default class Player extends GameObjects.Sprite {
 
     this.passPorte = false;
     this.passWorld = false;
-    this.setFrame(getStopFrame(this.scene.localPlayer.position.ld));
   }
 
   update() {
@@ -109,6 +108,7 @@ export default class Player extends GameObjects.Sprite {
     this.scene.localPlayer.hasConnectedBefore = false;
 
     // PERMET DE CHANGER LES POINTS D ENTREE ET DE SORTIE
+    
     this.changedSceneData = {
       isChanged: this.newZone ? true : false,
       x: this.newZone

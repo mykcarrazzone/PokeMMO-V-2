@@ -32,12 +32,10 @@ export default class OnlinePlayer extends GameObjects.Sprite {
       y: this.y,
       name: capitalizedNickName,
     });
-
-    this.setFrame(getStopFrame(this.ld));
   }
 
   updateGridEngineConfig() {
-    this.setFrame(getStopFrame(this.ld));
+    this.scene.gridEngineClass.setTurnTowards(this.sessionId, this.ld);
     this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
       x: this.x,
       y: this.y,

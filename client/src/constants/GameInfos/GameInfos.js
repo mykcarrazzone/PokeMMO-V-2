@@ -10,6 +10,7 @@ export const GAMES_INFOS = {
   rateDrop: 1.5,
   rateStats: 1.5,
 };
+console.clear(); // Effacer la console
 
 console.log(
   "%c          ██████\n" +

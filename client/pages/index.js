@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useUser } from "../src/context/userContext";
-import { useCharacter } from "../src/context/characterContext";
+import { useUser } from "../src/context/ContextUser";
+import { useCharacter } from "../src/context/ContextCharacter";
 import { getUserById } from "../src/services/User/ServicesGetUser";
 import { useRouter } from "next/router";
-import { SocketContext } from "../src/context/socketProvider";
+import { SocketContext } from "../src/context/ContextSocket";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 
@@ -42,7 +42,7 @@ const Home = () => {
             setUserData(res.data.user);
             Cookies.set("_id", res.data.user.character._id);
             Cookies.set("username", res.data.user.character.username);
-            // console.clear(); // Effacer la console
+            console.clear(); // Effacer la console
           }
         })
         .catch((err) => {
