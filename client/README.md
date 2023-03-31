@@ -52,11 +52,13 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 - [Jest](https://jestjs.io/) <img src="https://img.shields.io/badge/-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest logo">
 - [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
 
-## Normes de convention ##
+## Normes de convention
+
 - Convention Atomic Design
 - PascalCase
 
-## Suivis de développement sur Jira Atlassian ##
+## Suivis de développement sur Jira Atlassian
+
 => Me contacter si vous souhaitez rejoindre mon projet
 
 ## Normes de convention
@@ -72,8 +74,11 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 ## Contribution
 
 Pour contribuer, contactez moi via ces réseaux
+
+<div>
 [Discord](https://discord.gg/m9ddhXXBpg) <img src="https://img.shields.io/badge/-Discord-7289DA?style=flat-square&logo=discord&logoColor=white" alt="Discord logo">
 [LinkedIn](https://www.linkedin.com/in/lorenzo-giralt/) <img src="https://img.shields.io/badge/-LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn logo">
+</div>
 
 ## Comment jouer
 
