@@ -7,7 +7,7 @@
 
 ## VERSION
 
-**Dernière mise à jour effectuée le 31/03/2023, version 0.2.54**
+**Dernière mise à jour effectuée le 31/03/2023, version 0.2.55**
 
 ## Description
 
