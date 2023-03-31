@@ -14,11 +14,8 @@ export default class Player extends GameObjects.Sprite {
       config.speed
     );
     this._id = this.scene.localPlayer._id;
-    this.door0 = this.scene.add.sprite(0, 0, "doors");
-    this.door0.scale = GameInfos.spriteScale;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
-
     this.scale = GameInfos.spriteScale;
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
@@ -33,7 +30,6 @@ export default class Player extends GameObjects.Sprite {
       this.newZone = { x, y };
     }
 
-    this.doorAnimation();
     this.passPorte = false;
     this.passWorld = false;
     this.setFrame(getStopFrame(this.scene.localPlayer.position.ld));
@@ -43,18 +39,6 @@ export default class Player extends GameObjects.Sprite {
     this.doorInteraction();
 
     this.worldInteraction();
-  }
-
-  doorAnimation() {
-    this.door0.anims.create({
-      key: "porte",
-      frames: this.door0.anims.generateFrameNumbers("doors", {
-        start: 0,
-        end: 3,
-      }),
-      frameRate: 5,
-      repeat: 0,
-    });
   }
 
   doorInteraction() {
