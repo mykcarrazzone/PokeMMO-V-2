@@ -56,8 +56,6 @@ export default class Scene1 extends Scene {
     socketHandler(this, self, onlinePlayers);
 
     this.map = this.make.tilemap({ key: this.mapName });
-    this.sound.add(`${this.mapName}-Audio`, { loop: true, volume: 0.2 }).play();
-
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
 
     for (let i = 0; i < this.map.layers.length; i++) {

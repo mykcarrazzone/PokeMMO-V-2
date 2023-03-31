@@ -1,5 +1,3 @@
-import { SpawnPoints } from "../../data/mapSpawnPoints.js";
-
 /**
  *
  * Gestion du changement de map

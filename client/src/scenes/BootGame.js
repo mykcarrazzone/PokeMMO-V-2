@@ -7,11 +7,13 @@ export default class BootGame extends Scene {
   }
 
   init(data) {
+    /** GET USER DATA FROM LAUNCHER ORGANISM COMPONENT */
     this.dataPlayer = data.user;
     this.socket = data.socket;
     this.data = data;
     var texture = this.dataPlayer.character.baseTexture;
 
+    /** SET USER DATA */
     this.user = {
       _id: this.dataPlayer._id,
       sessionId: this.socket.id,
@@ -37,81 +39,19 @@ export default class BootGame extends Scene {
 
   preload() {
     /** LOAD TILESETS FOR ALL */
-    this.load.image("tiles", "assets/test/pokemmo-sample-16px-extruded.png");
-    /** LOAD JSON SNOWTOWN MAP 1  */
-    this.load.tilemapTiledJSON("SnowTown", "assets/test/town.json");
-    /** LOAD JSON ROUTE1 MAP 2  */
-    this.load.tilemapTiledJSON("route1", "assets/test/route1.json");
-    /** LOAD JSON SNOWTOWN DOOR A */
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorA",
-      "assets/test/SnowTown-DoorA.json"
+    this.load.image(
+      "tiles",
+      "assets/tilesets/pokemmo-sample-16px-extruded.png"
     );
-    /** LOAD JSON SNOWTOWN DOOR B */
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorB",
-      "assets/test/SnowTown-DoorB.json"
-    );
-    /** LOAD JSON SNOWTOWN DOOR C */
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorC",
-      "assets/test/SnowTown-DoorC.json"
-    );
-    /** LOAD JSON SNOWTOWN DOOR D */
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorD",
-      "assets/test/SnowTown-DoorD.json"
-    );
-    /** LOAD JSON SNOWTOWN DOOR E */
-    this.load.tilemapTiledJSON(
-      "SnowTown-DoorE",
-      "assets/test/SnowTown-DoorE.json"
-    );
-
-    /** AUDIO MAP SNOWTOWN DOOR A */
-    this.load.audio("SnowTown-DoorA-Audio", "assets/sounds/bgm/SnowTown.mp3");
-    /** AUDIO MAP SNOWTOWN DOOR B */
-    this.load.audio(
-      "SnowTown-DoorB-Audio",
-      "assets/sounds/bgm/pokemon_center.mp3"
-    );
-    /** AUDIO MAP SNOWTOWN DOOR C */
-    this.load.audio(
-      "SnowTown-DoorC-Audio",
-      "assets/sounds/bgm/SnowTown-DoorC.mp3"
-    );
-    /** AUDIO MAP SNOWTOWN DOOR D */
-    this.load.audio("SnowTown-DoorD-Audio", "assets/sounds/bgm/SnowTown.mp3");
-    /** AUDIO MAP SNOWTOWN DOOR E */
-    this.load.audio("SnowTown-DoorE-Audio", "assets/sounds/bgm/SnowTown.mp3");
-    /** AUDIO MAP SNOWTOWN */
-    this.load.audio("SnowTown-Audio", "assets/sounds/bgm/SnowTown.mp3");
-
-    /** LOAD SPRITESSHEET PLAYER */
-    this.load.spritesheet("player", "assets/test2/characters2.png", {
-      frameWidth: 72,
-      frameHeight: 96,
-    });
-    /** LOAD SPRITESSHEET ONLINE PLAYER */
-    this.load.spritesheet("onlinePlayer", "assets/test2/characters2.png", {
-      frameWidth: 72,
-      frameHeight: 96,
-    });
-    /** LOAD SPRITESSHEET NPC */
-    this.load.spritesheet("npc", "assets/test2/characters3.png", {
-      frameWidth: 72,
-      frameHeight: 96,
-    });
-    /** LOAD SPRITESSHEET DOORS */
-    this.load.spritesheet("doors", "assets/test2/doorsTest.png", {
-      frameWidth: 72,
-      frameHeight: 92,
-    });
-    this.load.image("snowflake", "assets/effects/snowball.png");
-    this.load.image("fire", "assets/effects/fire.png");
-    this.load.audio("bump", "assets/sounds/se/bump.wav");
-    this.load.image("rain", "assets/effects/rain.png");
-    this.load.audio("walk", "assets/sounds/se/walk.mp3");
+    /** LOAD MAPS */
+    this.loadSnowTown();
+    this.loadForest();
+    /** LOAD SPRITESHEET */
+    this.loadSpritesheet();
+    /** LOAD VISUAL EFFECTS */
+    this.loadVisualEffects();
+    /** LOAD SE AUDIO EFFECTS */
+    this.loadAudio();
     gameLoader(this);
   }
 
@@ -130,5 +70,86 @@ export default class BootGame extends Scene {
         },
       });
     }
+  }
+
+  loadVisualEffects() {
+    this.load.image("rain", "assets/effects/rain.png");
+    this.load.image("snowflake", "assets/effects/snowball.png");
+    this.load.image("fire", "assets/effects/fire.png");
+  }
+
+  loadSpritesheet() {
+    /** LOAD SPRITESSHEET PLAYER */
+    this.load.spritesheet("player", "assets/sprites/player/characters0.png", {
+      frameWidth: 72,
+      frameHeight: 96,
+    });
+    /** LOAD SPRITESSHEET ONLINE PLAYER */
+    this.load.spritesheet(
+      "onlinePlayer",
+      "assets/sprites/player/characters0.png",
+      {
+        frameWidth: 72,
+        frameHeight: 96,
+      }
+    );
+    /** LOAD SPRITESSHEET NPC */
+    this.load.spritesheet("npc", "assets/sprites/npc/characters0.png", {
+      frameWidth: 72,
+      frameHeight: 96,
+    });
+  }
+
+  loadForest() {
+    /** LOAD JSON FOREST MAP */
+    // this.load.tilemapTiledJSON("route1", "");
+  }
+
+  loadAudio() {
+    /** AUDIO MAP SNOWTOWN */
+    this.load.audio("SnowTown", "assets/sounds/bgm/SnowTown.mp3");
+    /** AUDIO MAP CENTER */
+    this.load.audio("Center", "assets/sounds/bgm/Center.mp3");
+    /** AUDIO MAP SHOP */
+    this.load.audio("Shop", "assets/sounds/bgm/Shop.mp3");
+    /** AUDIO MAP INDOOR*/
+    this.load.audio("Indoor", "assets/sounds/bgm/Indoor.mp3");
+    /** AUDIO BUMP COLLIDES */
+    this.load.audio("bump", "assets/sounds/se/bump.wav");
+    /** AUDIO PLAYER WALKING */
+    this.load.audio("walk", "assets/sounds/se/walk.mp3");
+  }
+
+  loadSnowTown() {
+    /** LOAD JSON SNOWTOWN MAP 1  */
+    this.load.tilemapTiledJSON(
+      "SnowTown",
+      "assets/tilemaps/SnowTown/SnowTown.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR A */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorA",
+      "assets/tilemaps/SnowTown/SnowTown-DoorA.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR B */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorB",
+      "assets/tilemaps/SnowTown/SnowTown-DoorB.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR C */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorC",
+      "assets/tilemaps/SnowTown/SnowTown-DoorC.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR D */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorD",
+      "assets/tilemaps/SnowTown/SnowTown-DoorD.json"
+    );
+    /** LOAD JSON SNOWTOWN DOOR E */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorE",
+      "assets/tilemaps/SnowTown/SnowTown-DoorE.json"
+    );
   }
 }

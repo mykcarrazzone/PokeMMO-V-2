@@ -5,6 +5,15 @@ export const objectInit = (self, objects) => {
   Object.values(objects).forEach((object) => {
     console.log(object);
     switch (object.name) {
+      case "Audio":
+        console.log("OBJJJ", objects);
+        const audio = self.sound.add(object.properties[0].value, {
+          loop: object.properties[1].value,
+          volume: object.properties[2].value,
+        });
+        audio.play();
+
+        break;
       case "Weather":
         startWeather(self, self.map, object);
         break;
