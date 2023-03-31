@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useUser } from "../src/context/userContext";
 import { useCharacter } from "../src/context/characterContext";
-import { getUserById } from "../src/services/User/GetUser";
+import { getUserById } from "../src/services/User/ServicesGetUser";
 import { useRouter } from "next/router";
 import { SocketContext } from "../src/context/socketProvider";
 import Cookies from "js-cookie";

@@ -1038,8 +1038,45 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":31,
+         "name":"MapProperties",
+         "objects":[],
+         "opacity":1,
+         "properties":[
+                {
+                 "name":"audio",
+                 "type":"string",
+                 "value":"Indoor|true|0.5|1.0"
+                }, 
+                {
+                 "name":"bike",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"isNight",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"mapName",
+                 "type":"string",
+                 "value":"Maison de JohnDoe"
+                }, 
+                {
+                 "name":"weather",
+                 "type":"string",
+                 "value":"false|Default"
+                }],
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":31,
+ "nextlayerid":32,
  "nextobjectid":21,
  "orientation":"orthogonal",
  "renderorder":"right-down",

@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import { gameLoader } from "../../src/utils/GameLoader/GameLoader";
+import { gameLoader } from "../utils/GameLoader/UtilsGameLoader";
 
 export default class BootGame extends Scene {
   constructor() {
@@ -59,7 +59,6 @@ export default class BootGame extends Scene {
     if (this.data.socket && this.data.user) {
       this.socket.emit("gameReady");
       // START PLAY GAME SCENE
-      console.log("ID USER", this.user._id);
       this.scene.start("Scene1", {
         user: this.user,
         socket: this.socket,

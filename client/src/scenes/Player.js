@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser";
-import { getStopFrame } from "../utils/GetStopFrame/GetStopFrame";
-import { GameInfos } from "@/constants/GameInfos/GameInfos";
+import { getStopFrame } from "../utils/GetStopFrame/UtilsGetStopFrame";
+import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(
@@ -16,7 +16,7 @@ export default class Player extends GameObjects.Sprite {
     this._id = this.scene.localPlayer._id;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
-    this.scale = GameInfos.spriteScale;
+    this.scale = GAMES_INFOS.spriteScale;
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setZoom(1);
     this.tileMap = config.tileMap;
@@ -42,16 +42,16 @@ export default class Player extends GameObjects.Sprite {
 
   doorInteraction() {
     this.tileMap.findObject("Doors", (obj) => {
-      const objectX = obj.x * GameInfos.gameScale;
-      const objectY = obj.y * GameInfos.gameScale - 50;
+      const objectX = obj.x * GAMES_INFOS.gameScale;
+      const objectY = obj.y * GAMES_INFOS.gameScale - 50;
       const objectWidth = obj.width;
       const objectHeight = obj.height;
 
       if (
         this.y >= objectY &&
         this.y <= objectY + objectHeight &&
-        this.x + GameInfos.tileSize >= objectX &&
-        this.x + GameInfos.tileSize <= objectX + objectWidth
+        this.x + GAMES_INFOS.tileSize >= objectX &&
+        this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
       ) {
         console.log("Player is by door: " + obj.name);
         this.scene.gridEngine.stopMovement("player");
@@ -74,13 +74,13 @@ export default class Player extends GameObjects.Sprite {
     this.tileMap.findObject("Worlds", (obj) => {
       const objectWidth = obj.width;
       const objectHeight = obj.height;
-      const objectX = obj.x * GameInfos.gameScale + objectWidth;
-      const objectY = obj.y * GameInfos.gameScale - 125;
+      const objectX = obj.x * GAMES_INFOS.gameScale + objectWidth;
+      const objectY = obj.y * GAMES_INFOS.gameScale - 125;
       if (
         this.y >= objectY &&
         this.y <= objectY + objectHeight &&
-        this.x + GameInfos.tileSize >= objectX &&
-        this.x + GameInfos.tileSize <= objectX + objectWidth
+        this.x + GAMES_INFOS.tileSize >= objectX &&
+        this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
       ) {
         if (!this.passWorld) {
           this.passWorld = true;

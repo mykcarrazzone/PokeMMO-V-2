@@ -8,7 +8,7 @@ import OnlinePlayer from "../../scenes/OnlinePlayer";
  * @param {Object} onlinePlayers - An object that contains all the online player objects currently on the scene.
  */
 
-export const socketHandler = (thisCopy, self, onlinePlayers) => {
+export const handlerSocket = (thisCopy, self, onlinePlayers) => {
   thisCopy.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>

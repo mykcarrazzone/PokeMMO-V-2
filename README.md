@@ -4,10 +4,14 @@
 
 <img src="client/pXx6OSISnU GIF.gif" alt="Gif du jeu"/>
  </div>
+ 
+## VERSION
+
+**Dernière mise à jour effectuée le 31/03/2023, version 0.2.54**
 
 ## Description
 
-Pokémon Multijoueur est un jeu vidéo en ligne qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
+Ce fan-made pokémon est un projet de jeu massivement multijoueur qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
 
 Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.5 pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
 
@@ -48,7 +52,8 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 - [Jest](https://jestjs.io/) <img src="https://img.shields.io/badge/-Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest logo">
 - [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
 
-## Normes de convention ##
+## Normes de convention
+
 - Convention Atomic Design
 - CamelCase
 

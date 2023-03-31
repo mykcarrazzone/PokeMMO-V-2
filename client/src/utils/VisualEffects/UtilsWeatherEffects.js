@@ -1,6 +1,5 @@
-const snow = (self, map) => {
-  self.emitter = self.add.particles("snowflake").setDepth(1000);
-  console.log(self.emitter);
+const snow = (self) => {
+  self.emitter = self.add.particles("snowflake").setDepth(99);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
     emitZone: {
@@ -8,8 +7,8 @@ const snow = (self, map) => {
       source: new Phaser.Geom.Rectangle(
         0,
         0,
-        map.widthInPixels * 3,
-        map.heightInPixels * 2
+        self.map.widthInPixels * 3,
+        self.map.heightInPixels * 2
       ),
     },
     lifespan: 20000, // ça sert à définir la durée de vie des particules
@@ -24,8 +23,8 @@ const snow = (self, map) => {
   });
 };
 
-const rain = (self, map) => {
-  self.emitter = self.add.particles("rain").setDepth(1000);
+const rain = (self) => {
+  self.emitter = self.add.particles("rain").setDepth(99);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
     emitZone: {
@@ -33,8 +32,8 @@ const rain = (self, map) => {
       source: new Phaser.Geom.Rectangle(
         0,
         0,
-        map.widthInPixels * 2,
-        map.heightInPixels * 2
+        self.map.widthInPixels * 3,
+        self.map.heightInPixels * 2
       ),
     },
     lifespan: 5000, // ça sert à définir la durée de vie des particules
@@ -51,15 +50,19 @@ const rain = (self, map) => {
   });
 };
 
-export const startWeather = (self, map, weather) => {
-  switch (weather.objects[0].name) {
-    case "Snow":
-      snow(self, map);
-      break;
-    case "Rain":
-      rain(self, map);
-      break;
-    default:
-      break;
+export const funcStartWeather = (value, self) => {
+  const isBeStarted = value.split("|")[0];
+  const weatherName = value.split("|")[1];
+  if (isBeStarted) {
+    switch (weatherName) {
+      case "Snow":
+        snow(self);
+        break;
+      case "Rain":
+        rain(self);
+        break;
+      default:
+        break;
+    }
   }
 };

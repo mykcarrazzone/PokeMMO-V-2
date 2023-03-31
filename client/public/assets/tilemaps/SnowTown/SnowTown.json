@@ -1140,52 +1140,8 @@
         }, 
         {
          "draworder":"topdown",
-         "id":92,
-         "name":"NightMode",
-         "objects":[],
-         "opacity":1,
-         "properties":[
-                {
-                 "name":"canBeNight",
-                 "type":"bool",
-                 "value":true
-                }],
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":80,
-         "name":"Weather",
-         "objects":[
-                {
-                 "class":"",
-                 "height":19,
-                 "id":10,
-                 "name":"Snow",
-                 "rotation":0,
-                 "text":
-                    {
-                     "text":"Bonjour Monde",
-                     "wrap":true
-                    },
-                 "visible":true,
-                 "width":108,
-                 "x":544,
-                 "y":256
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
          "id":81,
-         "name":"Lamp",
+         "name":"LightPoints",
          "objects":[
                 {
                  "class":"",
@@ -1315,26 +1271,21 @@
         }, 
         {
          "draworder":"topdown",
-         "id":95,
-         "name":"Audio",
+         "id":76,
+         "name":"Worlds",
          "objects":[],
          "opacity":1,
-         "properties":[
-                {
-                 "name":"audioName",
-                 "type":"string",
-                 "value":"SnowTown"
-                }, 
-                {
-                 "name":"loop",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"volume",
-                 "type":"float",
-                 "value":0.4
-                }],
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":84,
+         "name":"SpawnPoints",
+         "objects":[],
+         "opacity":1,
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -1465,45 +1416,6 @@
         }, 
         {
          "draworder":"topdown",
-         "id":94,
-         "name":"CanCrossRun",
-         "objects":[],
-         "opacity":1,
-         "properties":[
-                {
-                 "name":"playerCantCrossRun",
-                 "type":"bool",
-                 "value":true
-                }],
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":76,
-         "name":"Worlds",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":84,
-         "name":"SpawnPoints",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
          "id":87,
          "name":"Doors",
          "objects":[
@@ -1600,43 +1512,50 @@
         }, 
         {
          "draworder":"topdown",
-         "id":93,
-         "name":"MapName",
-         "objects":[
-                {
-                 "class":"",
-                 "height":19,
-                 "id":53,
-                 "name":"map-name",
-                 "rotation":0,
-                 "text":
-                    {
-                     "bold":true,
-                     "halign":"center",
-                     "kerning":false,
-                     "text":"Snowtown",
-                     "wrap":true
-                    },
-                 "visible":true,
-                 "width":108,
-                 "x":336,
-                 "y":240
-                }],
+         "id":97,
+         "name":"MapProperties",
+         "objects":[],
          "opacity":1,
          "properties":[
                 {
-                 "name":"name",
+                 "name":"audio",
                  "type":"string",
-                 "value":"Snowtown"
+                 "value":"SnowTown|true|0.5|1.0"
+                }, 
+                {
+                 "name":"bike",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"isNight",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"mapName",
+                 "type":"string",
+                 "value":"SnowTown"
+                }, 
+                {
+                 "name":"weather",
+                 "type":"string",
+                 "value":"true|Snow"
                 }],
          "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
         }],
- "nextlayerid":96,
+ "nextlayerid":99,
  "nextobjectid":55,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"bike",
+         "type":"bool",
+         "value":true
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
  "tileheight":16,

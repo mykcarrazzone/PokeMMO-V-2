@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SpritesCarousel from "../src/components/organisms/CarouselSprites/CarouselSprites";
-import { register } from "../src/services/Register/Register";
+import { register } from "../src/services/Register/ServicesRegister";
 import { useUser } from "../src/context/userContext";
 import { useRouter } from "next/router";
 import Link from "next/link";
