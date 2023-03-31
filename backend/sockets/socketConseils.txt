@@ -1,9 +1,0 @@
-- INFO CONSEILS POUR L'UTILISATION DES SOCKETS
-Pour envoyer un message à un joueur en particulier, il faut utiliser la fonction socket.emit
-Pour envoyer un message à tous les joueurs, il faut utiliser la fonction io.emit
-Pour envoyer un message à tous les joueurs sauf à celui qui a envoyé le message, il faut utiliser la fonction socket.broadcast.emit
-
-- INFO CONSEILS POUR L'UTILISATION DES SOCKETS CONDITIONS
-Pour envoyer un message selon la map, il faut utiliser la fonction socket.broadcast.to("map1").emit
-Pour envoyer un message à un joueur en particulier selon la map, il faut utiliser la fonction socket.to("map1").emit
-Pour envoyer un message à tous les joueurs selon la map, il faut utiliser la fonction io.to("map1").emit
