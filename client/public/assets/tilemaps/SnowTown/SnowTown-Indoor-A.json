@@ -841,33 +841,6 @@
         }, 
         {
          "draworder":"topdown",
-         "id":30,
-         "name":"Audio",
-         "objects":[],
-         "opacity":1,
-         "properties":[
-                {
-                 "name":"audioName",
-                 "type":"string",
-                 "value":"Indoor"
-                }, 
-                {
-                 "name":"loop",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"volume",
-                 "type":"float",
-                 "value":0.4
-                }],
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
          "id":15,
          "name":"Zone",
          "objects":[
@@ -963,83 +936,42 @@
         }, 
         {
          "draworder":"topdown",
-         "id":28,
-         "name":"CanCrossRun",
+         "id":31,
+         "name":"MapProperties",
          "objects":[],
          "opacity":1,
          "properties":[
                 {
-                 "name":"playerCantCrossRun",
+                 "name":"audio",
+                 "type":"string",
+                 "value":"Indoor|true|0.5|1.0"
+                }, 
+                {
+                 "name":"bike",
                  "type":"bool",
                  "value":false
-                }],
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":20,
-         "name":"Weather",
-         "objects":[
+                }, 
                 {
-                 "class":"",
-                 "height":19,
-                 "id":4,
-                 "name":"Nothing",
-                 "rotation":0,
-                 "text":
-                    {
-                     "text":"Bonjour Monde",
-                     "wrap":true
-                    },
-                 "visible":true,
-                 "width":108,
-                 "x":464,
-                 "y":208
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":27,
-         "name":"MapName",
-         "objects":[
+                 "name":"isNight",
+                 "type":"bool",
+                 "value":false
+                }, 
                 {
-                 "class":"",
-                 "height":19,
-                 "id":20,
-                 "name":"map-name",
-                 "rotation":0,
-                 "text":
-                    {
-                     "halign":"center",
-                     "text":"Maison de",
-                     "wrap":true
-                    },
-                 "visible":true,
-                 "width":130,
-                 "x":450,
-                 "y":370
-                }],
-         "opacity":1,
-         "properties":[
-                {
-                 "name":"name",
+                 "name":"mapName",
                  "type":"string",
-                 "value":"Maison"
+                 "value":"Maison de JohnDoe"
+                }, 
+                {
+                 "name":"weather",
+                 "type":"string",
+                 "value":"false|Default"
                 }],
          "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
         }],
- "nextlayerid":31,
+ "nextlayerid":32,
  "nextobjectid":21,
  "orientation":"orthogonal",
  "renderorder":"right-down",

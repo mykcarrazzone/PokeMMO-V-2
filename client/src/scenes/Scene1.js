@@ -1,11 +1,6 @@
 import { Scene } from "phaser";
-import { objectInit } from "@/utils/ObjectsInit/ObjectsInit";
-import { GridEngineCreate } from "./GridEngineConfig";
-import { fpsDisplay } from "../utils/FpsDisplay/FpsDisplay";
-import { socketHandler } from "../services/SocketEvents/SocketEvents";
-import { initKeyboardControls } from "../utils/InitKeyboardControls/InitKeyboardControls";
-import { GameInfos } from "@/constants/GameInfos/GameInfos";
-var onlinePlayers = [];
+import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
+import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
 
 export default class Scene1 extends Scene {
   constructor() {
@@ -39,22 +34,32 @@ export default class Scene1 extends Scene {
 
   create() {
     if (this.socket && this.localPlayer) {
+      console.warn = function () {}; // Désactive les avertissements dans la console
       this.gameHasFocused = true;
       /** CREATE MAP AND PLAYER */
-      this.createMapAndPlayer();
+      this.initGame();
       /** FPS DISPLAY */
-      fpsDisplay(this);
+      GAME_UTILITIES.fpsDisplay(this);
     }
   }
 
-  createMapAndPlayer() {
+  initGame() {
+    /** SELF ALLOW TO USE THIS IN SOCKET HANDLER */
     let self = this;
-
-    this.walk = this.sound.add("walk", { loop: false, volume: 0.05, rate: 1 });
-
     /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
-    socketHandler(this, self, onlinePlayers);
+    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
+    /** INIT MAP */
+    this.initMap();
+    /** INIT GAME OBJECTS BEFORE CREATING PLAYER */
+    this.initGameObjectsBeforeCreatingPlayer();
+    /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
+    this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(this);
+    this.gridEngineClass.setPlayer();
+    /** INIT GAME OBJECTS AFTER CREATING PLAYER */
+    GAME_UTILITIES.initGameObjects(this, this.map.objects);
+  }
 
+  initMap() {
     this.map = this.make.tilemap({ key: this.mapName });
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
 
@@ -65,29 +70,22 @@ export default class Scene1 extends Scene {
         0,
         0
       );
-      layer.scale = GameInfos.gameScale;
+      layer.scale = GAMES_INFOS.gameScale;
     }
-
-    this.spawnPoint = this.map.findObject(
-      "SpawnPoints",
-      (obj) => obj.name === "Spawn Point"
-    );
-
-    this.newZone = this.map.findObject("Zone", (obj) => {
-      return obj;
-    });
-
-    this.gridEngineClass = new GridEngineCreate(this);
-    this.gridEngineClass.setPlayer();
-
-    objectInit(this, this.map.objects);
-    this.isCrossActivated = this.gridEngineClass.getCantCrossRun();
     this.cameras.main.fadeIn(1000);
-    console.log(this.map);
+  }
+
+  initGameObjectsBeforeCreatingPlayer() {
+    this.spawnPoint = this.map?.findObject("SpawnPoints", (obj) =>
+      obj.name === "Spawn Point" ? obj : null
+    );
+    this.newZone = this.map?.findObject("Zone", (obj) => {
+      return obj ? obj : null;
+    });
   }
 
   update() {
+    GAME_UTILITIES.initKeyboardControls(this);
     this.gridEngineClass.playerUpdate();
-    initKeyboardControls(this);
   }
 }

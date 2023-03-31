@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { SocketContext } from "../../../context/socketProvider";
+import { SocketContext } from "../../../context/ContextSocket";
 
 const Gamepad = () => {
   const [leftBtn, setLeftBtn] = useState(false);

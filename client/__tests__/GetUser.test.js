@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUserById } from "../src/services/User/GetUser";
+import { getUserById } from "../src/services/User/ServicesGetUser";
 
 jest.mock("axios");
 

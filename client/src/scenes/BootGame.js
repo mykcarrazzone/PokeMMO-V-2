@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import { gameLoader } from "../../src/utils/GameLoader/GameLoader";
+import { gameLoader } from "../utils/GameLoader/UtilsGameLoader";
 
 export default class BootGame extends Scene {
   constructor() {
@@ -59,7 +59,6 @@ export default class BootGame extends Scene {
     if (this.data.socket && this.data.user) {
       this.socket.emit("gameReady");
       // START PLAY GAME SCENE
-      console.log("ID USER", this.user._id);
       this.scene.start("Scene1", {
         user: this.user,
         socket: this.socket,
@@ -129,27 +128,27 @@ export default class BootGame extends Scene {
     /** LOAD JSON SNOWTOWN DOOR A */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorA",
-      "assets/tilemaps/SnowTown/SnowTown-DoorA.json"
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-A.json"
     );
     /** LOAD JSON SNOWTOWN DOOR B */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorB",
-      "assets/tilemaps/SnowTown/SnowTown-DoorB.json"
+      "assets/tilemaps/SnowTown/SnowTown-InDoor-B.json"
     );
     /** LOAD JSON SNOWTOWN DOOR C */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorC",
-      "assets/tilemaps/SnowTown/SnowTown-DoorC.json"
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-C.json"
     );
     /** LOAD JSON SNOWTOWN DOOR D */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorD",
-      "assets/tilemaps/SnowTown/SnowTown-DoorD.json"
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-D.json"
     );
     /** LOAD JSON SNOWTOWN DOOR E */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorE",
-      "assets/tilemaps/SnowTown/SnowTown-DoorE.json"
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-E.json"
     );
   }
 }

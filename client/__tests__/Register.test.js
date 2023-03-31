@@ -1,5 +1,5 @@
 import axios from "axios";
-import { register } from "../src/services/Register/Register";
+import { register } from "../src/services/Register/ServicesRegister";
 
 jest.mock("axios");
 

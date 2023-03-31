@@ -1,11 +1,12 @@
 import "../styles/globals.css";
 import React from "react";
 import Head from "next/head";
-import SocketProvider from "../src/context/socketProvider";
-import { ChatActiveProvider } from "../src/context/chatActiveProvider";
-import UserProvider from "../src/context/userContext";
-import CharacterProvider from "../src/context/characterContext";
+import SocketProvider from "../src/context/ContextSocket";
+import { ChatActiveProvider } from "../src/context/ContextChatActive";
+import UserProvider from "../src/context/ContextUser";
+import CharacterProvider from "../src/context/ContextCharacter";
 import { useEffect } from "react";
+
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     document.addEventListener("contextmenu", function (event) {

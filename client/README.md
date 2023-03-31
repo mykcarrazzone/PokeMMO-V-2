@@ -5,9 +5,13 @@
 <img src="pXx6OSISnU GIF.gif" alt="Gif du jeu"/>
  </div>
 
+## VERSION
+
+**Dernière mise à jour effectuée le 31/03/2023, version 0.2.55**
+
 ## Description
 
-Pokémon Multijoueur est un jeu vidéo en ligne qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
+Ce fan-made pokémon est un projet de jeu massivement multijoueur qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
 
 Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.55.2 et GridEngine pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
 
@@ -55,8 +59,25 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 ## Suivis de développement sur Jira Atlassian ##
 => Me contacter si vous souhaitez rejoindre mon projet
 
+## Normes de convention
+
+**Suivis de développement sur Jira Atlassian**
+
+- Tests
+- Convention Atomic Design
+- Pascal case
+- Snake case
+- Camel case
+
+## Contribution
+
+Pour contribuer, contactez moi via ces réseaux
+[Discord](https://discord.gg/m9ddhXXBpg) <img src="https://img.shields.io/badge/-Discord-7289DA?style=flat-square&logo=discord&logoColor=white" alt="Discord logo">
+[LinkedIn](https://www.linkedin.com/in/lorenzo-giralt/) <img src="https://img.shields.io/badge/-LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn logo">
+
 ## Comment jouer
 
+```
 1. Clonez ce dépôt sur votre machine locale.
 2. Installez les dépendances en exécutant la commande `npm install`.
 3. Installez MongoDb Compass, puis ensuite MongoDb Community Server et pour terminer créer une database avec la collections `games` sur 127.0.0.1.
@@ -65,6 +86,15 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 6. Démarrez le serveur en exécutant la commande `npm start`.
 7. Démarrez le client en exécutant la commande `npm run dev`.
 8. Ouvrez votre navigateur à l'adresse http://localhost:PORT_DU_FRONT pour jouer.
+```
+
+## Running Tests
+
+Pour lancer les tests, utiliser cette commande
+
+```bash
+  npm run test
+```
 
 ## Auteur
 

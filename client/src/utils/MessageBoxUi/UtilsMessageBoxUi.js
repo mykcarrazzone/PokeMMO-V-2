@@ -51,7 +51,7 @@ export function createMessageBoxUi(data) {
     targets: graphics,
     y: graphics.y + height,
     alpha: 1,
-    duration: 2000,
+    duration: 3000,
     ease: "Cubic.easeOut",
   });
 
@@ -61,7 +61,7 @@ export function createMessageBoxUi(data) {
     targets: texte,
     y: y,
     alpha: 1,
-    duration: 2000,
+    duration: 3000,
     ease: "Cubic.easeOut",
   });
 
@@ -70,3 +70,34 @@ export function createMessageBoxUi(data) {
   group.add(graphics);
   group.add(texte);
 }
+
+export const funcAddMapNameSign = (value, self) => {
+  const mapOwnPlayer = "Maison de";
+  let mapName;
+
+  try {
+    if (typeof value !== "string") {
+      throw new Error("[funcAddMapNameSign] - Invalid value in @if");
+    } else if (value.length > 0) {
+      mapName = value.includes(mapOwnPlayer) ? (value = "Maison") : value;
+    } else {
+      throw new Error("[funcAddMapNameSign] - Invalid value in @else");
+    }
+  } catch (error) {
+    console.log("Error in addMapNameSign: ", error);
+  }
+
+  createMessageBoxUi({
+    scene: self,
+    x: 210,
+    y: 108,
+    text: mapName,
+    radius: 5,
+    fontFamily: "Comic Sans Ms",
+    textColor: "#ffffff",
+    shadow: 2,
+    backgroundColor: "#d39e34",
+    fontSize: 28,
+    padding: 45,
+  });
+};

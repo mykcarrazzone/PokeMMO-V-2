@@ -1,5 +1,5 @@
 import Player from "./Player";
-import { GameInfos } from "../constants/GameInfos/GameInfos";
+import { GAMES_INFOS } from "../constants/GameInfos/GameInfos";
 export class GridEngineCreate {
   gridEngineConfig = {
     characters: [],
@@ -15,7 +15,7 @@ export class GridEngineCreate {
   //*************** ADD NPC *****************//
   addNpc(npc) {
     const newSprite = this.add.sprite(0, 0, "npc");
-    newSprite.scale = GameInfos.spriteScale;
+    newSprite.scale = GAMES_INFOS.spriteScale;
     this.gridEngine.addCharacter({
       id: npc.id,
       sprite: newSprite,
@@ -26,7 +26,14 @@ export class GridEngineCreate {
     });
   }
 
-  setCantCrossRun(bool) {
+  setCanBike(bool) {
+    if (bool) {
+      this.gridEngine.setWalkingAnimationMapping("player", 0);
+      this.gridEngine.turnTowards(
+        "player",
+        this.gridEngine.getFacingDirection("player")
+      );
+    }
     this.canCrossRun = bool;
   }
 
@@ -67,7 +74,6 @@ export class GridEngineCreate {
   //*************** ADD LOCAL CURRENT PLAYER *****************//
   setPlayer() {
     if (this.self.spawnPoint !== undefined && this.self.spawnPoint !== null) {
-      console.log(this.self.spawnPoint);
       this.value = this.self.spawnPoint.properties[0].value.split("|");
       this.spawnPointX = parseInt(this.value[0]);
       this.spawnPointY = parseInt(this.value[1]);
@@ -107,10 +113,12 @@ export class GridEngineCreate {
 
     this.gridEngine.create(this.map, this.gridEngineConfig);
 
-    console.log(
-      "ACTUAL PLAYER POSITION: ",
+    console.info(
+      "%c Actual player position: ",
+      "color: blue; font-weight: bold",
       this.gridEngine.getPosition("player")
     );
+
     // INIT LAST DIRECTON
     this.gridEngine.turnTowards("player", this.self.localPlayer.position.ld);
 
