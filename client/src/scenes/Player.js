@@ -26,7 +26,6 @@ export default class Player extends GameObjects.Sprite {
     this.speed = config.speed;
     this.scene.physics.world.enable(this);
 
-
     this.newZone = config.newZone;
 
     if (this.newZone) {

@@ -40,26 +40,19 @@ export default class Scene1 extends Scene {
   create() {
     if (this.socket && this.localPlayer) {
       this.gameHasFocused = true;
-      // CREATE MAP AND PLAYER
+      /** CREATE MAP AND PLAYER */
       this.createMapAndPlayer();
-
-      // CREATE DIALOGUE BOX ON UI
-
+      /** FPS DISPLAY */
       fpsDisplay(this);
     }
   }
 
   createMapAndPlayer() {
     let self = this;
+
     this.walk = this.sound.add("walk", { loop: false, volume: 0.05, rate: 1 });
 
-    /**
-     * This socketHandler function handles the socket events related to player interaction on the map.
-     * It creates, updates or removes the corresponding player objects on the scene based on the received data.
-     * @param {Object} thisCopy - A copy of the current `this` object.
-     * @param {Object} self - The `this` object.
-     * @param {Object} onlinePlayers - An object that contains all the online player objects currently on the scene.
-     */
+    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
     socketHandler(this, self, onlinePlayers);
 
     this.map = this.make.tilemap({ key: this.mapName });
@@ -92,35 +85,8 @@ export default class Scene1 extends Scene {
     objectInit(this, this.map.objects);
     this.isCrossActivated = this.gridEngineClass.getCantCrossRun();
     this.cameras.main.fadeIn(1000);
-
     console.log(this.map);
-    // this.map.findObject("Weather", (obj) => {
-    //   startWeather(this, this.map, obj.name);
-    // });
-
-    // this.map.findObject("Effects", (obj) => {
-    //   startEffects(this, obj);
-    // });
   }
-
-  // addNpc(self) {
-  //   this.map.findObject("Npc", (obj) => {
-  //     console.log("Name", obj.name);
-  //     console.log("Direction", obj.properties[0].value);
-  //     console.log("Position", obj.properties[1].value);
-  //     const direction = obj.properties[0].value;
-  //     const [x, y] = obj.properties[1].value.split("|");
-  //     self.gridEngineClass.addNpc({
-  //       id: obj.name,
-  //       x: parseInt(x),
-  //       y: parseInt(y),
-  //       speed: 0,
-  //       walkingAnimationMapping: obj.properties[2].value,
-  //       collides: true,
-  //     });
-  //     self.gridEngineClass.setTurnTowards(obj.name, direction);
-  //   });
-  // }
 
   update() {
     this.gridEngineClass.playerUpdate();
