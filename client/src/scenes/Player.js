@@ -42,6 +42,11 @@ export default class Player extends GameObjects.Sprite {
 
   doorInteraction() {
     this.tileMap.findObject("Doors", (obj) => {
+      /* Check obj array is not empty */
+      if (obj.length === 0) {
+        return;
+      }
+
       const objectX = obj.x * GAMES_INFOS.gameScale;
       const objectY = obj.y * GAMES_INFOS.gameScale - 50;
       const objectWidth = obj.width;
@@ -72,6 +77,11 @@ export default class Player extends GameObjects.Sprite {
   worldInteraction() {
     // Cette fonction permet de gérer les interactions avec les portes
     this.tileMap.findObject("Worlds", (obj) => {
+      /* Check obj array is not empty */
+      if (obj.length === 0) {
+        return;
+      }
+
       const objectWidth = obj.width;
       const objectHeight = obj.height;
       const objectX = obj.x * GAMES_INFOS.gameScale + objectWidth;
