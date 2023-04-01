@@ -130,6 +130,11 @@ export default class BootGame extends Scene {
       "SnowTown-DoorA",
       "assets/tilemaps/SnowTown/SnowTown-Indoor-A.json"
     );
+    /** LOAD JSON SNOWTOWN DOOR A */
+    this.load.tilemapTiledJSON(
+      "SnowTown-DoorA-Floor",
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-A-Floor.json"
+    );
     /** LOAD JSON SNOWTOWN DOOR B */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorB",

@@ -64,34 +64,6 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
-  // worldInteraction() {
-  //   // Cette fonction permet de gérer les interactions avec les portes
-  //   this.tileMap.findObject("Worlds", (obj) => {
-  //     /* Check obj array is not empty */
-  //     if (obj.length === 0) {
-  //       return;
-  //     }
-
-  //     const objectX = obj.x * GAMES_INFOS.gameScale + objectWidth;
-  //     const objectY = obj.y * GAMES_INFOS.gameScale - 125;
-  //     const objectWidth = obj.width;
-  //     const objectHeight = obj.height;
-  //     if (
-  //       this.y >= objectY &&
-  //       this.y <= objectY + objectHeight &&
-  //       this.x + GAMES_INFOS.tileSize >= objectX &&
-  //       this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
-  //     ) {
-  //       if (!this.passWorld) {
-  //         this.passWorld = true;
-  //         console.log("Player is by world entry: " + obj.name);
-  //         this.scene.localPlayer.position.ld = "down";
-  //         this.changeSceneByMapName(obj.name, "down");
-  //       }
-  //     }
-  //   });
-  // }
-
   changeSceneByMapName(newPosition) {
     console.log("NEW POSITION LOGSS", newPosition);
     this.scene.localPlayer.onMap = newPosition.onMap;

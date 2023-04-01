@@ -55,11 +55,11 @@ export function handlePlayerJoin(data) {
     // });
 
     // Envoyer la liste des joueurs à tous les joueurs connectés
-    // const playersOnMap = Object.values(players).filter(
-    //   (player) => player.onMap === playerInfo.onMap
-    // );
+    const playersOnMap = Object.values(players).filter(
+      (player) => player.onMap === playerInfo.onMap
+    );
     console.info("New player joined the pokeMMO", players);
-    io.emit("CURRENT_PLAYERS_ON_MAP", players);
+    io.emit("CURRENT_PLAYERS_ON_MAP", playersOnMap);
 
     // Envoyer le nombre de joueurs en ligne
     io.emit("numberOfOnlinePlayers", onlinePlayers.length);
