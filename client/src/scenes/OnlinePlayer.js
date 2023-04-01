@@ -15,10 +15,8 @@ export default class OnlinePlayer extends GameObjects.Sprite {
 
     // Player Offset
     this.body.setOffset(0, 8); // 24
-
     // Get player nickname from constructor config.scene
     const userNickName = config.nickName;
-
     // Capitalize first letter of player nickname
     const capitalizedNickName =
       userNickName.charAt(0).toUpperCase() + userNickName.slice(1);

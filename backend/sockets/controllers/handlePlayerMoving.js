@@ -19,6 +19,8 @@ export function handlePlayerMoving(data) {
   players[socket.id].position.y = playerInfo.position.y;
   players[socket.id].position.ld = playerInfo.position.ld;
   players[socket.id].position.speed = playerInfo.position.speed;
+  console.log("Movin on map: ", playerInfo.onMap);
+  players[socket.id].onMap = playerInfo.onMap;
   players[socket.id].walkingAnimationMapping =
     playerInfo.walkingAnimationMapping;
   clearTimeout(movementTimeout);
@@ -29,14 +31,15 @@ export function handlePlayerMoving(data) {
         console.error(err);
         return;
       }
-      console.log(user.onMap);
-      
+
       user.onMap.position.x = playerInfo.position.x;
       user.onMap.position.y = playerInfo.position.y;
       user.onMap.position.ld = playerInfo.position.ld;
+      user.onMap.map_id = playerInfo.onMap;
       user.onMap.position.speed = playerInfo.position.speed;
       user.character.walkingAnimationMapping =
         playerInfo.walkingAnimationMapping;
+      console.log(user.onMap);
 
       user.save(function (err) {
         if (err) {

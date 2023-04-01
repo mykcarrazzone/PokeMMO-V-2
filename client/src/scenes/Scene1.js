@@ -15,20 +15,10 @@ export default class Scene1 extends Scene {
       // Player Texture starter position
       this.localPlayer = data.user;
       this.changedSceneData = data.changedSceneData;
+      console.log("ChangedSceneData byWorlds", this.changedSceneData);
       this.playerTexturePosition = data.user.position.ld;
       // Set container
       this.container = [];
-
-      if (this.localPlayer) {
-        this.socket.emit("PLAYER_JOIN", this.localPlayer);
-        this.socket.emit("localPlayer", {
-          id: this.localPlayer._id,
-          nickName:
-            this.localPlayer.nickName.charAt(0).toUpperCase() +
-            this.localPlayer.nickName.slice(1),
-          role: this.localPlayer.role,
-        });
-      }
     }
   }
 
@@ -46,12 +36,22 @@ export default class Scene1 extends Scene {
   initGame() {
     /** SELF ALLOW TO USE THIS IN SOCKET HANDLER */
     let self = this;
-    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
-    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** INIT MAP */
     this.initMap();
     /** INIT GAME OBJECTS BEFORE CREATING PLAYER */
     this.initGameObjectsBeforeCreatingPlayer();
+    if (this.localPlayer) {
+      this.socket.emit("PLAYER_JOIN", this.localPlayer);
+      this.socket.emit("localPlayer", {
+        id: this.localPlayer._id,
+        nickName:
+          this.localPlayer.nickName.charAt(0).toUpperCase() +
+          this.localPlayer.nickName.slice(1),
+        role: this.localPlayer.role,
+      });
+    }
+    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
+    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
     this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
@@ -79,9 +79,26 @@ export default class Scene1 extends Scene {
     this.spawnPoint = this.map?.findObject("SpawnPoints", (obj) =>
       obj.name === "Spawn Point" ? obj : null
     );
+
     this.newZone = this.map?.findObject("Zone", (obj) => {
       return obj ? obj : null;
     });
+
+    if (this.newZone) {
+      const [x, y] = this.newZone.name.split("|").map(Number);
+      this.newZone = { x, y };
+      console.log("NewZone", this.newZone);
+      this.localPlayer.position.x = this.newZone.x;
+      this.localPlayer.position.y = this.newZone.y;
+    }
+
+    if (this.spawnPoint) {
+      console.log(this.spawnPoint.properties[0]);
+      const [x, y] = this.spawnPoint.properties[0].value.split("|").map(Number);
+      console.log("SpawnPoint", x, y);
+      this.localPlayer.position.x = x;
+      this.localPlayer.position.y = y;
+    }
   }
 
   update() {

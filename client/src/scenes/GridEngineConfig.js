@@ -137,6 +137,7 @@ export class GridEngineCreate {
 
     this.gridEngine.positionChangeStarted().subscribe(({ charId }) => {
       if (charId == "player") {
+        console.log("PLAYED MOVED ON MAP", this.self.mapName);
         this.self.socket.emit("PLAYER_MOVING", {
           _id: this.player._id,
           position: {
@@ -145,6 +146,7 @@ export class GridEngineCreate {
             ld: this.gridEngine.getFacingDirection("player"),
             speed: this.gridEngine.getSpeed("player"),
           },
+          onMap: this.self.mapName,
           walkingAnimationMapping:
             this.gridEngine.getWalkingAnimationMapping("player"),
           isMoving: this.gridEngine.isMoving("player"),
@@ -185,8 +187,10 @@ export class GridEngineCreate {
 
   //*************** REMOVE ONLINE PLAYER *****************//
   removeOnlinePlayer(sessionId) {
-    this.gridEngine.removeCharacter(sessionId);
-    this.onlinePlayerSprite.destroy();
+    if (this.gridEngine.hasCharacter(sessionId)) {
+      this.gridEngine.removeCharacter(sessionId);
+      this.onlinePlayerSprite.destroy();
+    }
   }
 
   //*************** MOVE ONLINE PLAYER *****************//

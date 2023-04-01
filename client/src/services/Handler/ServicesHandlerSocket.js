@@ -9,9 +9,8 @@ import OnlinePlayer from "../../scenes/OnlinePlayer";
  */
 
 export const handlerSocket = (thisCopy, self, onlinePlayers) => {
-  console.log("HANDLER SOCKET");
-  console.log(self)
   thisCopy.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
+    console.log("CURRENT PLAYERS ON MAP", playerInfo);
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>
         player.sessionId !== self.socket.id && player.onMap === self.mapName
@@ -32,9 +31,35 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
     });
   });
 
+  thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo) {
+    if (self.mapName == playerInfo.onMap) {
+      const existingPlayer = onlinePlayers[playerInfo.sessionId];
+      if (!existingPlayer) {
+        // existingPlayer.destroy();
+        console.log("NOT EXISTING PLAYER");
+        console.log("Current map : " + self.mapName);
+        console.log("Player map : " + playerInfo.onMap);
+        if (self.mapName == playerInfo.onMap) {
+          onlinePlayers[playerInfo.sessionId] = new OnlinePlayer({
+            scene: self,
+            sessionId: playerInfo.sessionId,
+            key: playerInfo.sessionId,
+            map: playerInfo.onMap,
+            x: playerInfo.position.x,
+            y: playerInfo.position.y,
+            nickName: playerInfo.nickName,
+            role: playerInfo.role,
+            ld: playerInfo.position.ld,
+            texture: "onlinePlayer",
+          });
+        }
+      }
+    }
+  });
+
   thisCopy.socket.on("PLAYER_LEFT", function (sessionId) {
+    console.log("PLAYER LEFT", sessionId);
     if (onlinePlayers[sessionId]) {
-      console.log("SESSION ID : ", sessionId, "LEFT");
       self.gridEngineClass.removeOnlinePlayer(sessionId);
       onlinePlayers[sessionId].destroy();
       delete onlinePlayers[sessionId];
@@ -70,10 +95,14 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
   });
 
   thisCopy.socket.on("PLAYER_CHANGED_MAP", function (data) {
+    console.log("CHANGED MAP");
     if (onlinePlayers[data]) {
-      self.gridEngineClass.removeOnlinePlayer(data);
-      onlinePlayers[data].destroy();
-      delete onlinePlayers[data];
+      if (onlinePlayers[data].sessionId != self.socket.id) {
+        // If the player is not the current player
+        self.gridEngineClass.removeOnlinePlayer(data);
+        onlinePlayers[data].destroy();
+        delete onlinePlayers[data];
+      }
     }
   });
 };

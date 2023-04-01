@@ -1,5 +1,4 @@
 import { GameObjects } from "phaser";
-import { getStopFrame } from "../utils/GetStopFrame/UtilsGetStopFrame";
 import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
@@ -22,14 +21,7 @@ export default class Player extends GameObjects.Sprite {
     this.tileMap = config.tileMap;
     this.speed = config.speed;
     this.scene.physics.world.enable(this);
-
     this.newZone = config.newZone;
-
-    if (this.newZone) {
-      const [x, y] = this.newZone.name.split("|").map(Number);
-      this.newZone = { x, y };
-    }
-
     this.passPorte = false;
     this.passWorld = false;
   }
@@ -61,14 +53,14 @@ export default class Player extends GameObjects.Sprite {
         this.scene.gridEngine.stopMovement("player");
         setTimeout(() => {
           this.scene.cameras.main.fadeOut(700);
-        }, 500);
+        }, 400);
         setTimeout(() => {
           if (!this.passPorte) {
             this.passPorte = true;
             this.scene.gridEngine.turnTowards("player", "up");
             this.changeSceneByMapName(obj.properties[0].value, "up");
           }
-        }, 1000);
+        }, 450);
       }
     });
   }
@@ -108,7 +100,7 @@ export default class Player extends GameObjects.Sprite {
     this.scene.localPlayer.hasConnectedBefore = false;
 
     // PERMET DE CHANGER LES POINTS D ENTREE ET DE SORTIE
-    
+
     this.changedSceneData = {
       isChanged: this.newZone ? true : false,
       x: this.newZone
