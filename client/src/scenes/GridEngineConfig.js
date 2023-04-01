@@ -80,16 +80,8 @@ export class GridEngineCreate {
     }
     this.player = new Player({
       scene: this.self,
-      x: this.self.localPlayer.hasConnectedBefore
-        ? this.self.localPlayer.position.x
-        : this.self.changedSceneData.isChanged
-        ? this.self.changedSceneData.x
-        : this.spawnPointX,
-      y: this.self.localPlayer.hasConnectedBefore
-        ? this.self.localPlayer.position.y
-        : this.self.changedSceneData.isChanged
-        ? this.self.changedSceneData.y
-        : this.spawnPointY,
+      x: this.self.localPlayer.position.x,
+      y: this.self.localPlayer.position.y,
       texture: "player",
       frame: "up",
       tileMap: this.self.map,
@@ -98,18 +90,21 @@ export class GridEngineCreate {
     });
 
     this.player.isCrossActivated = this.getCantCrossRun();
-
     this.player.body.onWorldBounds = true;
-    this.self.physics.add.collider(this.player, this.self.collides);
 
-    this.gridEngineConfig.characters.push({
-      id: "player",
-      sprite: this.player,
-      walkingAnimationMapping: this.self.localPlayer.walkingAnimationMapping,
-      startPosition: { x: this.player.x, y: this.player.y },
-      speed: this.player.speed,
-      collides: true,
-    });
+    this.gridEngineConfig = {
+      characters: [
+        {
+          id: "player",
+          sprite: this.player,
+          walkingAnimationMapping:
+            this.self.localPlayer.walkingAnimationMapping,
+          startPosition: { x: this.player.x, y: this.player.y },
+          speed: this.player.speed,
+          collides: true,
+        },
+      ],
+    };
 
     this.gridEngine.create(this.map, this.gridEngineConfig);
 
@@ -122,17 +117,12 @@ export class GridEngineCreate {
     // INIT LAST DIRECTON
     this.gridEngine.turnTowards("player", this.self.localPlayer.position.ld);
 
-    this.bump = this.self.sound.add("bump", {
-      loop: false,
-      volume: 0.7,
-    });
-
     this.gridEngine.directionChanged().subscribe(({ charId, direction }) => {
       if (charId == "player") {
-        if (this.bump.isPlaying) {
-          this.bump.stop();
+        if (this.self.bump.isPlaying) {
+          this.self.bump.stop();
         } else {
-          this.bump.play();
+          this.self.bump.play();
         }
       }
     });
@@ -147,6 +137,7 @@ export class GridEngineCreate {
             ld: this.gridEngine.getFacingDirection("player"),
             speed: this.gridEngine.getSpeed("player"),
           },
+          onMap: this.self.mapName,
           walkingAnimationMapping:
             this.gridEngine.getWalkingAnimationMapping("player"),
           isMoving: this.gridEngine.isMoving("player"),
@@ -172,31 +163,28 @@ export class GridEngineCreate {
   //*************** ADD ONLINE PLAYER *****************//
   addOnlinePlayer(sessionId, spriteId, position) {
     this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
-    this.onlinePlayerSprite.scale = 1.1;
-    console.log("NEW ONLINE PLAYER SESSION ID: ", sessionId);
+    this.onlinePlayerSprite.scale = GAMES_INFOS.spriteScale;
     this.gridEngine.addCharacter({
       id: sessionId,
       sprite: this.onlinePlayerSprite,
       walkingAnimationMapping: spriteId,
       startPosition: { x: position.x, y: position.y },
-      speed: position.speed,
+      speed: 3,
       collides: false,
     });
+    this.gridEngine.turnTowards(sessionId, position.ld);
   }
 
   //*************** REMOVE ONLINE PLAYER *****************//
   removeOnlinePlayer(sessionId) {
-    this.gridEngine.removeCharacter(sessionId);
-    this.onlinePlayerSprite.destroy();
+    if (this.gridEngine.hasCharacter(sessionId)) {
+      this.gridEngine.removeCharacter(sessionId);
+      this.onlinePlayerSprite.destroy();
+    }
   }
 
   //*************** MOVE ONLINE PLAYER *****************//
   moveOnlinePlayer(sessionId, direction) {
-    console.log(
-      "Online player moved at position: ",
-      this.gridEngine.getPosition(sessionId)
-    );
-
     this.gridEngine.move(sessionId, direction);
   }
 }

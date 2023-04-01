@@ -30,9 +30,38 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
     });
   });
 
+  thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo, currentPlayer) {
+    const otherPlayersData = Object.values(playerInfo).filter(
+      (player) =>
+        player.sessionId !== self.socket.id && player.onMap === self.mapName
+    );
+    otherPlayersData.forEach(function (player) {
+      if(onlinePlayers[player.sessionId] == self.socket.id) {
+        onlinePlayers[self.socket.id].destroy();
+        self.gridEngineClass.removeOnlinePlayer(self.socket.id);
+        delete onlinePlayers[self.socket.id];
+      } else {
+        self.gridEngineClass.removeOnlinePlayer(player.sessionId);
+        delete onlinePlayers[player.sessionId];
+      }
+   
+      onlinePlayers[player.sessionId] = new OnlinePlayer({
+        scene: self,
+        sessionId: player.sessionId,
+        key: player.sessionId,
+        map: player.onMap,
+        x: player.position.x,
+        y: player.position.y,
+        nickName: player.nickName,
+        role: player.role,
+        ld: player.position.ld,
+        texture: "onlinePlayer",
+      });
+    });
+  });
+
   thisCopy.socket.on("PLAYER_LEFT", function (sessionId) {
     if (onlinePlayers[sessionId]) {
-      console.log("SESSION ID : ", sessionId, "LEFT");
       self.gridEngineClass.removeOnlinePlayer(sessionId);
       onlinePlayers[sessionId].destroy();
       delete onlinePlayers[sessionId];
@@ -69,9 +98,12 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
 
   thisCopy.socket.on("PLAYER_CHANGED_MAP", function (data) {
     if (onlinePlayers[data]) {
-      self.gridEngineClass.removeOnlinePlayer(data);
-      onlinePlayers[data].destroy();
-      delete onlinePlayers[data];
+      if (onlinePlayers[data].sessionId != self.socket.id) {
+        // If the player is not the current player
+        self.gridEngineClass.removeOnlinePlayer(data);
+        onlinePlayers[data].destroy();
+        delete onlinePlayers[data];
+      }
     }
   });
 };

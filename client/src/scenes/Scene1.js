@@ -14,11 +14,9 @@ export default class Scene1 extends Scene {
       this.mapName = data.user.onMap;
       // Player Texture starter position
       this.localPlayer = data.user;
-      this.changedSceneData = data.changedSceneData;
       this.playerTexturePosition = data.user.position.ld;
       // Set container
       this.container = [];
-
       if (this.localPlayer) {
         this.socket.emit("PLAYER_JOIN", this.localPlayer);
         this.socket.emit("localPlayer", {
@@ -46,12 +44,10 @@ export default class Scene1 extends Scene {
   initGame() {
     /** SELF ALLOW TO USE THIS IN SOCKET HANDLER */
     let self = this;
-    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
-    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** INIT MAP */
     this.initMap();
-    /** INIT GAME OBJECTS BEFORE CREATING PLAYER */
-    this.initGameObjectsBeforeCreatingPlayer();
+    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
+    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
     this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(this);
     this.gridEngineClass.setPlayer();
@@ -73,15 +69,6 @@ export default class Scene1 extends Scene {
       layer.scale = GAMES_INFOS.gameScale;
     }
     this.cameras.main.fadeIn(1000);
-  }
-
-  initGameObjectsBeforeCreatingPlayer() {
-    this.spawnPoint = this.map?.findObject("SpawnPoints", (obj) =>
-      obj.name === "Spawn Point" ? obj : null
-    );
-    this.newZone = this.map?.findObject("Zone", (obj) => {
-      return obj ? obj : null;
-    });
   }
 
   update() {

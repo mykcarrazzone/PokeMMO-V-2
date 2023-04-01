@@ -25,6 +25,14 @@ export default function pokeMMO(io, socket) {
       onlinePlayers,
     });
   });
+  socket.on("PLAYER_REFRESH_POSITION", function (playerInfo) {
+    socketRouter.handlePlayerRefreshPosition({
+      playerInfo,
+      socket,
+      players,
+      User,
+    });
+  });
 
   socket.on("PLAYER_MOVING", function (playerInfo) {
     socketRouter.handlePlayerMoving({
@@ -56,6 +64,6 @@ export default function pokeMMO(io, socket) {
   });
 
   socketRouter.interfacePlayerSocket({ socket, io, onlinePlayers });
-  
+
   friendsAndMessagesSocket({ io, socket });
 }

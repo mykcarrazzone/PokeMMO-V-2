@@ -1,5 +1,4 @@
 import { GameObjects } from "phaser";
-import { getStopFrame } from "../utils/GetStopFrame/UtilsGetStopFrame";
 import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
@@ -22,21 +21,13 @@ export default class Player extends GameObjects.Sprite {
     this.tileMap = config.tileMap;
     this.speed = config.speed;
     this.scene.physics.world.enable(this);
-
     this.newZone = config.newZone;
-
-    if (this.newZone) {
-      const [x, y] = this.newZone.name.split("|").map(Number);
-      this.newZone = { x, y };
-    }
-
     this.passPorte = false;
     this.passWorld = false;
   }
 
   update() {
     this.doorInteraction();
-    this.worldInteraction();
   }
 
   doorInteraction() {
@@ -50,88 +41,44 @@ export default class Player extends GameObjects.Sprite {
       const objectY = obj.y * GAMES_INFOS.gameScale - 50;
       const objectWidth = obj.width;
       const objectHeight = obj.height;
-
       if (
         this.y >= objectY &&
         this.y <= objectY + objectHeight &&
         this.x + GAMES_INFOS.tileSize >= objectX &&
         this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
       ) {
-        console.log("Player is by door: " + obj.name);
-        this.scene.gridEngine.stopMovement("player");
-        setTimeout(() => {
-          this.scene.cameras.main.fadeOut(700);
-        }, 500);
-        setTimeout(() => {
-          if (!this.passPorte) {
-            this.passPorte = true;
-            this.scene.gridEngine.turnTowards("player", "up");
-            this.changeSceneByMapName(obj.properties[0].value, "up");
-          }
-        }, 1000);
+        const direction = obj.properties[0].value;
+        const onMap = obj.properties[1].value;
+        const [teleportX, teleportY] = obj.properties[2].value.split("|");
+        const newPosition = {
+          x: parseInt(teleportX),
+          y: parseInt(teleportY),
+          ld: direction,
+          onMap: onMap,
+        };
+        this.changeSceneByMapName(newPosition);
       }
     });
   }
 
-  worldInteraction() {
-    // Cette fonction permet de gérer les interactions avec les portes
-    this.tileMap.findObject("Worlds", (obj) => {
-      /* Check obj array is not empty */
-      if (obj.length === 0) {
-        return;
-      }
-
-      const objectWidth = obj.width;
-      const objectHeight = obj.height;
-      const objectX = obj.x * GAMES_INFOS.gameScale + objectWidth;
-      const objectY = obj.y * GAMES_INFOS.gameScale - 125;
-      if (
-        this.y >= objectY &&
-        this.y <= objectY + objectHeight &&
-        this.x + GAMES_INFOS.tileSize >= objectX &&
-        this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
-      ) {
-        if (!this.passWorld) {
-          this.passWorld = true;
-          console.log("Player is by world entry: " + obj.name);
-          this.scene.localPlayer.position.ld = "down";
-          this.changeSceneByMapName(obj.name, "down");
-        }
-      }
-    });
-  }
-
-  changeSceneByMapName(worldName, direction) {
-    this.scene.localPlayer.onMap = worldName;
-    this.scene.localPlayer.position.x = this.x;
-    this.scene.localPlayer.position.y = this.y;
+  changeSceneByMapName(newPosition) {
+    this.scene.localPlayer.onMap = newPosition.onMap;
+    this.scene.localPlayer.position.x = newPosition.x;
+    this.scene.localPlayer.position.y = newPosition.y;
+    this.scene.localPlayer.position.ld = newPosition.ld;
     this.scene.localPlayer.hasConnectedBefore = false;
-
-    // PERMET DE CHANGER LES POINTS D ENTREE ET DE SORTIE
-    
-    this.changedSceneData = {
-      isChanged: this.newZone ? true : false,
-      x: this.newZone
-        ? this.newZone.x != 0
-          ? this.newZone.x
-          : this.scene.localPlayer.x
-        : this.scene.localPlayer.x,
-      y: this.newZone
-        ? this.newZone.y != 0
-          ? this.newZone.y
-          : this.scene.localPlayer.y
-        : this.scene.localPlayer.y,
-    };
 
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
       position: {
-        ld: direction,
+        x: newPosition.x,
+        y: newPosition.y,
+        ld: newPosition.ld,
+        speed: 3,
       },
-      onMap: worldName,
+      onMap: newPosition.onMap,
     });
 
-    this.scene.localPlayer.position.ld = direction;
     // DÉTRUIRE LES OBJETS DE LA SCÈNE
     this.scene.registry.destroy();
     this.scene.events.off();
@@ -139,7 +86,6 @@ export default class Player extends GameObjects.Sprite {
     this.scene.scene.restart({
       user: this.scene.localPlayer,
       socket: this.scene.socket,
-      changedSceneData: this.changedSceneData,
     });
   }
 
@@ -152,7 +98,7 @@ export default class Player extends GameObjects.Sprite {
   }
 
   battleZoneInteraction() {
-    if (this.isMoved() && this.scene.battleZones) {
+    if (this.scene.gridEngine.isMoved("player") && this.scene.battleZones) {
       var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
       var currentTile = this.scene.battleZones.getTileAt(
         playerTileY.x,

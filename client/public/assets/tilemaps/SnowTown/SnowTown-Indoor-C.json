@@ -691,47 +691,34 @@
         }, 
         {
          "draworder":"topdown",
-         "id":15,
-         "name":"Zone",
+         "id":32,
+         "name":"Doors",
          "objects":[
                 {
                  "class":"",
                  "height":16,
-                 "id":15,
-                 "name":"49|40",
-                 "rotation":0,
-                 "visible":true,
-                 "width":48,
-                 "x":496,
-                 "y":640
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":24,
-         "name":"SpawnPoints",
-         "objects":[
-                {
-                 "class":"",
-                 "height":0,
-                 "id":20,
-                 "name":"Spawn Point",
-                 "point":true,
+                 "id":30,
+                 "name":"DoorA",
                  "properties":[
                         {
-                         "name":"position",
+                         "name":"direction",
                          "type":"string",
-                         "value":"32|36"
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"onMap",
+                         "type":"string",
+                         "value":"SnowTown"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"49|40"
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
-                 "x":528,
+                 "width":16,
+                 "x":512,
                  "y":592
                 }],
          "opacity":1,
@@ -755,34 +742,6 @@
                  "width":48,
                  "x":496,
                  "y":476
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":17,
-         "name":"Worlds",
-         "objects":[
-                {
-                 "class":"",
-                 "height":16,
-                 "id":19,
-                 "name":"SnowTown",
-                 "properties":[
-                        {
-                         "name":"position",
-                         "type":"string",
-                         "value":"32|37"
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":48,
-                 "x":496,
-                 "y":608
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -827,8 +786,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":32,
- "nextobjectid":29,
+ "nextlayerid":33,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "properties":[
         {
