@@ -61,7 +61,6 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
   });
 
   thisCopy.socket.on("PLAYER_LEFT", function (sessionId) {
-    console.log("PLAYER LEFT", sessionId);
     if (onlinePlayers[sessionId]) {
       self.gridEngineClass.removeOnlinePlayer(sessionId);
       onlinePlayers[sessionId].destroy();
@@ -98,7 +97,6 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
   });
 
   thisCopy.socket.on("PLAYER_CHANGED_MAP", function (data) {
-    console.log("CHANGED MAP");
     if (onlinePlayers[data]) {
       if (onlinePlayers[data].sessionId != self.socket.id) {
         // If the player is not the current player

@@ -13,10 +13,9 @@ export default class Scene1 extends Scene {
       // Map data
       this.mapName = data.user.onMap;
       // Player Texture starter position
-      this.localPlayer = data.user;     
+      this.localPlayer = data.user;
       this.playerTexturePosition = data.user.position.ld;
       // Set container
-      console.log("OnlinePlayer new position", data.user.position)
       this.container = [];
       if (this.localPlayer) {
         this.socket.emit("PLAYER_JOIN", this.localPlayer);
@@ -47,9 +46,6 @@ export default class Scene1 extends Scene {
     let self = this;
     /** INIT MAP */
     this.initMap();
-    /** INIT GAME OBJECTS BEFORE CREATING PLAYER */
-    this.initGameObjectsBeforeCreatingPlayer();
-
     /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
     GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
@@ -74,8 +70,6 @@ export default class Scene1 extends Scene {
     }
     this.cameras.main.fadeIn(1000);
   }
-
-  initGameObjectsBeforeCreatingPlayer() {}
 
   update() {
     GAME_UTILITIES.initKeyboardControls(this);

@@ -47,32 +47,27 @@ export default class Player extends GameObjects.Sprite {
         this.x + GAMES_INFOS.tileSize >= objectX &&
         this.x + GAMES_INFOS.tileSize <= objectX + objectWidth
       ) {
-        console.log("Player is by door: " + obj.name);
-          const direction = obj.properties[0].value;
-          const onMap = obj.properties[1].value;
-          const [teleportX, teleportY] = obj.properties[2].value.split("|");
-          const newPosition = {
-            x: parseInt(teleportX),
-            y: parseInt(teleportY),
-            ld: direction,
-            onMap: onMap,
-          };
-          console.log("NEW POSITION LOG", newPosition);
-          this.changeSceneByMapName(newPosition);
-        
+        const direction = obj.properties[0].value;
+        const onMap = obj.properties[1].value;
+        const [teleportX, teleportY] = obj.properties[2].value.split("|");
+        const newPosition = {
+          x: parseInt(teleportX),
+          y: parseInt(teleportY),
+          ld: direction,
+          onMap: onMap,
+        };
+        this.changeSceneByMapName(newPosition);
       }
     });
   }
 
   changeSceneByMapName(newPosition) {
-    console.log("NEW POSITION LOGSS", newPosition);
     this.scene.localPlayer.onMap = newPosition.onMap;
     this.scene.localPlayer.position.x = newPosition.x;
     this.scene.localPlayer.position.y = newPosition.y;
     this.scene.localPlayer.position.ld = newPosition.ld;
-    console.log("ChangedSceneMap", this.scene.localPlayer.position);
     this.scene.localPlayer.hasConnectedBefore = false;
-    
+
     this.scene.socket.emit("PLAYER_PASS_IN_NEW_MAP", {
       _id: this._id,
       position: {
@@ -103,7 +98,7 @@ export default class Player extends GameObjects.Sprite {
   }
 
   battleZoneInteraction() {
-    if (this.isMoved() && this.scene.battleZones) {
+    if (this.scene.gridEngine.isMoved("player") && this.scene.battleZones) {
       var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
       var currentTile = this.scene.battleZones.getTileAt(
         playerTileY.x,

@@ -129,7 +129,6 @@ export class GridEngineCreate {
 
     this.gridEngine.positionChangeStarted().subscribe(({ charId }) => {
       if (charId == "player") {
-        console.log("PLAYED MOVED ON MAP", this.self.mapName);
         this.self.socket.emit("PLAYER_MOVING", {
           _id: this.player._id,
           position: {
@@ -163,7 +162,6 @@ export class GridEngineCreate {
 
   //*************** ADD ONLINE PLAYER *****************//
   addOnlinePlayer(sessionId, spriteId, position) {
-    console.log("NEW ONLINE PLAYER SESSION ID: ", sessionId);
     this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
     this.onlinePlayerSprite.scale = GAMES_INFOS.spriteScale;
     this.gridEngine.addCharacter({
@@ -187,11 +185,6 @@ export class GridEngineCreate {
 
   //*************** MOVE ONLINE PLAYER *****************//
   moveOnlinePlayer(sessionId, direction) {
-    console.log(
-      "Online player moved at position: ",
-      this.gridEngine.getPosition(sessionId)
-    );
-
     this.gridEngine.move(sessionId, direction);
   }
 }
