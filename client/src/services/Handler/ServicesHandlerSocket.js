@@ -10,7 +10,6 @@ import OnlinePlayer from "../../scenes/OnlinePlayer";
 
 export const handlerSocket = (thisCopy, self, onlinePlayers) => {
   thisCopy.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
-    console.log("CURRENT PLAYERS ON MAP", playerInfo);
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>
         player.sessionId !== self.socket.id && player.onMap === self.mapName
@@ -31,30 +30,34 @@ export const handlerSocket = (thisCopy, self, onlinePlayers) => {
     });
   });
 
-  thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo) {
-    if (self.mapName == playerInfo.onMap) {
-      const existingPlayer = onlinePlayers[playerInfo.sessionId];
-      if (!existingPlayer) {
-        // existingPlayer.destroy();
-        console.log("NOT EXISTING PLAYER");
-        console.log("Current map : " + self.mapName);
-        console.log("Player map : " + playerInfo.onMap);
-        if (self.mapName == playerInfo.onMap) {
-          onlinePlayers[playerInfo.sessionId] = new OnlinePlayer({
-            scene: self,
-            sessionId: playerInfo.sessionId,
-            key: playerInfo.sessionId,
-            map: playerInfo.onMap,
-            x: playerInfo.position.x,
-            y: playerInfo.position.y,
-            nickName: playerInfo.nickName,
-            role: playerInfo.role,
-            ld: playerInfo.position.ld,
-            texture: "onlinePlayer",
-          });
-        }
+  thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo, currentPlayer) {
+    const otherPlayersData = Object.values(playerInfo).filter(
+      (player) =>
+        player.sessionId !== self.socket.id && player.onMap === self.mapName
+    );
+    otherPlayersData.forEach(function (player) {
+      if(onlinePlayers[player.sessionId] == self.socket.id) {
+        onlinePlayers[self.socket.id].destroy();
+        self.gridEngineClass.removeOnlinePlayer(self.socket.id);
+        delete onlinePlayers[self.socket.id];
+      } else {
+        self.gridEngineClass.removeOnlinePlayer(player.sessionId);
+        delete onlinePlayers[player.sessionId];
       }
-    }
+   
+      onlinePlayers[player.sessionId] = new OnlinePlayer({
+        scene: self,
+        sessionId: player.sessionId,
+        key: player.sessionId,
+        map: player.onMap,
+        x: player.position.x,
+        y: player.position.y,
+        nickName: player.nickName,
+        role: player.role,
+        ld: player.position.ld,
+        texture: "onlinePlayer",
+      });
+    });
   });
 
   thisCopy.socket.on("PLAYER_LEFT", function (sessionId) {

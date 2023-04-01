@@ -13,11 +13,21 @@ export default class Scene1 extends Scene {
       // Map data
       this.mapName = data.user.onMap;
       // Player Texture starter position
-      this.localPlayer = data.user;
-      this.changedSceneData = data.changedSceneData;
+      this.localPlayer = data.user;     
       this.playerTexturePosition = data.user.position.ld;
       // Set container
+      console.log("OnlinePlayer new position", data.user.position)
       this.container = [];
+      if (this.localPlayer) {
+        this.socket.emit("PLAYER_JOIN", this.localPlayer);
+        this.socket.emit("localPlayer", {
+          id: this.localPlayer._id,
+          nickName:
+            this.localPlayer.nickName.charAt(0).toUpperCase() +
+            this.localPlayer.nickName.slice(1),
+          role: this.localPlayer.role,
+        });
+      }
     }
   }
 
@@ -39,16 +49,7 @@ export default class Scene1 extends Scene {
     this.initMap();
     /** INIT GAME OBJECTS BEFORE CREATING PLAYER */
     this.initGameObjectsBeforeCreatingPlayer();
-    if (this.localPlayer) {
-      this.socket.emit("PLAYER_JOIN", this.localPlayer);
-      this.socket.emit("localPlayer", {
-        id: this.localPlayer._id,
-        nickName:
-          this.localPlayer.nickName.charAt(0).toUpperCase() +
-          this.localPlayer.nickName.slice(1),
-        role: this.localPlayer.role,
-      });
-    }
+
     /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
     GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
     /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
@@ -74,31 +75,7 @@ export default class Scene1 extends Scene {
     this.cameras.main.fadeIn(1000);
   }
 
-  initGameObjectsBeforeCreatingPlayer() {
-    this.spawnPoint = this.map?.findObject("SpawnPoints", (obj) =>
-      obj.name === "Spawn Point" ? obj : null
-    );
-
-    this.newZone = this.map?.findObject("Zone", (obj) => {
-      return obj ? obj : null;
-    });
-
-    if (this.newZone) {
-      const [x, y] = this.newZone.name.split("|").map(Number);
-      this.newZone = { x, y };
-      console.log("Online Player in NewZone", this.newZone);
-      this.localPlayer.position.x = this.newZone.x;
-      this.localPlayer.position.y = this.newZone.y;
-    }
-
-    if (this.spawnPoint) {
-      console.log(this.spawnPoint.properties[0]);
-      const [x, y] = this.spawnPoint.properties[0].value.split("|").map(Number);
-      console.log("Online Plyer in SpawnPoint", x, y);
-      this.localPlayer.position.x = x;
-      this.localPlayer.position.y = y;
-    }
-  }
+  initGameObjectsBeforeCreatingPlayer() {}
 
   update() {
     GAME_UTILITIES.initKeyboardControls(this);

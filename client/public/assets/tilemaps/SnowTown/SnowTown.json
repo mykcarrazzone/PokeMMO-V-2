@@ -1415,9 +1415,19 @@
                  "name":"DoorE",
                  "properties":[
                         {
-                         "name":"map",
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"onMap",
                          "type":"string",
                          "value":"SnowTown-DoorE"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"32|36"
                         }],
                  "rotation":0,
                  "visible":true,
@@ -1432,9 +1442,19 @@
                  "name":"DoorD",
                  "properties":[
                         {
-                         "name":"map",
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"onMap",
                          "type":"string",
                          "value":"SnowTown-DoorD"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"32|36"
                         }],
                  "rotation":0,
                  "visible":true,
@@ -1449,9 +1469,19 @@
                  "name":"DoorC",
                  "properties":[
                         {
-                         "name":"map",
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"onMap",
                          "type":"string",
                          "value":"SnowTown-DoorC"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"32|36"
                         }],
                  "rotation":0,
                  "visible":true,
@@ -1466,9 +1496,19 @@
                  "name":"DoorB",
                  "properties":[
                         {
-                         "name":"map",
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"onMap",
                          "type":"string",
                          "value":"SnowTown-DoorB"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"32|36"
                         }],
                  "rotation":0,
                  "visible":true,
@@ -1483,9 +1523,19 @@
                  "name":"DoorA",
                  "properties":[
                         {
-                         "name":"map",
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"onMap",
                          "type":"string",
                          "value":"SnowTown-DoorA"
+                        }, 
+                        {
+                         "name":"teleportTo",
+                         "type":"string",
+                         "value":"32|36"
                         }],
                  "rotation":0,
                  "visible":true,

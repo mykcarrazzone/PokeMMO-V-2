@@ -13,7 +13,7 @@ export function handlePlayerJoin(data) {
   if (players.hasOwnProperty(socket.id)) {
     console.info(`Player [${socket.id}] already exists, updating info`);
     // Mettre à jour les informations du joueur existant
-    console.log("PLAYER JOIN IN UPDATE", playerInfo.position)
+    console.log("PLAYER JOIN IN UPDATE", playerInfo)
     players[socket.id] = {
       ...players[socket.id],
       nickName: playerInfo.nickName,
@@ -27,7 +27,7 @@ export function handlePlayerJoin(data) {
       isMoving: playerInfo.isMoving,
       onMap: playerInfo.onMap,
     };
-    socket.broadcast.emit("PLAYER_UPDATED", players[socket.id]);
+    io.emit("PLAYER_UPDATED", players, players[socket.id]);
   } else {
     players[socket.id] = {
       sessionId: socket.id,
@@ -55,11 +55,11 @@ export function handlePlayerJoin(data) {
     // });
 
     // Envoyer la liste des joueurs à tous les joueurs connectés
-    const playersOnMap = Object.values(players).filter(
-      (player) => player.onMap === playerInfo.onMap
-    );
-    console.info("New player joined the pokeMMO", playersOnMap);
-    io.emit("CURRENT_PLAYERS_ON_MAP", playersOnMap);
+    // const playersOnMap = Object.values(players).filter(
+    //   (player) => player.onMap === playerInfo.onMap
+    // );
+    console.info("New player joined the pokeMMO", players);
+    io.emit("CURRENT_PLAYERS_ON_MAP", players);
 
     // Envoyer le nombre de joueurs en ligne
     io.emit("numberOfOnlinePlayers", onlinePlayers.length);

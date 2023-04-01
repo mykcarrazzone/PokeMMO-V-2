@@ -72,12 +72,34 @@ const userSchema = new mongoose.Schema(
       position: {
         x: {
           type: Number,
-          default: 2815,
+          default: 25,
           required: false,
         },
         y: {
           type: Number,
-          default: 2400,
+          default: 22,
+          required: false,
+        },
+        ld: {
+          type: String,
+          default: "down",
+          required: false,
+        },
+        speed: {
+          type: Number,
+          default: 3,
+          required: false,
+        },
+      },
+      previousPosition: {
+        x: {
+          type: Number,
+          default: 25,
+          required: false,
+        },
+        y: {
+          type: Number,
+          default: 22,
           required: false,
         },
         ld: {
@@ -137,6 +159,44 @@ const setAllUsersOffline = async () => {
       { "character.isOnline": true },
       { "character.isOnline": false }
     );
+    // // update position all users to default
+    // await User.updateMany(
+    //   { "onMap.map_id": { $ne: "SnowTown" } },
+    //   { "onMap.map_id": "SnowTown" }
+    // );
+    // await User.updateMany(
+    //   { "onMap.position.x": { $ne: 25 } },
+    //   { "onMap.position.x": 25 }
+    // );
+    // await User.updateMany(
+    //   { "onMap.position.y": { $ne: 22 } },
+    //   { "onMap.position.y": 22 }
+    // );
+    // await User.updateMany(
+    //   { "onMap.position.ld": { $ne: "down" } },
+    //   { "onMap.position.ld": "down" }
+    // );
+    // await User.updateMany(
+    //   { "onMap.position.speed": { $ne: 3 } },
+    //   { "onMap.position.speed": 3 }
+    // );
+    // await User.updateMany(
+    //   { "onMap.previousPosition.x": { $ne: 25 } },
+    //   { "onMap.previousPosition.x": 25 }
+    // );
+    // await User.updateMany(
+    //   { "onMap.previousPosition.y": { $ne: 22 } },
+    //   { "onMap.previousPosition.y": 22 }
+    // );
+    // await User.updateMany(
+    //   { "onMap.previousPosition.ld": { $ne: "down" } },
+    //   { "onMap.previousPosition.ld": "down" }
+    // );
+    // await User.updateMany(
+    //   { "onMap.previousPosition.speed": { $ne: 3 } },
+    //   { "onMap.previousPosition.speed": 3 }
+    // );
+
     console.log("All users set to offline.");
   } catch (error) {
     console.error(error.message);

@@ -80,16 +80,8 @@ export class GridEngineCreate {
     }
     this.player = new Player({
       scene: this.self,
-      x: this.self.localPlayer.hasConnectedBefore
-        ? this.self.localPlayer.position.x
-        : this.self.changedSceneData.isChanged
-        ? this.self.changedSceneData.x
-        : this.spawnPointX,
-      y: this.self.localPlayer.hasConnectedBefore
-        ? this.self.localPlayer.position.y
-        : this.self.changedSceneData.isChanged
-        ? this.self.changedSceneData.y
-        : this.spawnPointY,
+      x: this.self.localPlayer.position.x,
+      y: this.self.localPlayer.position.y,
       texture: "player",
       frame: "up",
       tileMap: this.self.map,
