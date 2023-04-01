@@ -9,6 +9,8 @@ import OnlinePlayer from "../../scenes/OnlinePlayer";
  */
 
 export const handlerSocket = (thisCopy, self, onlinePlayers) => {
+  console.log("HANDLER SOCKET");
+  console.log(self)
   thisCopy.socket.on("CURRENT_PLAYERS_ON_MAP", function (playerInfo) {
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>

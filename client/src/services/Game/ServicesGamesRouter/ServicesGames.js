@@ -9,7 +9,7 @@ import { servicesAddNpc } from "@/services/Game/ServicesAddNpc";
 import { servicesMapProperties } from "@/services/Game/ServicesMapProperties";
 
 /** CREATE ONLINE PLAYERS ARRAY FOR SCENES 1*/
-const onlinePlayers = [];
+let onlinePlayers = [];
 /***/
 
 /** EXPORT GAME UTILITIES */
