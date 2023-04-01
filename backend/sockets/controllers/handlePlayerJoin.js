@@ -13,6 +13,7 @@ export function handlePlayerJoin(data) {
   if (players.hasOwnProperty(socket.id)) {
     console.info(`Player [${socket.id}] already exists, updating info`);
     // Mettre à jour les informations du joueur existant
+    console.log("PLAYER JOIN IN UPDATE", playerInfo.position)
     players[socket.id] = {
       ...players[socket.id],
       nickName: playerInfo.nickName,

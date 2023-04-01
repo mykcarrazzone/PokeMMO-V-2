@@ -15,7 +15,6 @@ export default class Scene1 extends Scene {
       // Player Texture starter position
       this.localPlayer = data.user;
       this.changedSceneData = data.changedSceneData;
-      console.log("ChangedSceneData byWorlds", this.changedSceneData);
       this.playerTexturePosition = data.user.position.ld;
       // Set container
       this.container = [];
@@ -87,7 +86,7 @@ export default class Scene1 extends Scene {
     if (this.newZone) {
       const [x, y] = this.newZone.name.split("|").map(Number);
       this.newZone = { x, y };
-      console.log("NewZone", this.newZone);
+      console.log("Online Player in NewZone", this.newZone);
       this.localPlayer.position.x = this.newZone.x;
       this.localPlayer.position.y = this.newZone.y;
     }
@@ -95,7 +94,7 @@ export default class Scene1 extends Scene {
     if (this.spawnPoint) {
       console.log(this.spawnPoint.properties[0]);
       const [x, y] = this.spawnPoint.properties[0].value.split("|").map(Number);
-      console.log("SpawnPoint", x, y);
+      console.log("Online Plyer in SpawnPoint", x, y);
       this.localPlayer.position.x = x;
       this.localPlayer.position.y = y;
     }
