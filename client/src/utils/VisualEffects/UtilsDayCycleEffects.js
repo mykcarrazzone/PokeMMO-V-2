@@ -5,14 +5,21 @@ export const funcStartDayCycle = (value, self) => {
   if (typeof value !== "boolean") {
     throw new Error("[funcStartDayCycle] - Invalid value");
   } else {
+    console.log("funcStartDayCycle", value)
     const isDayCycleCanStart = value;
-    if (isDayCycleCanStart && GAME_UTILITIES.isDay(self)) {
+    if(!isDayCycleCanStart) {
+      return;
+    }
+
+    if (GAME_UTILITIES.isDay(self)) {
+      console.log("Cycle jour lancé")
       setDayCycleEffects("day", self, true);
     } else {
+      console.log("Cycle nuit lancé")
       setDayCycleEffects("night", self, true);
     }
     self.events.on("dayChange", (isDay) => {
-      if (isDayCycleCanStart && isDay) {
+      if (isDay) {
         setDayCycleEffects("day", self);
       } else {
         setDayCycleEffects("night", self);
@@ -39,8 +46,10 @@ export const setDayCycleEffects = (cycleType, self, firstTime) => {
       )
       .setDepth(100)
       .setOrigin(0, 0)
-      .setScrollFactor(0);
+      .setScrollFactor(0)
   }
+
+  console.log("RECTANGLE", self.dayCycleRectangle)
 
   // Mettre à jour les propriétés du rectangle
   const color = 0x000000;
