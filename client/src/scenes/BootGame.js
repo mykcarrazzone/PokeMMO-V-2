@@ -117,6 +117,8 @@ export default class BootGame extends Scene {
     this.load.audio("bump", "assets/sounds/se/bump.wav");
     /** AUDIO PLAYER WALKING */
     this.load.audio("walk", "assets/sounds/se/walk.mp3");
+    /** AUDIO WHEATHER RAIN */
+    this.load.audio("weather-rain", "assets/sounds/se/rain.mp3");
   }
 
   loadSnowTown() {
