@@ -1262,6 +1262,17 @@
                  "height":16,
                  "id":20,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":67
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":61
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1274,6 +1285,17 @@
                  "height":16,
                  "id":19,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":67
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":57
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1284,8 +1306,65 @@
                  "class":"",
                  "ellipse":true,
                  "height":16,
+                 "id":22,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":60
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":57
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":960,
+                 "y":912
+                }, 
+                {
+                 "class":"",
+                 "ellipse":true,
+                 "height":16,
+                 "id":23,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":60
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":61
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":960,
+                 "y":976
+                }, 
+                {
+                 "class":"",
+                 "ellipse":true,
+                 "height":16,
                  "id":16,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":46
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":33
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1298,6 +1377,17 @@
                  "height":16,
                  "id":15,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":39
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":33
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1308,8 +1398,42 @@
                  "class":"",
                  "ellipse":true,
                  "height":16,
+                 "id":12,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":38
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":24
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":608,
+                 "y":384
+                }, 
+                {
+                 "class":"",
+                 "ellipse":true,
+                 "height":16,
                  "id":11,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":38
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":20
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1322,6 +1446,17 @@
                  "height":16,
                  "id":13,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":31
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":24
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,
@@ -1332,44 +1467,19 @@
                  "class":"",
                  "ellipse":true,
                  "height":16,
-                 "id":22,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":960,
-                 "y":912
-                }, 
-                {
-                 "class":"",
-                 "ellipse":true,
-                 "height":16,
-                 "id":12,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":608,
-                 "y":384
-                }, 
-                {
-                 "class":"",
-                 "ellipse":true,
-                 "height":16,
-                 "id":23,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":960,
-                 "y":976
-                }, 
-                {
-                 "class":"",
-                 "ellipse":true,
-                 "height":16,
                  "id":14,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"x",
+                         "type":"int",
+                         "value":31
+                        }, 
+                        {
+                         "name":"y",
+                         "type":"int",
+                         "value":20
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":16,

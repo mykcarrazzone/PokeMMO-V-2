@@ -51,7 +51,8 @@ export default class Scene1 extends Scene {
     self.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);
     self.gridEngineClass.setPlayer();
     /** INIT GAME OBJECTS AFTER CREATING PLAYER */
-    GAME_UTILITIES.utilsInitGameObjects(this, this.map.objects);
+    GAME_UTILITIES.utilsInitGameCreateObjects(this, this.map.objects);
+    GAME_UTILITIES.utilsInitGameUpdateObjects(this, this.map.objects);
     /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
     GAME_UTILITIES.servicesHandlerSocket(
       this,
@@ -63,6 +64,7 @@ export default class Scene1 extends Scene {
   }
 
   initMap() {
+    this.myLights = [];
     this.map = this.make.tilemap({ key: this.mapName });
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
 
@@ -81,5 +83,6 @@ export default class Scene1 extends Scene {
   update() {
     GAME_UTILITIES.utilsInitKeyboardControls(this);
     this.gridEngineClass.playerUpdate();
+    GAME_UTILITIES.isDay(this);
   }
 }

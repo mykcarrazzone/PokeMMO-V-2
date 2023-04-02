@@ -1,4 +1,5 @@
 export const utilsDefineVariables = (self) => {
+  isDay(self);
   self.currentState = "normal";
   self.crossLastPressed = 0;
   self.crossDelay = 500;
@@ -15,4 +16,13 @@ export const utilsDefineVariables = (self) => {
     shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
     cross: Phaser.Input.Keyboard.KeyCodes.R,
   });
+};
+
+export const isDay = (self) => {
+  self.hour = new Date().getHours();
+  if (self.hour >= 6 && self.hour < 17) { // SI L'HEURE EST ENTRE 6H ET 17H
+    return true;
+  } else {
+    return false;
+  }
 };

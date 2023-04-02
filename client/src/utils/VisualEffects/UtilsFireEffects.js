@@ -13,6 +13,7 @@ export const funcFireEffects = (effect, self) => {
   });
 };
 
+
 export const utilsStartVisualEffects = (object, self) => {
   /** Early return if object is not an array or if it's empty */
   if (!Array.isArray(object.objects) || object.objects.length === 0) {
