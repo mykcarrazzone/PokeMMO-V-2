@@ -4,19 +4,21 @@ export const servicesAddNpc = (object, self) => {
     return;
   }
 
-  const npc = object.objects;
-  npc.map((prop) => {
-    const name = prop.name;
-    const direction = prop.properties[0].value;
-    const [x, y] = prop.properties[1].value.split("|");
-    self.gridEngineClass.addNpc({
-      id: name,
-      x: parseInt(x),
-      y: parseInt(y),
-      speed: 0,
-      walkingAnimationMapping: prop.properties[2].value,
-      collides: true,
+  if (self.gridEngineClass) {
+    const npc = object.objects;
+    npc.map((prop) => {
+      const name = prop.name;
+      const direction = prop.properties[0].value;
+      const [x, y] = prop.properties[1].value.split("|");
+      self.gridEngineClass.addNpc({
+        id: name,
+        x: parseInt(x),
+        y: parseInt(y),
+        speed: 0,
+        walkingAnimationMapping: prop.properties[2].value,
+        collides: true,
+      });
+      self.gridEngineClass.setTurnTowards(prop.name, direction);
     });
-    self.gridEngineClass.setTurnTowards(prop.name, direction);
-  });
+  }
 };

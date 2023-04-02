@@ -4,10 +4,12 @@ import { funcAddMapNameSign } from "../../utils/MessageBoxUi/UtilsMessageBoxUi";
 import { funcStartWeather } from "../../utils/VisualEffects/UtilsWeatherEffects";
 
 const funcIsBike = (value, self) => {
-  if (typeof value !== "boolean") {
-    throw new Error("[funcIsBike] - Invalid value");
-  } else {
-    self.gridEngineClass.setCanBike(value);
+  if (self.gridEngineClass) {
+    if (typeof value !== "boolean") {
+      throw new Error("[funcIsBike] - Invalid value");
+    } else {
+      return value;
+    }
   }
 };
 

@@ -9,6 +9,8 @@ export default class Scene1 extends Scene {
 
   init(data) {
     if (this.data) {
+      /** INIT VARIABLES */
+      GAME_UTILITIES.utilsDefineVariables(this);
       this.socket = data.socket;
       // Map data
       this.mapName = data.user.onMap;
@@ -37,7 +39,7 @@ export default class Scene1 extends Scene {
       /** CREATE MAP AND PLAYER */
       this.initGame();
       /** FPS DISPLAY */
-      GAME_UTILITIES.fpsDisplay(this);
+      GAME_UTILITIES.utilsFpsDisplay(this);
     }
   }
 
@@ -46,13 +48,18 @@ export default class Scene1 extends Scene {
     let self = this;
     /** INIT MAP */
     this.initMap();
-    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
-    GAME_UTILITIES.handlerSocket(this, self, GAME_UTILITIES.onlinePlayers);
-    /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
-    this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(this);
-    this.gridEngineClass.setPlayer();
+    self.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);
+    self.gridEngineClass.setPlayer();
     /** INIT GAME OBJECTS AFTER CREATING PLAYER */
-    GAME_UTILITIES.initGameObjects(this, this.map.objects);
+    GAME_UTILITIES.utilsInitGameObjects(this, this.map.objects);
+    /* SOCKET HANDLER FOR PLAYER ONLINE MOVE */
+    GAME_UTILITIES.servicesHandlerSocket(
+      this,
+      self,
+      GAME_UTILITIES.onlinePlayers
+    );
+    /** CREATE ENVIRONMENT RELATED TO GAME, PLAYER, NPC, ETC... */
+    GAME_UTILITIES.servicesDisableInputByFocus(this);
   }
 
   initMap() {
@@ -72,7 +79,7 @@ export default class Scene1 extends Scene {
   }
 
   update() {
-    GAME_UTILITIES.initKeyboardControls(this);
+    GAME_UTILITIES.utilsInitKeyboardControls(this);
     this.gridEngineClass.playerUpdate();
   }
 }

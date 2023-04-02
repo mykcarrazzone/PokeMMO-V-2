@@ -1,11 +1,11 @@
 import { MAP_PROPERTIES } from "@/constants/MapProperties/MapProperties";
 
 var properties = {
-  audio : null,
-  bike : null,
-  isNight : null,
-  mapName : null,
-  weather : null,
+  audio: null,
+  bike: null,
+  isNight: null,
+  mapName: null,
+  weather: null,
 };
 
 export const servicesMapProperties = (objects, self) => {
@@ -18,6 +18,6 @@ export const servicesMapProperties = (objects, self) => {
   });
 };
 
-export const getMapProperties = () => {
+export const servicesGetMapProperties = () => {
   return properties;
 };

@@ -1,10 +1,10 @@
 import Player from "./Player";
-import { GAMES_INFOS } from "../constants/GameInfos/GameInfos";
+import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
+import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 export class GridEngineCreate {
   gridEngineConfig = {
     characters: [],
   };
-  canCrossRun = false;
   constructor(self) {
     this.self = self;
     this.map = self.map;
@@ -24,21 +24,6 @@ export class GridEngineCreate {
       speed: npc.speed,
       collides: npc.collides,
     });
-  }
-
-  setCanBike(bool) {
-    if (bool) {
-      this.gridEngine.setWalkingAnimationMapping("player", 0);
-      this.gridEngine.turnTowards(
-        "player",
-        this.gridEngine.getFacingDirection("player")
-      );
-    }
-    this.canCrossRun = bool;
-  }
-
-  getCantCrossRun() {
-    return this.canCrossRun;
   }
 
   //*************** GETTERS WALKING ANIMATION MAPPING BY ID *****************//
@@ -89,7 +74,8 @@ export class GridEngineCreate {
       speed: this.self.localPlayer.position.speed,
     });
 
-    this.player.isCrossActivated = this.getCantCrossRun();
+    this.player.isCrossActivated =
+      GAME_UTILITIES.servicesGetMapProperties().bike;
     this.player.body.onWorldBounds = true;
 
     this.gridEngineConfig = {
