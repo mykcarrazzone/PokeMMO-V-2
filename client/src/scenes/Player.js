@@ -15,12 +15,10 @@ export default class Player extends GameObjects.Sprite {
     this._id = this.scene.localPlayer._id;
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
+    // this.scene.physics.world.enable(this);
     this.scale = GAMES_INFOS.spriteScale;
-    this.scene.cameras.main.startFollow(this, true);
-    this.scene.cameras.main.setZoom(1);
     this.tileMap = config.tileMap;
     this.speed = config.speed;
-    this.scene.physics.world.enable(this);
     this.newZone = config.newZone;
     this.passPorte = false;
     this.passWorld = false;

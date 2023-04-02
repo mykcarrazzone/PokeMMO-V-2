@@ -1,4 +1,4 @@
-export const utilsStartVisualEffects = (effect, self) => {
+export const funcFireEffects = (effect, self) => {
   self.flameEmitter = self.add.particles("fire").setDepth(101);
   self.flameEmitter.createEmitter({
     x: { min: effect.x * 3.96, max: effect.x * 3.98 },
@@ -13,7 +13,7 @@ export const utilsStartVisualEffects = (effect, self) => {
   });
 };
 
-export const funcStartVisualEffects = (object, self) => {
+export const utilsStartVisualEffects = (object, self) => {
   /** Early return if object is not an array or if it's empty */
   if (!Array.isArray(object.objects) || object.objects.length === 0) {
     return;

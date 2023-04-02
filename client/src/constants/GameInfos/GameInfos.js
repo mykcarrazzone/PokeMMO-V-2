@@ -1,7 +1,7 @@
 import CLIENT_INFO from "../../../package.json";
 
 export const GAMES_INFOS = {
-  //*************** GAME INFOS *****************//
+  //*************** GAME INFOS 1.12280701794*****************//
   gameScale: 4,
   spriteScale: 1.12280701794,
   tileSize: 16,
@@ -15,13 +15,13 @@ console.clear(); // Effacer la console
 
 console.log(
   "%c          ██████\n" +
-  "%c      ██████████████\n" +
-  "%c    ██████████████████\n" +
-  "%c  ██████████████████████\n" +
-  "%c  ██████████████████████\n" +
-  "%c    ██████████████████\n" +
-  "%c      ██████████████\n" +
-  "%c          ██████",
+    "%c      ██████████████\n" +
+    "%c    ██████████████████\n" +
+    "%c  ██████████████████████\n" +
+    "%c  ██████████████████████\n" +
+    "%c    ██████████████████\n" +
+    "%c      ██████████████\n" +
+    "%c          ██████",
   "color: red;",
   "color: red;",
   "color: red;",
@@ -32,7 +32,8 @@ console.log(
   "color: gray;"
 );
 console.log(
-  "\n%cGames Infos:\nGame Version: %s\nGame Creator: %s\nGame Scale: %d\nGame Sprite Scale: %f\nGame Tile Size: %d\nGame Rate XP: %f\nGame Rate Gold: %f\nGame Rate Drop: %f\nGame Rate Stats: %f" + "\nGame Night Opacity: %f",
+  "\n%cGames Infos:\nGame Version: %s\nGame Creator: %s\nGame Scale: %d\nGame Sprite Scale: %f\nGame Tile Size: %d\nGame Rate XP: %f\nGame Rate Gold: %f\nGame Rate Drop: %f\nGame Rate Stats: %f" +
+    "\nGame Night Opacity: %f",
   "background:#000;color:#fff;padding:10px;font-weight:bold",
   CLIENT_INFO.version,
   CLIENT_INFO.author,
@@ -45,16 +46,16 @@ console.log(
   GAMES_INFOS.rateStats,
   GAMES_INFOS.nightOpacity
 );
-console.log("\n")
+console.log("\n");
 console.log(
   "%c          ██████\n" +
-  "%c      ██████████████\n" +
-  "%c    ██████████████████\n" +
-  "%c  ██████████████████████\n" +
-  "%c  ██████████████████████\n" +
-  "%c    ██████████████████\n" +
-  "%c      ██████████████\n" +
-  "%c          ██████",
+    "%c      ██████████████\n" +
+    "%c    ██████████████████\n" +
+    "%c  ██████████████████████\n" +
+    "%c  ██████████████████████\n" +
+    "%c    ██████████████████\n" +
+    "%c      ██████████████\n" +
+    "%c          ██████",
   "color: red;",
   "color: red;",
   "color: red;",

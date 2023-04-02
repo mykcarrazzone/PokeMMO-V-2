@@ -41,7 +41,7 @@ export default function Launcher({ userData }) {
           default: "arcade",
           arcade: {
             gravity: { y: 0 },
-            fps: 900,
+            fps: 300,
             debug: false,
           },
         },
