@@ -58,7 +58,7 @@ export class GridEngineCreate {
 
   //*************** ADD LOCAL CURRENT PLAYER *****************//
   setPlayer() {
-    this.player = new Player({
+    this.self.player = new Player({
       scene: this.self,
       x: this.self.localPlayer.position.x,
       y: this.self.localPlayer.position.y,
@@ -69,19 +69,19 @@ export class GridEngineCreate {
       speed: this.self.localPlayer.position.speed,
     });
 
-    this.self.cameras.main.startFollow(this.player, true);
-    this.player.isCrossActivated =
+    this.self.cameras.main.startFollow(this.self.player, true);
+    this.self.player.isCrossActivated =
       GAME_UTILITIES.servicesGetMapProperties().bike;
 
     this.gridEngineConfig = {
       characters: [
         {
           id: "player",
-          sprite: this.player,
+          sprite: this.self.player,
           walkingAnimationMapping:
             this.self.localPlayer.walkingAnimationMapping,
-          startPosition: { x: this.player.x, y: this.player.y },
-          speed: this.player.speed,
+          startPosition: { x: this.self.player.x, y: this.self.player.y },
+          speed: this.self.player.speed,
           collides: true,
         },
       ],
@@ -111,7 +111,7 @@ export class GridEngineCreate {
     this.gridEngine.positionChangeStarted().subscribe(({ charId }) => {
       if (charId == "player") {
         this.self.socket.emit("PLAYER_MOVING", {
-          _id: this.player._id,
+          _id: this.self.player._id,
           position: {
             x: this.gridEngine.getPosition("player").x,
             y: this.gridEngine.getPosition("player").y,
@@ -131,7 +131,7 @@ export class GridEngineCreate {
   //*************** MOVE LOCAL CURRENT PLAYER *****************//
   playerUpdate() {
     if (this.gridEngine.isMoving("player")) {
-      this.player.update();
+      this.self.player.update();
     }
 
     if (this.gridEngine.isMoving("player")) {

@@ -9,7 +9,7 @@ export const GAMES_INFOS = {
   rateGold: 1.5,
   rateDrop: 1.5,
   rateStats: 1.5,
-  nightOpacity: 0.7,
+  nightOpacity: 0.8,
 };
 console.clear(); // Effacer la console
 

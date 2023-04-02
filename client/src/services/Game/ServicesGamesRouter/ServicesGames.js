@@ -3,15 +3,18 @@ import { servicesHandlerSocket } from "@/services/Handler/ServicesHandlerSocket"
 import { GridEngineCreate } from "@/scenes/GridEngineConfig";
 import { utilsFpsDisplay } from "@/utils/FpsDisplay/UtilsFpsDisplay";
 import { utilsInitKeyboardControls } from "@/utils/InitKeyboardControls/UtilsInitKeyboardControls";
-import { utilsInitGameObjects } from "@/utils/initGameObjects/UtilsInitGameObjects";
+import { utilsInitGameCreateObjects } from "@/utils/initGameObjects/UtilsInitGameCreateObjects";
 import { utilsStartVisualEffects } from "@/utils/VisualEffects/UtilsFireEffects";
+import { utilsInitGameUpdateObjects } from "@/utils/initGameObjects/UtilsInitGameUpdateObjects";
 import { servicesAddNpc } from "@/services/Game/ServicesAddNpc";
 import { servicesMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesGetMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesDisableInputByFocus } from "@/services/Game/ServicesDisableInputByFocus";
 import { servicesUpdateSprite } from "@/services/Game/ServicesUpdatedSprite";
-import { utilsDefineVariables } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
+import { utilsDefineVariables, handlerUpdateEvents } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
 import { servicesUpdatedSpriteToDefault } from "@/services/Game/ServicesUpdatedSprite";
+import { utilsUpdateVisualEffects } from "@/utils/VisualEffects/UtilsLightPointsEffects";
+import { isDay } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
 /** CREATE ONLINE PLAYERS ARRAY FOR SCENES 1*/
 let onlinePlayers = [];
 /***/
@@ -33,10 +36,12 @@ let onlinePlayers = [];
 export const GAME_UTILITIES = {
   servicesAddNpc,
   utilsInitKeyboardControls,
-  utilsInitGameObjects,
+  utilsInitGameCreateObjects,
   servicesHandlerSocket,
   utilsFpsDisplay,
   utilsStartVisualEffects,
+  utilsUpdateVisualEffects,
+  utilsInitGameUpdateObjects,
   OnlinePlayer,
   GridEngineCreate,
   onlinePlayers,
@@ -46,4 +51,6 @@ export const GAME_UTILITIES = {
   servicesUpdateSprite,
   servicesUpdatedSpriteToDefault,
   utilsDefineVariables,
+  handlerUpdateEvents,
+  isDay,
 };
