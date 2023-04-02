@@ -11,7 +11,7 @@ import { servicesMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesGetMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesDisableInputByFocus } from "@/services/Game/ServicesDisableInputByFocus";
 import { servicesUpdateSprite } from "@/services/Game/ServicesUpdatedSprite";
-import { utilsDefineVariables } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
+import { utilsDefineVariables, handlerUpdateEvents } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
 import { servicesUpdatedSpriteToDefault } from "@/services/Game/ServicesUpdatedSprite";
 import { utilsUpdateVisualEffects } from "@/utils/VisualEffects/UtilsLightPointsEffects";
 import { isDay } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
@@ -51,5 +51,6 @@ export const GAME_UTILITIES = {
   servicesUpdateSprite,
   servicesUpdatedSpriteToDefault,
   utilsDefineVariables,
+  handlerUpdateEvents,
   isDay,
 };

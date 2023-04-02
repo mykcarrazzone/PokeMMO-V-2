@@ -82,7 +82,7 @@ export default class Scene1 extends Scene {
 
   update() {
     GAME_UTILITIES.utilsInitKeyboardControls(this);
+    GAME_UTILITIES.handlerUpdateEvents(this);
     this.gridEngineClass.playerUpdate();
-    GAME_UTILITIES.isDay(this);
   }
 }
