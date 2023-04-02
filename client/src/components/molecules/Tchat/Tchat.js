@@ -17,13 +17,14 @@ const Tchat = ({ isClose }) => {
     role: null,
   });
   const colors = [
-    "orange",
-    "maroon",
-    "green",
-    "blue",
-    "purple",
-    "pink",
-    "grey",
+    "#ffd670",
+    "#ff9770",
+    "#00bbf9",
+    "#8ac926",
+    "#fff1d0",
+    "#9b5de5",
+    "#f15bb5",
+    "#00f5d4",
   ];
 
   const getSenderColor = (sender) => {
@@ -151,13 +152,13 @@ const Tchat = ({ isClose }) => {
             ref={messageBoxRef}
             className="h-64 text-white overflow-y-auto"
             style={{
-              backgroundColor: "#1f2937c7",
+              backgroundColor: "#1f2937d2",
             }}
           >
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`ml-1 mb-2 text-${getSenderColor(message.from)}`}
+                className={`ml-1 mb-2 text-[${getSenderColor(message.from)}]`}
               >
                 <span
                   className="font-bold"
@@ -165,7 +166,7 @@ const Tchat = ({ isClose }) => {
                     color: message.from.includes("<GM>")
                       ? "yellow"
                       : message.from === "System"
-                      ? "red"
+                      ? "#dd1c1a"
                       : getSenderColor(message.from),
                     backgroundColor: message.from.includes("<GM>")
                       ? "black"
