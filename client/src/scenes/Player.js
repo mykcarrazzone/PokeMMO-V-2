@@ -79,10 +79,7 @@ export default class Player extends GameObjects.Sprite {
       onMap: newPosition.onMap,
     });
 
-    // DÉTRUIRE LES OBJETS DE LA SCÈNE
-    this.scene.registry.destroy();
-    this.scene.events.off();
-    this.scene.sound.stopAll();
+    this.destroyScene();
     this.scene.scene.restart({
       user: this.scene.localPlayer,
       socket: this.scene.socket,
@@ -113,5 +110,18 @@ export default class Player extends GameObjects.Sprite {
         }
       }
     }
+  }
+
+  destroyVariables() {
+    this.scene.currentState = "normal";
+    this.scene.isCrossActivated = false;
+  }
+
+  destroyScene() {
+    this.destroyVariables();
+    // DÉTRUIRE LES OBJETS DE LA SCÈNE
+    this.scene.registry.destroy();
+    this.scene.events.off();
+    this.scene.sound.stopAll();
   }
 }

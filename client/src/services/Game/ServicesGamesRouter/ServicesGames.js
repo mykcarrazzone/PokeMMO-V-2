@@ -1,13 +1,17 @@
 import OnlinePlayer from "@/scenes/OnlinePlayer";
-import { handlerSocket } from "@/services/Handler/ServicesHandlerSocket";
+import { servicesHandlerSocket } from "@/services/Handler/ServicesHandlerSocket";
 import { GridEngineCreate } from "@/scenes/GridEngineConfig";
-import { fpsDisplay } from "@/utils/FpsDisplay/UtilsFpsDisplay";
-import { initKeyboardControls } from "@/utils/InitKeyboardControls/UtilsInitKeyboardControls";
-import { initGameObjects } from "@/utils/initGameObjects/UtilsInitGameObjects";
-import { funcStartVisualEffects } from "@/utils/VisualEffects/UtilsFireEffects";
+import { utilsFpsDisplay } from "@/utils/FpsDisplay/UtilsFpsDisplay";
+import { utilsInitKeyboardControls } from "@/utils/InitKeyboardControls/UtilsInitKeyboardControls";
+import { utilsInitGameObjects } from "@/utils/initGameObjects/UtilsInitGameObjects";
+import { utilsStartVisualEffects } from "@/utils/VisualEffects/UtilsFireEffects";
 import { servicesAddNpc } from "@/services/Game/ServicesAddNpc";
 import { servicesMapProperties } from "@/services/Game/ServicesMapProperties";
-
+import { servicesGetMapProperties } from "@/services/Game/ServicesMapProperties";
+import { servicesDisableInputByFocus } from "@/services/Game/ServicesDisableInputByFocus";
+import { servicesUpdateSprite } from "@/services/Game/ServicesUpdatedSprite";
+import { utilsDefineVariables } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
+import { servicesUpdatedSpriteToDefault } from "@/services/Game/ServicesUpdatedSprite";
 /** CREATE ONLINE PLAYERS ARRAY FOR SCENES 1*/
 let onlinePlayers = [];
 /***/
@@ -28,13 +32,18 @@ let onlinePlayers = [];
 
 export const GAME_UTILITIES = {
   servicesAddNpc,
-  servicesMapProperties,
-  initKeyboardControls,
-  initGameObjects,
-  handlerSocket,
-  fpsDisplay,
-  funcStartVisualEffects,
+  utilsInitKeyboardControls,
+  utilsInitGameObjects,
+  servicesHandlerSocket,
+  utilsFpsDisplay,
+  utilsStartVisualEffects,
   OnlinePlayer,
   GridEngineCreate,
   onlinePlayers,
+  servicesMapProperties,
+  servicesGetMapProperties,
+  servicesDisableInputByFocus,
+  servicesUpdateSprite,
+  servicesUpdatedSpriteToDefault,
+  utilsDefineVariables,
 };

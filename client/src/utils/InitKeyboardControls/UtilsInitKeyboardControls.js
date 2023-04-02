@@ -1,97 +1,65 @@
-export const initKeyboardControls = (self) => {
-  document.addEventListener("mousedown", function (event) {
-    var elementClicked = document.elementFromPoint(
-      event.clientX,
-      event.clientY
-    );
+import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 
-    if (elementClicked.nodeName == "CANVAS") {
-      self.gameHasFocused = true;
-      self.input.keyboard.enabled = true;
-      self.input.keyboard.enableGlobalCapture();
-    } else {
-      self.gameHasFocused = false;
-      self.input.keyboard.enabled = false;
-      self.input.keyboard.disableGlobalCapture();
+export const utilsInitKeyboardControls = (self) => {
+  // console.info(self.isCrossActivated)
+  if (!self.gridEngine.isMoving("player")) {
+    if (
+      !self.hasUpdatedSpriteToDefault &&
+      GAME_UTILITIES.servicesGetMapProperties().bike
+    ) {
+      GAME_UTILITIES.servicesUpdatedSpriteToDefault(self);
+      self.hasUpdatedSpriteToDefault = true;
     }
-  });
 
-  const keys = self.input.keyboard.addKeys({
-    up: Phaser.Input.Keyboard.KeyCodes.Z,
-    down: Phaser.Input.Keyboard.KeyCodes.S,
-    left: Phaser.Input.Keyboard.KeyCodes.Q,
-    right: Phaser.Input.Keyboard.KeyCodes.D,
-    shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
-    cross: Phaser.Input.Keyboard.KeyCodes.R,
-  });
-
-  let currentState;
-
-  const updateSprite = () => {
-    if (currentState !== self.previousState) {
-      self.previousState = currentState;
-      switch (currentState) {
-        case "cross":
-          self.walk.rate = 4;
-          self.gridEngine.setSpeed("player", 7);
-          self.gridEngine.setWalkingAnimationMapping("player", 2);
-          self.gridEngine.turnTowards(
-            "player",
-            self.gridEngine.getFacingDirection("player")
-          );
-
-          break;
-        case "shift":
-          self.walk.rate = 1.5;
-          self.gridEngine.setSpeed("player", 4);
-          self.gridEngine.setWalkingAnimationMapping("player", 1);
-          self.gridEngine.turnTowards(
-            "player",
-            self.gridEngine.getFacingDirection("player")
-          );
-          break;
-        case "normal":
-          self.walk.rate = 1;
-          self.gridEngine.setSpeed("player", 3);
-          self.gridEngine.setWalkingAnimationMapping("player", 0);
-          self.gridEngine.turnTowards(
-            "player",
-            self.gridEngine.getFacingDirection("player")
-          );
-          break;
+    if (
+      Phaser.Input.Keyboard.JustDown(self.keys.cross) &&
+      GAME_UTILITIES.servicesGetMapProperties().bike &&
+      self.time.now - self.crossLastPressed > self.crossDelay
+    ) {
+      self.crossLastPressed = self.time.now;
+      self.isCrossActivated = !self.isCrossActivated;
+      if (self.isCrossActivated) {
+        self.currentState = "cross";
+      } else {
+        self.currentState = "normal";
+      }
+      if (self.previousState !== self.currentState) {
+        // console.info("MODE CHANGED TO: ", self.currentState);
+        GAME_UTILITIES.servicesUpdateSprite(self);
+        self.previousState = self.currentState;
+      }
+    } else if (
+      self.keys.shift.isDown &&
+      !self.isCrossActivated &&
+      self.time.now - self.shiftLastPressed > self.shiftDelay
+    ) {
+      if (self.isCrossActivated || self.keys.shift.isDown) {
+        self.shiftLastPressed = self.time.now;
+        self.isCrossActivated = false;
+        self.currentState = "shift";
+        if (self.previousState !== self.currentState) {
+          // console.info("MODE CHANGED TO: ", self.currentState);
+          GAME_UTILITIES.servicesUpdateSprite(self);
+          self.previousState = self.currentState;
+        }
+      }
+    } else if (self.keys.shift.isUp && !self.isCrossActivated) {
+      self.currentState = "normal";
+      if (self.previousState !== self.currentState) {
+        // console.info("MODE CHANGED TO: ", self.currentState);
+        GAME_UTILITIES.servicesUpdateSprite(self);
+        self.previousState = self.currentState;
       }
     }
-  };
-
-  if (
-    Phaser.Input.Keyboard.JustDown(keys.cross) &&
-    self.gridEngineClass.getCantCrossRun()
-  ) {
-    self.isCrossActivated = !self.isCrossActivated;
-    if (self.isCrossActivated) {
-      currentState = "cross";
-    } else {
-      currentState = "normal";
-    }
-    updateSprite();
-  } else if (keys.shift.isDown && !self.isCrossActivated) {
-    if (self.isCrossActivated || keys.shift.isDown) {
-      self.isCrossActivated = false;
-      currentState = "shift";
-      updateSprite();
-    }
-  } else if (keys.shift.isUp && !self.isCrossActivated) {
-    currentState = "normal";
-    updateSprite();
   }
 
-  if (keys.left.isDown) {
+  if (self.keys.left.isDown) {
     self.gridEngine.move("player", "left");
-  } else if (keys.right.isDown) {
+  } else if (self.keys.right.isDown) {
     self.gridEngine.move("player", "right");
-  } else if (keys.up.isDown) {
+  } else if (self.keys.up.isDown) {
     self.gridEngine.move("player", "up");
-  } else if (keys.down.isDown) {
+  } else if (self.keys.down.isDown) {
     self.gridEngine.move("player", "down");
   }
 };
