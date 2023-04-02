@@ -50,6 +50,7 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 - [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
 
 ### Backend 📡
+- [Node.js](https://nodejs.org/en/) <img src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js logo">
 - [Express](https://expressjs.com/) <img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express logo">
 - [Socket.io](https://socket.io/) <img src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket-dot-io&logoColor=white" alt="Socket.io logo">
 - [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
