@@ -113,6 +113,7 @@ export default class Player extends GameObjects.Sprite {
   destroyVariables() {
     this.scene.currentState = "normal";
     this.scene.isCrossActivated = false;
+    this.scene.dayCycleRectangle = null;
   }
 
   destroyScene() {

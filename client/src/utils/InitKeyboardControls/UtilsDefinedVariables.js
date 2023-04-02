@@ -42,6 +42,7 @@ export const handlerUpdateEvents = (self) => {
     if (newIsDay) {
       // console.info("Il fait jours !");
       self.events.emit("dayChange", true);
+  
     } else {
       // console.info("Il fait nuits !");
       self.events.emit("dayChange", false);
@@ -49,15 +50,15 @@ export const handlerUpdateEvents = (self) => {
   }
 
   // Vérifier si setInterval a déjà été configuré
-  if (!self.intervalSet) {
-    self.intervalSet = true;
+  // if (!self.intervalSet) {
+  //   self.intervalSet = true;
 
-    // Configurer setInterval pour augmenter l'heure toutes les secondes
-    setInterval(() => {
-      self.hour = (self.hour + 1) % 24;
-      // console.log("Hour", self.hour);
-    }, 900);
-  }
+  //   // Configurer setInterval pour augmenter l'heure toutes les secondes
+  //   setInterval(() => {
+  //     self.hour = (self.hour + 1) % 24;
+  //     // console.log("Hour", self.hour);
+  //   }, 900);
+  // }
 };
 
 export const handlerUpdateEventsTests = (self) => {

@@ -10,7 +10,7 @@ export const funcLightPointsEffects = (effect, self) => {
       light.x,
       light.y,
       0xffffee,
-      80,
+      118,
       0
     )
     pointLight.setDepth(10001);
