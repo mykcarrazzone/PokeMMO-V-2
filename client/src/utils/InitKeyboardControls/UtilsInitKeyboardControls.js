@@ -1,7 +1,7 @@
 import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 
 export const utilsInitKeyboardControls = (self) => {
-  // console.log(self.isCrossActivated)
+  // console.info(self.isCrossActivated)
   if (!self.gridEngine.isMoving("player")) {
     if (
       !self.hasUpdatedSpriteToDefault &&
@@ -24,7 +24,7 @@ export const utilsInitKeyboardControls = (self) => {
         self.currentState = "normal";
       }
       if (self.previousState !== self.currentState) {
-        console.log("MODE CHANGED TO: ", self.currentState);
+        // console.info("MODE CHANGED TO: ", self.currentState);
         GAME_UTILITIES.servicesUpdateSprite(self);
         self.previousState = self.currentState;
       }
@@ -38,7 +38,7 @@ export const utilsInitKeyboardControls = (self) => {
         self.isCrossActivated = false;
         self.currentState = "shift";
         if (self.previousState !== self.currentState) {
-          console.log("MODE CHANGED TO: ", self.currentState);
+          // console.info("MODE CHANGED TO: ", self.currentState);
           GAME_UTILITIES.servicesUpdateSprite(self);
           self.previousState = self.currentState;
         }
@@ -46,7 +46,7 @@ export const utilsInitKeyboardControls = (self) => {
     } else if (self.keys.shift.isUp && !self.isCrossActivated) {
       self.currentState = "normal";
       if (self.previousState !== self.currentState) {
-        console.log("MODE CHANGED TO: ", self.currentState);
+        // console.info("MODE CHANGED TO: ", self.currentState);
         GAME_UTILITIES.servicesUpdateSprite(self);
         self.previousState = self.currentState;
       }
