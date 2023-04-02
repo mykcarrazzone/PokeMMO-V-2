@@ -12,6 +12,8 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     this.scene.physics.add.collider(this, config.worldLayer);
     this.map = config.map;
     this.ld = config.ld;
+    this.role = config.role;
+    this.nickName = config.nickName;
 
     // Player Offset
     this.body.setOffset(0, 8); // 24
@@ -25,11 +27,17 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   }
 
   updateGridEngineConfig() {
-    this.scene.gridEngineClass.addOnlinePlayer(this.sessionId, 0, {
-      x: this.x,
-      y: this.y,
-      ld: this.ld,
-    });
+    this.scene.gridEngineClass.addOnlinePlayer(
+      this.sessionId,
+      0,
+      {
+        x: this.x,
+        y: this.y,
+        ld: this.ld,
+      },
+      this.role,
+      this.nickName
+    );
   }
 
   isWalking(ld, x, y, speed, walkMapping) {

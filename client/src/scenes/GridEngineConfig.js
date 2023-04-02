@@ -58,11 +58,6 @@ export class GridEngineCreate {
 
   //*************** ADD LOCAL CURRENT PLAYER *****************//
   setPlayer() {
-    if (this.self.spawnPoint !== undefined && this.self.spawnPoint !== null) {
-      this.value = this.self.spawnPoint.properties[0].value.split("|");
-      this.spawnPointX = parseInt(this.value[0]);
-      this.spawnPointY = parseInt(this.value[1]);
-    }
     this.player = new Player({
       scene: this.self,
       x: this.self.localPlayer.position.x,
@@ -74,9 +69,9 @@ export class GridEngineCreate {
       speed: this.self.localPlayer.position.speed,
     });
 
+    this.self.cameras.main.startFollow(this.player, true);
     this.player.isCrossActivated =
       GAME_UTILITIES.servicesGetMapProperties().bike;
-    this.player.body.onWorldBounds = true;
 
     this.gridEngineConfig = {
       characters: [
@@ -147,12 +142,32 @@ export class GridEngineCreate {
   }
 
   //*************** ADD ONLINE PLAYER *****************//
-  addOnlinePlayer(sessionId, spriteId, position) {
+  addOnlinePlayer(sessionId, spriteId, position, role, nickName) {
     this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
+    const labelText = role !== "admin" ? nickName : `<GM> ${nickName}`;
+
+    this.textLabel = this.add
+      .text(this.onlinePlayerSprite.width / 2, 5, labelText, {
+        fontFamily: "Roboto",
+        fontSize: "16px",
+        fill: role !== "admin" ? "#ffffff" : "#f0db25",
+        stroke: "#070701",
+        strokeThickness: 0,
+        padding: 3,
+        backgroundColor: "#030507d7",
+      })
+      .setOrigin(0.5, 0.5);
+
+    const container = this.add.container(0, 0, [
+      this.onlinePlayerSprite,
+      this.textLabel,
+    ]);
+
     this.onlinePlayerSprite.scale = GAMES_INFOS.spriteScale;
     this.gridEngine.addCharacter({
       id: sessionId,
       sprite: this.onlinePlayerSprite,
+      container,
       walkingAnimationMapping: spriteId,
       startPosition: { x: position.x, y: position.y },
       speed: 3,
@@ -165,6 +180,7 @@ export class GridEngineCreate {
   removeOnlinePlayer(sessionId) {
     if (this.gridEngine.hasCharacter(sessionId)) {
       this.gridEngine.removeCharacter(sessionId);
+      this.textLabel.destroy();
       this.onlinePlayerSprite.destroy();
     }
   }

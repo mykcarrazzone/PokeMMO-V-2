@@ -14,6 +14,7 @@ const Tchat = ({ isClose }) => {
     _id: null,
     nickName: null,
     chatColor: null,
+    role: null,
   });
   const colors = [
     "orange",
@@ -103,9 +104,10 @@ const Tchat = ({ isClose }) => {
     if (socket) {
       e.preventDefault();
       socket.emit("generalChatMessage", {
-        from: currentPlayerInfo.nickName
-          ? currentPlayerInfo.nickName
-          : "Anonyme",
+        from:
+          currentPlayerInfo.role == "admin"
+            ? `<GM>${currentPlayerInfo.nickName}`
+            : currentPlayerInfo.nickName,
         message: inputValue,
       });
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
@@ -160,17 +162,33 @@ const Tchat = ({ isClose }) => {
                 <span
                   className="font-bold"
                   style={{
-                    color:
-                      message.from === "Senzo"
-                        ? "yellow"
-                        : message.from === "System"
-                        ? "red"
-                        : getSenderColor(message.from),
+                    color: message.from.includes("<GM>")
+                      ? "yellow"
+                      : message.from === "System"
+                      ? "red"
+                      : getSenderColor(message.from),
+                    backgroundColor: message.from.includes("<GM>")
+                      ? "black"
+                      : message.from === "System"
+                      ? "black"
+                      : "transparent",
                   }}
                 >
                   {message.from} :{" "}
                 </span>
-                <span className="text-white">{message.message}</span>
+                <span
+                  className="text-white"
+                  style={{
+                    backgroundColor: message.from.includes("<GM>")
+                      ? "black"
+                      : message.from === "System"
+                      ? "black"
+                      : "transparent",
+                    padding: "0 4px",
+                  }}
+                >
+                  {message.message}
+                </span>
               </div>
             ))}
 
