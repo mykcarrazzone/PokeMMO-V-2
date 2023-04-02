@@ -476,7 +476,7 @@
                 {
                  "name":"audio",
                  "type":"string",
-                 "value":"Shop|true|0.5|1.0"
+                 "value":"Shop|true|0.2|1.0"
                 }, 
                 {
                  "name":"bike",
