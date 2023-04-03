@@ -4,11 +4,11 @@ export const funcFireEffects = (effect, self) => {
     x: { min: effect.x * 3.96, max: effect.x * 3.98 },
     y: effect.y * 3.97,
     gravityY: -52,
-    lifespan: 825,
+    lifespan: 1050,
     quantity: 0.001,
     speed: { min: 130, max: 130 },
     angle: { min: 215, max: 250 },
-    scale: { start: 0.01, end: 0.1 },
+    scale: { start: 0.008, end: 0.06 },
     blendMode: "ADD",
   });
 };

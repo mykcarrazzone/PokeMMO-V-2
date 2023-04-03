@@ -20,7 +20,7 @@ export const funcLightPointsEffects = (effect, self) => {
   });
 
   const updateLightVisibility = (visible, firstTime) => {
-    const targetIntensity = visible ? 0.13 : 0;
+    const targetIntensity = visible ? 0.14 : 0;
     const duration = firstTime ? 1000 : 1000; // Durée de la transition en millisecondes
     setTimeout(() => {
     self.lights.forEach((pointLight) => {
@@ -39,7 +39,7 @@ export const funcLightPointsEffects = (effect, self) => {
         },
       });
     });
-    }, firstTime ? 1500 : 4500);
+    }, firstTime ? 500 : 4500);
   };
 
   // ...
@@ -67,7 +67,7 @@ export const utilsUpdateVisualEffects = (object, self) => {
   const effect = object.objects;
   Object.values(effect).forEach((value) => {
     const xPos = value.x * GAMES_INFOS.gameScale + 35;
-    const yPos = value.y * GAMES_INFOS.gameScale + 33;
+    const yPos = value.y * GAMES_INFOS.gameScale + 58;
     self.myLights.push({ x: xPos, y: yPos });
   });
   funcLightPointsEffects(self.myLights, self);
