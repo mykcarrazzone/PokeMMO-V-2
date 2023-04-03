@@ -2,7 +2,7 @@
 
 <div align="center" style="text-align:center">
 
-<img src="client/pXx6OSISnU GIF.gif" alt="Gif du jeu"/>
+<img src="client/GIF_POKEMON.gif" alt="Gif du jeu"/>
  </div>
 
 ## Version 💾
