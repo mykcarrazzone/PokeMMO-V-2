@@ -121,6 +121,8 @@ export default class BootGame extends Scene {
     this.load.audio("weather-rain", "assets/sounds/se/weather-rain.mp3");
     /** AUDIO WHEATHER THUNDER ORAGE*/
     this.load.audio("thunder", "assets/sounds/se/thunder.mp3");
+    /** AUDIO WHEATHER SNOW */
+    this.load.audio("weather-snow", "assets/sounds/se/weather-snow.mp3");
   }
 
   loadSnowTown() {

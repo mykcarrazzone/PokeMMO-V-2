@@ -1,5 +1,8 @@
 import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 const snow = (self) => {
+  self.audioSnow = self.sound
+  .add("weather-snow", { loop: true, volume: 0.2 })
+  .play();
   self.emitter = self.add.particles("snowflake").setDepth(99);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
@@ -9,17 +12,19 @@ const snow = (self) => {
         0,
         0,
         self.map.widthInPixels * 3,
-        self.map.heightInPixels * 2
+        self.map.heightInPixels * 4
       ),
     },
-    lifespan: 20000, // ça sert à définir la durée de vie des particules
-    speedY: { min: 91, max: 91 },
-    gravityY: 6, // il faut la monter pour que les particules tombent plus vite
-    quantity: 0.5,
-    frequency: 70, // ça sert à définirzds la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
-    scale: { start: 0.35, end: 0.36 },
+    lifespan: 3700, // ça sert à définir la durée de vie des particules
+    speedY: { min: 96, max: 96 },
+    gravityY: 50, // il faut la monter pour que les particules tombent plus vite
+    gravityX: -25,
+    maxParticles: 22500,
+    quantity: 7,
+    frequency: 60, // ça sert à définirzds la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
+    scale: { start: 0.32, end: 0.33 },
     follow: self.cameras.main, // ça sert à suivre la caméra
-    followOffset: { x: 0, y: -500 }, // ça sert à définir la position des particules par rapport au joueur
+    followOffset: { x: 0, y: -1000 }, // ça sert à définir la position des particules par rapport au joueur
     blendMode: "ADD",
   });
 };
@@ -77,7 +82,7 @@ const rain = (self) => {
     });
     const createFlash = (self) => {
       if (GAME_UTILITIES.servicesGetMapProperties().weather.split("|")[0]) {
-        console.log("weather is rain");
+        // console.log("weather is rain");
         if (!self.flashRectangle) {
           self.flashRectangle = self.add
             .rectangle(
@@ -115,7 +120,7 @@ const rain = (self) => {
                 onComplete: () => {
                   // Attendre 12 secondes avant de redémarrer le flash
                   const time = getRandomDuration(self.lightningDurations);
-                  console.log("time", time)
+                  // console.log("time", time)
                   self.flashRectangle
                     ? self.time.delayedCall(time, flashTween, [], self)
                     : null;
@@ -130,11 +135,11 @@ const rain = (self) => {
 
         // Dans votre fonction create ou init du jeu, ajoutez :
       } else {
-        console.log("weather is not rain");
+        // console.log("weather is not rain");
         self.audioRain.stop();
         self.flashRectangle
           ? self.flashRectangle.destroy()
-          : console.log("flashRectangle already destroyed");
+          : null;
       }
     };
 
