@@ -15,16 +15,16 @@ const snow = (self) => {
         self.map.heightInPixels * 4
       ),
     },
-    lifespan: 3700, // ça sert à définir la durée de vie des particules
+    lifespan: 3650, // ça sert à définir la durée de vie des particules
     speedY: { min: 96, max: 96 },
     gravityY: 50, // il faut la monter pour que les particules tombent plus vite
-    gravityX: -25,
-    maxParticles: 22500,
-    quantity: 7,
+    gravityX: -30,
+    maxParticles: 23500,
+    quantity: 7.5,
     frequency: 60, // ça sert à définirzds la fréquence d'apparition des particules, plus c'est petit plus c'est rapide
     scale: { start: 0.32, end: 0.33 },
     follow: self.cameras.main, // ça sert à suivre la caméra
-    followOffset: { x: 0, y: -1000 }, // ça sert à définir la position des particules par rapport au joueur
+    followOffset: { x: 0, y: -100 }, // ça sert à définir la position des particules par rapport au joueur
     blendMode: "ADD",
   });
 };
