@@ -11,7 +11,7 @@
 <img src="client/GIF_POKEMON.gif" alt="Gif du jeu"/>
  </div>
 
-## Version 💾
+## Dernière mise à jour 💾
 
 **Dernière mise à jour effectuée le 05/04/2023, version 0.2.60**
 
