@@ -44,6 +44,15 @@ export default function pokeMMO(io, socket) {
     });
   });
 
+  socket.on("PLAYER_UPDATE", function (playerInfo) {
+    socketRouter.handlePlayerUpdate({
+      playerInfo,
+      socket,
+      players,
+      User,
+    });
+  });
+
   socket.on("PLAYER_PASS_IN_NEW_MAP", function (playerInfo) {
     socketRouter.handlePlayerPassInNewMap({
       playerInfo,

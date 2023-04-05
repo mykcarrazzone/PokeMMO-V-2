@@ -107,8 +107,8 @@ export class GridEngineCreate {
         }
       }
     });
-
-    this.gridEngine.positionChangeStarted().subscribe(({ charId }) => {
+    
+    this.gridEngine.positionChangeFinished().subscribe(({ charId }) => {
       if (charId == "player") {
         this.self.socket.emit("PLAYER_MOVING", {
           _id: this.self.player._id,
@@ -132,13 +132,14 @@ export class GridEngineCreate {
   playerUpdate() {
     if (this.gridEngine.isMoving("player")) {
       this.self.player.update();
-    }
-
-    if (this.gridEngine.isMoving("player")) {
       if (!this.self.walk.isPlaying) {
         this.self.walk.play();
       }
     }
+  }
+
+  getSpeed(id) {
+    return this.gridEngine.getSpeed(id);
   }
 
   //*************** ADD ONLINE PLAYER *****************//

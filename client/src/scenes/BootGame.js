@@ -57,6 +57,7 @@ export default class BootGame extends Scene {
 
   create() {
     if (this.data.socket && this.data.user) {
+
       this.socket.emit("gameReady");
       // START PLAY GAME SCENE
       this.scene.start("Scene1", {
