@@ -7,7 +7,7 @@
 
 ## Version 💾
 
-**Dernière mise à jour effectuée le 02/04/2023, version 0.2.59**
+**Dernière mise à jour effectuée le 02/04/2023, version 0.2.60**
 
 ## Description 🔬
 
