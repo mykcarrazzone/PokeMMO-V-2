@@ -1,3 +1,9 @@
+<p align="center">
+    <img src="https://img.shields.io/github/v/release/Senzo13/PokeMMO-V-2?style=for-the-badge&color=brightgreen">
+    <img src="https://img.shields.io/github/stars/Senzo13/PokeMMO-V-2?style=for-the-badge&color=yellow">
+    <img src="https://img.shields.io/badge/made%20with-Javascript-blue?style=for-the-badge">
+</p>
+
 # Pokémon Multijoueur
 
 <div align="center" style="text-align:center">
