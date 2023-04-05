@@ -80,14 +80,14 @@ export default class BootGame extends Scene {
 
   loadSpritesheet() {
     /** LOAD SPRITESSHEET PLAYER */
-    this.load.spritesheet("player", "assets/sprites/player/characters0.png", {
+    this.load.spritesheet("player", "assets/sprites/player/characters1.png", {
       frameWidth: 72,
       frameHeight: 96,
     });
     /** LOAD SPRITESSHEET ONLINE PLAYER */
     this.load.spritesheet(
       "onlinePlayer",
-      "assets/sprites/player/characters0.png",
+      "assets/sprites/player/characters1.png",
       {
         frameWidth: 72,
         frameHeight: 96,

@@ -47,8 +47,8 @@ export default class Scene1 extends Scene {
     let self = this;
     /** INIT MAP */
     this.initMap();
-    self.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);
-    self.gridEngineClass.setPlayer();
+    this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);
+    this.gridEngineClass.setPlayer();
     /** INIT GAME OBJECTS AFTER CREATING PLAYER */
     GAME_UTILITIES.utilsInitGameCreateObjects(this, this.map.objects);
     GAME_UTILITIES.utilsInitGameUpdateObjects(this, this.map.objects);

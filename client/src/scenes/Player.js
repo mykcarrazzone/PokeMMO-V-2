@@ -16,7 +16,7 @@ export default class Player extends GameObjects.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.world.enableBody(this);
     // this.scene.physics.world.enable(this);
-    this.scale = GAMES_INFOS.spriteScale;
+    this.scale = 1.13;
     this.tileMap = config.tileMap;
     this.speed = config.speed;
     this.newZone = config.newZone;

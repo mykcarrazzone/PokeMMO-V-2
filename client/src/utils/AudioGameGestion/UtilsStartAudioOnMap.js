@@ -1,6 +1,5 @@
 export const funcStartAudio = (value, self) => {
   /** Add Walking sound for the player */
-  self.walk = self.sound.add("walk", { loop: false, volume: 0.2, rate: 1 });
   self.bump = self.sound.add("bump", {
     loop: false,
     volume: 1,
