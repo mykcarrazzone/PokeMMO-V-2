@@ -3,7 +3,6 @@ import Tchat from "../../molecules/Tchat/Tchat";
 import Interface from "../Layout/Layout";
 
 export default function Launcher({ userData }) {
-  
   const [gameReady, setGameReady] = useState(false);
   const gameRef = useRef();
   const [game, setGame] = useState(null);
@@ -23,8 +22,8 @@ export default function Launcher({ userData }) {
 
       const Phaser = await import("phaser");
       const { default: GridEngine } = await import("grid-engine");
-      const { default: Scene1 } = await import("../../../scenes/Scene1");
-      const { default: BootGame } = await import("../../../scenes/BootGame");
+      const { default: Scene1 } = await import("@/scenes/Scene1");
+      const { default: BootGame } = await import("@/scenes/BootGame");
 
       const phaserGame = new Phaser.Game({
         type: Phaser.AUTO,

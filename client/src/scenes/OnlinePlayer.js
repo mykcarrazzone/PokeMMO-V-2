@@ -41,8 +41,8 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   }
 
   isWalking(ld, x, y, speed, walkMapping) {
-    this.scene.gridEngineClass.moveOnlinePlayer(this.sessionId, ld);
-    this.scene.gridEngineClass.setSpeed(this.sessionId, speed);
+    this.scene.gridEngine.setSpeed(this.sessionId, speed);
+    this.scene.gridEngine.moveTo(this.sessionId, { x, y});
     this.scene.gridEngineClass.setWalkingAnimationMapping(
       this.sessionId,
       walkMapping

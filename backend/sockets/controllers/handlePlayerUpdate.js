@@ -11,16 +11,15 @@
 let movementTimeout;
 const saveTimeout = 2000;
 
-export function handlePlayerMoving(data) {
-  console.log("handlePlayerMoving");
+export function handlePlayerUpdate(data) {
+  console.log("handlePlayerUpdate");
   const { playerInfo, io, socket, players, User } = data;
   // Mise à jour de la position du joueur dans l'objet players
   players[socket.id].position.x = playerInfo.position.x;
   players[socket.id].position.y = playerInfo.position.y;
   players[socket.id].position.ld = playerInfo.position.ld;
-  console.log("Ld: ", playerInfo.position.ld);
   players[socket.id].position.speed = playerInfo.position.speed;
-  // console.log("Movin on map: ", playerInfo.onMap);
+  console.log("Moving on map: ", playerInfo.onMap);
   players[socket.id].onMap = playerInfo.onMap;
   players[socket.id].walkingAnimationMapping =
     playerInfo.walkingAnimationMapping;
@@ -49,18 +48,4 @@ export function handlePlayerMoving(data) {
       });
     });
   }, saveTimeout);
-  // Filtrer la liste des joueurs par carte
-  const playersOnMap = Object.values(players).filter(
-    (player) => player.onMap === players[socket.id].onMap
-  );
-
-  // Diffuser le mouvement du joueur à tous les joueurs sur la même carte
-  playersOnMap.forEach(function (player) {
-    if (player.sessionId != socket.id) {
-      socket.broadcast
-        .to(player.sessionId)
-        .emit("PLAYER_MOVED", players[socket.id]);
-    }
-  });
-  console.log("playersOnMap: ", playersOnMap);
 }

@@ -1,7 +1,6 @@
 import { Scene } from "phaser";
 import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
-
 export default class Scene1 extends Scene {
   constructor() {
     super("Scene1");
@@ -81,8 +80,8 @@ export default class Scene1 extends Scene {
   }
 
   update() {
-    GAME_UTILITIES.utilsInitKeyboardControls(this);
     GAME_UTILITIES.handlerUpdateEvents(this);
     this.gridEngineClass.playerUpdate();
+    GAME_UTILITIES.utilsInitKeyboardControls(this);
   }
 }

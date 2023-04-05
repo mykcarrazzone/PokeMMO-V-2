@@ -36,7 +36,7 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
         player.sessionId !== self.socket.id && player.onMap === self.mapName
     );
     otherPlayersData.forEach(function (player) {
-      if(onlinePlayers[player.sessionId] == self.socket.id) {
+      if (onlinePlayers[player.sessionId] == self.socket.id) {
         onlinePlayers[self.socket.id].destroy();
         self.gridEngineClass.removeOnlinePlayer(self.socket.id);
         delete onlinePlayers[self.socket.id];
@@ -44,7 +44,7 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
         self.gridEngineClass.removeOnlinePlayer(player.sessionId);
         delete onlinePlayers[player.sessionId];
       }
-   
+
       onlinePlayers[player.sessionId] = new OnlinePlayer({
         scene: self,
         sessionId: player.sessionId,
