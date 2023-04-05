@@ -88,6 +88,11 @@ export class GridEngineCreate {
     };
 
     this.gridEngine.create(this.map, this.gridEngineConfig);
+    this.self.walk = this.self.sound.add("walk", {
+      loop: false,
+      volume: 0.2,
+      rate: 1,
+    });
 
     console.info(
       "%c Actual player position: ",
@@ -107,7 +112,7 @@ export class GridEngineCreate {
         }
       }
     });
-    
+
     this.gridEngine.positionChangeFinished().subscribe(({ charId }) => {
       if (charId == "player") {
         this.self.socket.emit("PLAYER_MOVING", {
@@ -164,7 +169,7 @@ export class GridEngineCreate {
       this.textLabel,
     ]);
 
-    this.onlinePlayerSprite.scale = GAMES_INFOS.spriteScale;
+    this.onlinePlayerSprite.scale = 1.13;
     this.gridEngine.addCharacter({
       id: sessionId,
       sprite: this.onlinePlayerSprite,
