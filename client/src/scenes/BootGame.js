@@ -57,7 +57,6 @@ export default class BootGame extends Scene {
 
   create() {
     if (this.data.socket && this.data.user) {
-
       this.socket.emit("gameReady");
       // START PLAY GAME SCENE
       this.scene.start("Scene1", {
@@ -76,6 +75,8 @@ export default class BootGame extends Scene {
     this.load.image("rain", "assets/effects/rain.png");
     this.load.image("snowflake", "assets/effects/snowball.png");
     this.load.image("fire", "assets/effects/fire.png");
+    this.load.image("fire2", "assets/effects/fire2.png");
+    this.load.image("smoke", "assets/effects/smoke.png");
   }
 
   loadSpritesheet() {
@@ -118,12 +119,16 @@ export default class BootGame extends Scene {
     this.load.audio("bump", "assets/sounds/se/bump.wav");
     /** AUDIO PLAYER WALKING */
     this.load.audio("walk", "assets/sounds/se/walk.mp3");
+    /** AUDIO PLAYER BIKE */
+    this.load.audio("bike", "assets/sounds/se/bike.mp3");
     /** AUDIO WHEATHER RAIN */
     this.load.audio("weather-rain", "assets/sounds/se/weather-rain.mp3");
     /** AUDIO WHEATHER THUNDER ORAGE*/
     this.load.audio("thunder", "assets/sounds/se/thunder.mp3");
     /** AUDIO WHEATHER SNOW */
     this.load.audio("weather-snow", "assets/sounds/se/weather-snow.mp3");
+    /** AUDIO AUDIO CHIMNEY */
+    this.load.audio("chimney", "assets/sounds/se/chimney.mp3");
   }
 
   loadSnowTown() {
@@ -145,7 +150,7 @@ export default class BootGame extends Scene {
     /** LOAD JSON SNOWTOWN DOOR B */
     this.load.tilemapTiledJSON(
       "SnowTown-DoorB",
-      "assets/tilemaps/SnowTown/SnowTown-InDoor-B.json"
+      "assets/tilemaps/SnowTown/SnowTown-Indoor-B.json"
     );
     /** LOAD JSON SNOWTOWN DOOR C */
     this.load.tilemapTiledJSON(

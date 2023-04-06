@@ -5,9 +5,9 @@
   "description": "A Next.js project",
   "author": "Lorenzo GIRALT",
   "scripts": {
-    "dev": "next dev -p 4070",
+    "dev": "next dev -p 4060",
     "build": "next build",
-    "start": "next start -H 109.208.107.116 -p 4070",
+    "start": "next start -p 4060",
     "lint": "next lint",
     "test": "jest"
   },

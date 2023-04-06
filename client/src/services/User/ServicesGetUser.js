@@ -3,7 +3,7 @@ import axios from "axios";
 export const getUserById = async (token) => {
   const config = {
     method: "get",
-    url: "http://localhost:3000/auth/getUserById",
+    url: "http://109.208.107.116:4129/auth/getUserById",
     headers: {
       Authorization: `Bearer ${token}`,
     },

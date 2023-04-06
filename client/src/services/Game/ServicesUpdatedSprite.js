@@ -3,8 +3,7 @@ export const servicesUpdateSprite = (self) => {
     self.previousState = self.currentState;
     switch (self.currentState) {
       case "cross":
-        self.walk.rate = 4;
-        self.gridEngine.setSpeed("player", 6);
+        self.gridEngine.setSpeed("player", 5.5);
         self.gridEngine.setWalkingAnimationMapping("player", 2);
         break;
       case "shift":
