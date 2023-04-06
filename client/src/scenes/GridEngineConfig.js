@@ -90,7 +90,12 @@ export class GridEngineCreate {
     this.gridEngine.create(this.map, this.gridEngineConfig);
     this.self.walk = this.self.sound.add("walk", {
       loop: false,
-      volume: 0.2,
+      volume: 0.3,
+      rate: 1,
+    });
+    this.self.bike = this.self.sound.add("bike", {
+      loop: false,
+      volume: 1.3,
       rate: 1,
     });
 
@@ -137,8 +142,25 @@ export class GridEngineCreate {
   playerUpdate() {
     if (this.gridEngine.isMoving("player")) {
       this.self.player.update();
-      if (!this.self.walk.isPlaying) {
-        this.self.walk.play();
+      switch (this.gridEngine.getWalkingAnimationMapping("player")) {
+        case 0:
+          if (!this.self.walk.isPlaying) {
+            this.self.bike.stop();
+            this.self.walk.play();
+          }
+          break;
+        case 1:
+          if (!this.self.walk.isPlaying) {
+            this.self.bike.stop();
+            this.self.walk.play();
+          }
+          break;
+        case 2:
+          if (!this.self.bike.isPlaying) {
+            this.self.walk.stop();
+            this.self.bike.play();
+          }
+          break;
       }
     }
   }

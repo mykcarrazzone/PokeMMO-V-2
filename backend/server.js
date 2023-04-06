@@ -20,7 +20,7 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = socket(server);
-const port = 3000;
+const port = 4129;
 const ip = "0.0.0.0"; // FIX ALL POSSIBLE IP ADDRESSES RELATED ISSUES
 
 connectDB(); // USE MONGODB ATLAS
@@ -39,7 +39,12 @@ io.on("connection", (socket) => {
 // Middleware
 app.use(
   cors({
-    origin: ["http://127.0.0.1:4070", "http://localhost:4070"],
+    origin: [
+      "http://127.0.0.1:4060",
+      "http://localhost:4060",
+      "http://192.168.1.18:4060",
+      "http://109.208.107.116:4060",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

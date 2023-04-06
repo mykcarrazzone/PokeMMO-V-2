@@ -111,6 +111,8 @@ export default class Player extends GameObjects.Sprite {
   }
 
   destroyVariables() {
+    this.scene.walk.stop();
+    this.scene.bike.stop();
     this.scene.currentState = "normal";
     this.scene.isCrossActivated = false;
     this.scene.dayCycleRectangle = null;
@@ -118,7 +120,9 @@ export default class Player extends GameObjects.Sprite {
     this.scene.lightningStartDurations = [];
     this.scene.flashRectangle = null;
     console.log("weather is not rain");
-    this.scene.audioRain ? this.scene.audioRain = null : console.log("audioRain already destroyed");
+    this.scene.audioRain
+      ? (this.scene.audioRain = null)
+      : console.log("audioRain already destroyed");
     this.scene.flashRectangle
       ? this.scene.flashRectangle.destroy()
       : console.log("flashRectangle already destroyed");

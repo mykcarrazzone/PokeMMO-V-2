@@ -7,7 +7,7 @@ export default function SocketProvider({ children }) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000", {
+    const newSocket = io("http://109.208.107.116:4129", {
       // IP PROD http://109.208.107.116:4129
       transports: ["websocket"], // permet de garder la session ouverte
       withCredentials: true, // permet de garder la session ouverte

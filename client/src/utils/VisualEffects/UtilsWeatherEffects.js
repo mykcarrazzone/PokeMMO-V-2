@@ -1,8 +1,8 @@
 import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 const snow = (self) => {
   self.audioSnow = self.sound
-  .add("weather-snow", { loop: true, volume: 0.2 })
-  .play();
+    .add("weather-snow", { loop: true, volume: 0.3 })
+    .play();
   self.emitter = self.add.particles("snowflake").setDepth(99);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
@@ -39,10 +39,10 @@ const rain = (self) => {
     self.lightningDurations = [
       6000,
       12000, // 12 secondes
-      30000, // 30 secondes
+      14000, // 14 secondes
+      21000, // 21 secondes
+      35000, // 35 secondes
       45000, // 45 secondes
-      60000, // 1 minute
-      90000, // 1 minute 30 secondes
     ];
 
     self.lightningStartDurations = [
@@ -51,9 +51,12 @@ const rain = (self) => {
       7000, // 30 secondes
     ];
     self.audioRain = self.sound
-      .add("weather-rain", { loop: true, volume: 0.2 })
+      .add("weather-rain", { loop: true, volume: 0.26 })
       .play();
-    self.audioThunder = self.sound.add("thunder", { loop: false, volume: 0.2 });
+    self.audioThunder = self.sound.add("thunder", {
+      loop: false,
+      volume: 0.27,
+    });
 
     self.emitter = self.add.particles("rain").setDepth(99);
     self.emitter.allowGravity = false;
@@ -137,14 +140,16 @@ const rain = (self) => {
       } else {
         // console.log("weather is not rain");
         self.audioRain.stop();
-        self.flashRectangle
-          ? self.flashRectangle.destroy()
-          : null;
+        self.flashRectangle ? self.flashRectangle.destroy() : null;
       }
     };
 
-
-    self.time.delayedCall(getRandomDuration(self.lightningStartDurations), () => createFlash(self), [], self);
+    self.time.delayedCall(
+      getRandomDuration(self.lightningStartDurations),
+      () => createFlash(self),
+      [],
+      self
+    );
   }
 };
 
