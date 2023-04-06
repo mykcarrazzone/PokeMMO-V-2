@@ -48,7 +48,18 @@ export default class AudioGame extends Scene {
     );
   }
 
+  saveVolume(typeEffect, value) {
+    localStorage.setItem(`volume_${typeEffect}`, value);
+  }
+
+  loadVolume(typeEffect, defaultValue) {
+    const savedValue = localStorage.getItem(`volume_${typeEffect}`);
+    return savedValue !== null ? parseFloat(savedValue) : defaultValue;
+  }
+
   seAudio(self, scene, defaultValue, position, name) {
+    const loadedValue = this.loadVolume("se", defaultValue);
+
     var print1 = this.add.text(position.x - 100, position.y - 15, "", {
       fontFamily: "Arial",
       fontSize: "14px",
@@ -63,7 +74,7 @@ export default class AudioGame extends Scene {
         x: position.x,
         y: position.y + 20,
         width: 120,
-        value: defaultValue,
+        value: loadedValue,
         height: 20,
         orientation: "x",
 
@@ -75,12 +86,15 @@ export default class AudioGame extends Scene {
         valuechangeCallback: function (value) {
           print1.text = `${name} ${value.toFixed(1)}`;
           self.setAllVolume(scene, value, "se");
+          self.saveVolume("se", value);
         },
       })
       .layout();
   }
 
   bgmAudio(self, scene, defaultValue, position, name) {
+    const loadedValue = this.loadVolume("bgm", defaultValue);
+
     var print1 = this.add.text(position.x - 100, position.y - 15, "", {
       fontFamily: "Arial",
       fontSize: "14px",
@@ -95,7 +109,7 @@ export default class AudioGame extends Scene {
         x: position.x,
         y: position.y + 20,
         width: 120,
-        value: defaultValue,
+        value: loadedValue,
         height: 20,
         orientation: "x",
 
@@ -107,12 +121,15 @@ export default class AudioGame extends Scene {
         valuechangeCallback: function (value) {
           print1.text = `${name} ${value.toFixed(1)}`;
           self.setAllVolume(scene, value, "bgm");
+          self.saveVolume("bgm", value);
         },
       })
       .layout();
   }
 
   sfxAudio(self, scene, defaultValue, position, name) {
+    const loadedValue = this.loadVolume("sfx", defaultValue);
+
     var print1 = this.add.text(position.x - 100, position.y - 15, "", {
       fontFamily: "Arial",
       fontSize: "14px",
@@ -127,7 +144,7 @@ export default class AudioGame extends Scene {
         x: position.x,
         y: position.y + 20,
         width: 120,
-        value: defaultValue,
+        value: loadedValue,
         height: 20,
         orientation: "x",
 
@@ -139,6 +156,7 @@ export default class AudioGame extends Scene {
         valuechangeCallback: function (value) {
           print1.text = `${name} ${value.toFixed(1)}`;
           self.setAllVolume(scene, value, "sfx");
+          self.saveVolume("sfx", value);
         },
       })
       .layout();
