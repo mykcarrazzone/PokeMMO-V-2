@@ -60,7 +60,7 @@ export const funcSmokeEffects = (effect, self) => {
 };
 
 export const funcWoodFireEffects = (effect, self) => {
-  self.audioChimney = self.sound.add("chimney", { loop: true, volume: 0.3 });
+  self.audioChimney = self.sound.add("chimney", { loop: true, volume: 0.35 });
   self.audioChimney.play();
   const pointLight = new Phaser.GameObjects.PointLight(
     self,
