@@ -45,6 +45,7 @@ export default class BootGame extends Scene {
     );
     /** LOAD MAPS */
     this.loadSnowTown();
+    this.loadMountain();
     this.loadForest();
     /** LOAD SPRITESHEET */
     this.loadSpritesheet();
@@ -109,6 +110,8 @@ export default class BootGame extends Scene {
   loadAudio() {
     /** AUDIO MAP SNOWTOWN */
     this.load.audio("SnowTown", "assets/sounds/bgm/SnowTown.mp3");
+    /** AUDIO MAP MOUNTAIN */
+    this.load.audio("Mountain", "assets/sounds/bgm/Mountain.mp3");
     /** AUDIO MAP CENTER */
     this.load.audio("Center", "assets/sounds/bgm/Center.mp3");
     /** AUDIO MAP SHOP */
@@ -166,6 +169,14 @@ export default class BootGame extends Scene {
     this.load.tilemapTiledJSON(
       "SnowTown-DoorE",
       "assets/tilemaps/SnowTown/SnowTown-Indoor-E.json"
+    );
+  }
+
+  loadMountain() {
+    /** LOAD JSON MOUNTAIN MAP 2 */
+    this.load.tilemapTiledJSON(
+      "Mountain",
+      "assets/tilemaps/Mountain/Mountain.json"
     );
   }
 }

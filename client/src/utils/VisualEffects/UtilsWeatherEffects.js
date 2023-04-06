@@ -1,8 +1,9 @@
 import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 const snow = (self) => {
-  self.audioSnow = self.sound
-    .add("weather-snow", { loop: true, volume: 0.3 })
-    .play();
+  self.sounds["sfx"] = {
+    snow: self.sound.add("weather-snow", { loop: true, volume: 1 }),
+  };
+  self.sounds["sfx"].snow.play();
   self.emitter = self.add.particles("snowflake").setDepth(99);
   self.emitter.allowGravity = false;
   self.emitter.createEmitter({
@@ -50,13 +51,12 @@ const rain = (self) => {
       3000, // 12 secondes
       7000, // 30 secondes
     ];
-    self.audioRain = self.sound
-      .add("weather-rain", { loop: true, volume: 0.26 })
-      .play();
-    self.audioThunder = self.sound.add("thunder", {
-      loop: false,
-      volume: 0.27,
-    });
+
+    self.sounds["sfx"] = {
+      rain: self.sound.add("weather-rain", { loop: true, volume: 1 }),
+      thunder: self.sound.add("thunder", { loop: false, volume: 1 }),
+    };
+    self.sounds["sfx"].rain.play();
 
     self.emitter = self.add.particles("rain").setDepth(99);
     self.emitter.allowGravity = false;
@@ -109,8 +109,8 @@ const rain = (self) => {
             duration: 300,
             ease: "Linear",
             onStart: () => {
-              if (!self.audioThunder.isPlaying) {
-                self.audioThunder.play();
+              if (!self.sounds["sfx"].thunder.isPlaying) {
+                self.sounds["sfx"].thunder.play();
               }
               self.flashRectangle.setFillStyle(0xf7faff);
             },

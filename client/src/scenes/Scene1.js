@@ -45,6 +45,10 @@ export default class Scene1 extends Scene {
   initGame() {
     /** SELF ALLOW TO USE THIS IN SOCKET HANDLER */
     let self = this;
+    this.scene.launch("AudioGame", this);
+    // this.scene.launch("PopupMenu", this);
+    // this.scene.launch("StaticMenu", this);
+    // this.scene.launch("GamePad", this);
     /** INIT MAP */
     this.initMap();
     this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);

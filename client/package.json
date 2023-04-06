@@ -25,6 +25,7 @@
     "js-cookie": "^3.0.1",
     "next": "13.1.6",
     "phaser": "^3.55.2",
+    "phaser3-rex-plugins": "^1.1.84",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-test-renderer": "^18.2.0",

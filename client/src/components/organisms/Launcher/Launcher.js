@@ -22,8 +22,18 @@ export default function Launcher({ userData }) {
 
       const Phaser = await import("phaser");
       const { default: GridEngine } = await import("grid-engine");
+      const { default: UIPlugin } = await import(
+        "phaser3-rex-plugins/templates/ui/ui-plugin.js"
+      );
+      const { default: VirtualJoyStickPlugin } = await import(
+        "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js"
+      );
       const { default: Scene1 } = await import("@/scenes/Scene1");
       const { default: BootGame } = await import("@/scenes/BootGame");
+      const { default: AudioGame } = await import("@/scenes/AudioGame");
+      const { default: PopupMenu } = await import("@/scenes/PopupMenu");
+      const { default: StaticMenu } = await import("@/scenes/StaticMenu");
+      const { default: GamePad } = await import("@/scenes/GamePad");
 
       const phaserGame = new Phaser.Game({
         type: Phaser.AUTO,
@@ -35,7 +45,7 @@ export default function Launcher({ userData }) {
         render: {
           antialias: false,
         },
-        scene: [BootGame, Scene1],
+        scene: [BootGame, Scene1, AudioGame, PopupMenu, StaticMenu, GamePad],
         physics: {
           default: "arcade",
           arcade: {
@@ -51,6 +61,16 @@ export default function Launcher({ userData }) {
               key: "gridEngine",
               plugin: GridEngine,
               mapping: "gridEngine",
+            },
+            {
+              key: "rexUI",
+              plugin: UIPlugin,
+              mapping: "rexUI",
+            },
+            {
+              key: "rexVirtualJoyStick",
+              plugin: VirtualJoyStickPlugin,
+              mapping: "rexVirtualJoyStick",
             },
           ],
         },

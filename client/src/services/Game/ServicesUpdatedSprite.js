@@ -7,12 +7,12 @@ export const servicesUpdateSprite = (self) => {
         self.gridEngine.setWalkingAnimationMapping("player", 2);
         break;
       case "shift":
-        self.walk.rate = 1.5;
+        self.sounds["se"].walk.rate = 1.5;
         self.gridEngine.setSpeed("player", 4);
         self.gridEngine.setWalkingAnimationMapping("player", 1);
         break;
       case "normal":
-        self.walk.rate = 1;
+        self.sounds["se"].walk.rate = 1;
         self.gridEngine.setSpeed("player", 2.5);
         self.gridEngine.setWalkingAnimationMapping("player", 0);
         break;
@@ -25,7 +25,7 @@ export const servicesUpdateSprite = (self) => {
 };
 
 export const servicesUpdatedSpriteToDefault = (self) => {
-  self.walk.rate = 1;
+  self.sounds["se"].walk.rate = 1;
   self.gridEngine.setSpeed("player", 3);
   self.gridEngine.setWalkingAnimationMapping("player", 0);
 };

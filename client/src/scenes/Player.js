@@ -111,8 +111,8 @@ export default class Player extends GameObjects.Sprite {
   }
 
   destroyVariables() {
-    this.scene.walk.stop();
-    this.scene.bike.stop();
+    this.scene.sounds["se"].walk.stop();
+    this.scene.sounds["se"].bike.stop();
     this.scene.currentState = "normal";
     this.scene.isCrossActivated = false;
     this.scene.dayCycleRectangle = null;

@@ -10,7 +10,7 @@ export async function register(formData, character) {
   console.log(character);
   const config = {
     method: "post",
-    url: `${process.env.NEXT_PUBLIC_IP_DEV_URL}/api/createUser`,
+    url: `${process.env.NEXT_PUBLIC_API_PROD_URL}/api/createUser`,
     data: {
       email: formData.email,
       password: formData.password,

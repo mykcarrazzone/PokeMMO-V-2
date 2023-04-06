@@ -88,16 +88,6 @@ export class GridEngineCreate {
     };
 
     this.gridEngine.create(this.map, this.gridEngineConfig);
-    this.self.walk = this.self.sound.add("walk", {
-      loop: false,
-      volume: 0.3,
-      rate: 1,
-    });
-    this.self.bike = this.self.sound.add("bike", {
-      loop: false,
-      volume: 1.3,
-      rate: 1,
-    });
 
     console.info(
       "%c Actual player position: ",
@@ -110,10 +100,10 @@ export class GridEngineCreate {
 
     this.gridEngine.directionChanged().subscribe(({ charId, direction }) => {
       if (charId == "player") {
-        if (this.self.bump.isPlaying) {
-          this.self.bump.stop();
+        if (this.self.sounds["se"].bump.isPlaying) {
+          this.self.sounds["se"].bump.stop();
         } else {
-          this.self.bump.play();
+          this.self.sounds["se"].bump.play();
         }
       }
     });
@@ -144,21 +134,21 @@ export class GridEngineCreate {
       this.self.player.update();
       switch (this.gridEngine.getWalkingAnimationMapping("player")) {
         case 0:
-          if (!this.self.walk.isPlaying) {
-            this.self.bike.stop();
-            this.self.walk.play();
+          if (!this.self.sounds["se"].walk.isPlaying) {
+            this.self.sounds["se"].bike.stop();
+            this.self.sounds["se"].walk.play();
           }
           break;
         case 1:
-          if (!this.self.walk.isPlaying) {
-            this.self.bike.stop();
-            this.self.walk.play();
+          if (!this.self.sounds["se"].walk.isPlaying) {
+            this.self.sounds["se"].bike.stop();
+            this.self.sounds["se"].walk.play();
           }
           break;
         case 2:
-          if (!this.self.bike.isPlaying) {
-            this.self.walk.stop();
-            this.self.bike.play();
+          if (!this.self.sounds["se"].bike.isPlaying) {
+            this.self.sounds["se"].walk.stop();
+            this.self.sounds["se"].bike.play();
           }
           break;
       }

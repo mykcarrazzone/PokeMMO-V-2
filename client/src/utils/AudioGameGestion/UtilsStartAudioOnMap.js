@@ -1,9 +1,22 @@
 export const funcStartAudio = (value, self) => {
   /** Add Walking sound for the player */
-  self.bump = self.sound.add("bump", {
-    loop: false,
-    volume: 1,
-  });
+  self.sounds["se"] = {
+    walk: self.sound.add("walk", {
+      loop: false,
+      volume: 1,
+      rate: 1,
+    }),
+    bike: self.sound.add("bike", {
+      loop: false,
+      volume: 1,
+      rate: 1,
+    }),
+
+    bump: self.sound.add("bump", {
+      loop: false,
+      volume: 1,
+    }),
+  };
 
   try {
     const name = value.split("|")[0];
@@ -27,13 +40,17 @@ export const funcStartAudio = (value, self) => {
       throw new Error("Invalid rate value");
     }
 
-    const audio = self.sound.add(name, {
-      loop: loop,
-      volume: volume,
-      rate: rate,
-    });
-    audio.play();
+    self.sounds["bgm"] = {
+      map: self.sound.add(name, {
+        loop: loop,
+        volume: volume,
+        rate: rate,
+      }),
+    };
+
+    self.sounds["bgm"].map.play();
   } catch (error) {
     console.error(error);
   }
 };
+
