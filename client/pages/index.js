@@ -13,6 +13,16 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const router = useRouter();
   const socket = useContext(SocketContext);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (
+      window.innerWidth < 768 ||
+      (window.innerWidth < 900 && window.innerHeight < 500)
+    ) {
+      setIsMobile(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
@@ -53,13 +63,26 @@ const Home = () => {
 
   return (
     <>
-      {Object.keys(userData).length > 0 && socket && (
-        <Launcher
-          userData={{
-            user: userData,
-            socket: socket,
-          }}
-        />
+      {!isMobile ? (
+        <>
+          {Object.keys(userData).length > 0 && socket && (
+            <Launcher
+              userData={{
+                user: userData,
+                socket: socket,
+              }}
+            />
+          )}
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-4xl font-bold text-center">
+            Ce jeu n'est pas disponible sur mobile
+          </h1>
+          <h2 className="text-2xl font-bold text-center">
+            Veuillez utiliser un ordinateur
+          </h2>
+        </div>
       )}
     </>
   );

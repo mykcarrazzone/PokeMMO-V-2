@@ -13,8 +13,8 @@ const nextConfig = {
   reactStrictMode: false,
   // ACCEPTE URL IMAGE WEBSITE
   images: {
-    disableStaticImages: true, // FOR CORDOVA BUILD, ACTIVATE THIS IF YOU WANT TO USE CORDOVA
-    unoptimized: true, // FOR CORDOVA BUILD, ACTIVATE THIS IF YOU WANT TO USE CORDOVA
+    disableStaticImages: false, // FOR CORDOVA BUILD, ACTIVATE THIS IF YOU WANT TO USE CORDOVA
+    unoptimized: false, // FOR CORDOVA BUILD, ACTIVATE THIS IF YOU WANT TO USE CORDOVA
     domains: ["images.unsplash.com", "fastly.picsum.photos"],
   },
 };
