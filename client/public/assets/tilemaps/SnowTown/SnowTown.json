@@ -1858,7 +1858,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":1040,
+                 "x":1039,
                  "y":976
                 }, 
                 {
@@ -1885,7 +1885,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":1040,
+                 "x":1039,
                  "y":960
                 }, 
                 {
@@ -1913,7 +1913,7 @@
                  "visible":true,
                  "width":16,
                  "x":512,
-                 "y":671
+                 "y":672
                 }, 
                 {
                  "class":"",
@@ -1940,7 +1940,7 @@
                  "visible":true,
                  "width":16,
                  "x":912,
-                 "y":656
+                 "y":657
                 }, 
                 {
                  "class":"",
@@ -1967,7 +1967,7 @@
                  "visible":true,
                  "width":16,
                  "x":784,
-                 "y":624
+                 "y":625
                 }, 
                 {
                  "class":"",
@@ -1994,7 +1994,7 @@
                  "visible":true,
                  "width":16,
                  "x":704,
-                 "y":383
+                 "y":384
                 }, 
                 {
                  "class":"",
@@ -2021,7 +2021,7 @@
                  "visible":true,
                  "width":16,
                  "x":400,
-                 "y":336
+                 "y":337
                 }],
          "opacity":0.9,
          "type":"objectgroup",

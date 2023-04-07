@@ -15,6 +15,7 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
         player.sessionId !== self.socket.id && player.onMap === self.mapName
     );
     otherPlayersData.forEach(function (player) {
+      self.gridEngineClass.removeOnlinePlayer(player.sessionId);
       onlinePlayers[player.sessionId] = new OnlinePlayer({
         scene: self,
         sessionId: player.sessionId,
@@ -31,32 +32,33 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
   });
 
   thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo, currentPlayer) {
+    console.log("Player updated");
+    console.log("Mon id", self.socket.id);
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>
         player.sessionId !== self.socket.id && player.onMap === self.mapName
     );
     otherPlayersData.forEach(function (player) {
       if (onlinePlayers[player.sessionId] == self.socket.id) {
-        onlinePlayers[self.socket.id].destroy();
         self.gridEngineClass.removeOnlinePlayer(self.socket.id);
+        onlinePlayers[self.socket.id].destroy();
         delete onlinePlayers[self.socket.id];
       } else {
-        self.gridEngineClass.removeOnlinePlayer(player.sessionId);
-        delete onlinePlayers[player.sessionId];
+        if (!self.gridEngine.hasCharacter(player.sessionId)) {
+          onlinePlayers[player.sessionId] = new OnlinePlayer({
+            scene: self,
+            sessionId: player.sessionId,
+            key: player.sessionId,
+            map: player.onMap,
+            x: player.position.x,
+            y: player.position.y,
+            nickName: player.nickName,
+            role: player.role,
+            ld: player.position.ld,
+            texture: "onlinePlayer",
+          });
+        }
       }
-
-      onlinePlayers[player.sessionId] = new OnlinePlayer({
-        scene: self,
-        sessionId: player.sessionId,
-        key: player.sessionId,
-        map: player.onMap,
-        x: player.position.x,
-        y: player.position.y,
-        nickName: player.nickName,
-        role: player.role,
-        ld: player.position.ld,
-        texture: "onlinePlayer",
-      });
     });
   });
 
@@ -71,7 +73,8 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
   thisCopy.socket.on("PLAYER_MOVED", function (data) {
     if (self.mapName == data.onMap) {
       const existingPlayer = onlinePlayers[data.sessionId];
-      if (existingPlayer == undefined) {
+      if (existingPlayer == undefined || existingPlayer == null) {
+        self.gridEngineClass.removeOnlinePlayer(data.sessionId);
         onlinePlayers[data.sessionId] = new OnlinePlayer({
           scene: self,
           sessionId: data.sessionId,
