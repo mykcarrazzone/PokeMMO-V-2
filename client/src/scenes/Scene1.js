@@ -32,6 +32,9 @@ export default class Scene1 extends Scene {
   }
 
   create() {
+    this.textures.on('addtexturekey', function (key, texture) {
+      texture.source[0].glTexture.setFilter(Phaser.Textures.FilterMode.LINEAR);
+    });
     if (this.socket && this.localPlayer) {
       console.warn = function () {}; // Désactive les avertissements dans la console
       this.gameHasFocused = true;
@@ -48,7 +51,7 @@ export default class Scene1 extends Scene {
     this.scene.launch("AudioGame", this);
     // this.scene.launch("PopupMenu", this);
     // this.scene.launch("StaticMenu", this);
-    // this.scene.launch("GamePad", this);
+    this.scene.launch("GamePad", this);
     /** INIT MAP */
     this.initMap();
     this.gridEngineClass = new GAME_UTILITIES.GridEngineCreate(self);
@@ -69,7 +72,7 @@ export default class Scene1 extends Scene {
   initMap() {
     this.myLights = [];
     this.map = this.make.tilemap({ key: this.mapName });
-    this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles");
+    this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles", 16, 16);
 
     for (let i = 0; i < this.map.layers.length; i++) {
       const layer = this.map.createLayer(

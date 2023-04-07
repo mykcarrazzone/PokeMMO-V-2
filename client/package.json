@@ -6,10 +6,11 @@
   "author": "Lorenzo GIRALT",
   "scripts": {
     "dev": "next dev -p 4060",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start -p 4060",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "export": "next export"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.3.0",

@@ -6,17 +6,18 @@ export default class GamePad extends Scene {
   }
 
   preload() {}
-  create() {
+  create(scene) {
+    this.sceneGame = scene;
     this.joyStick = this.rexVirtualJoyStick
       .add(this, {
-        x: window.innerWidth/2.5,
-        y: window.innerHeight - 150,
-        radius: 100,
-        // base: this.add.circle(0, 0, 100, 0x888888),
-        // thumb: this.add.circle(0, 0, 50, 0xcccccc),
-        // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
-        // forceMin: 16,
-        // enable: true
+        x: 125,
+        y: window.innerHeight - 125,
+        radius: 75,
+        base: this.add.circle(0, 0, 75, 0x888888),
+        thumb: this.add.circle(0, 0, 35, 0xcccccc),
+        dir: "4dir", // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
+        forceMin: 16,
+        enable: true,
       })
       .on("update", this.dumpJoyStickState, this)
       .on("pointerdown", function () {
@@ -26,8 +27,8 @@ export default class GamePad extends Scene {
         console.log("pointerup");
       });
 
-    this.text = this.add.text(0, 0);
-    this.dumpJoyStickState();
+    this.text = this.add.text(50, 300);
+    this.dumpJoyStickState(scene);
   }
 
   dumpJoyStickState() {
@@ -36,6 +37,7 @@ export default class GamePad extends Scene {
     for (var name in cursorKeys) {
       if (cursorKeys[name].isDown) {
         s += `${name} `;
+        this.sceneGame.gridEngine.move("player", name);
       }
     }
 
@@ -49,7 +51,6 @@ Angle: ${Math.floor(this.joyStick.angle * 100) / 100}
       var key = cursorKeys[name];
       s += `${name}: duration=${key.duration / 1000}\n`;
     }
-
-    this.text.setText(s);
+    // this.text.setText(s);
   }
 }

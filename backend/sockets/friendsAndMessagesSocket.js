@@ -53,18 +53,31 @@ export default async function friendsAndMessagesSocket(data) {
     }
   });
 
+  const HourMinSec = (createdAt) => {
+    // FORMAT : 2023-03-23T18:59:30.846+00:00
+    if (createdAt.match(/^\[\d{1,2}:\d{1,2}:\d{1,2}\]$/)) {
+      return createdAt;
+    }
+
+    const date = new Date(createdAt);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `[${hours}:${minutes}:${seconds}]`;
+  };
+
   // Écoute des messages dans le chat général
-  socket.on("generalChatMessage", async ({ from, message }) => {
+  socket.on("generalChatMessage", async ({ from, message, createdAt }) => {
     try {
       const newMessage = new GeneralMessage({
         sender: from,
         message,
-        createdAt: new Date(Date.now() + 3600 * 1000),
+        createdAt,
       });
       await newMessage.save();
 
-      console.log(`Message reçu de ${from} : ${message}`);
-      io.emit("generalChatMessageReceived", { from, message });
+      console.log(`Message reçu de ${createdAt} ${from} : ${message}`);
+      io.emit("generalChatMessageReceived", { from, message, createdAt });
     } catch (error) {
       console.log(error);
     }
@@ -79,22 +92,22 @@ export default async function friendsAndMessagesSocket(data) {
     const formattedMessages = messages.map((message) => ({
       from: message.sender,
       message: message.message,
-      createdAt: message.createdAt,
+      createdAt: HourMinSec(message.createdAt),
     }));
 
-    formattedMessages.push({
-      from: "System",
-      message:
-        "Pour vous déplacer normalement, utilisez les touches Z, Q, S et D.",
-      createdAt: new Date(Date.now() + 3600 * 1000),
-    });
+    // formattedMessages.push({
+    //   from: "System",
+    //   message:
+    //     "Pour vous déplacer normalement, utilisez les touches Z, Q, S et D.",
+    //   createdAt: HourMinSec(new Date(Date.now())), //
+    // });
 
-    formattedMessages.push({
-      from: "System",
-      message:
-        "[Nouveau] Vous pouvez désormais vous déplacer en sprintant en restant appuyé sur la touche SHIFT, et en vélo en appuyant sur la touche R.",
-      createdAt: new Date(Date.now() + 3600 * 1000),
-    });
+    // formattedMessages.push({
+    //   from: "System",
+    //   message:
+    //     "[Nouveau] Vous pouvez désormais vous déplacer en sprintant en restant appuyé sur la touche SHIFT, et en vélo en appuyant sur la touche R.",
+    //   createdAt: HourMinSec(new Date(Date.now())),
+    // });
 
     io.emit("generalChatHistory", formattedMessages);
   } catch (error) {

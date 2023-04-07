@@ -4,8 +4,8 @@ import { useCharacter } from "../src/context/ContextCharacter";
 import { getUserById } from "../src/services/User/ServicesGetUser";
 import { useRouter } from "next/router";
 import { SocketContext } from "../src/context/ContextSocket";
+import Launcher from "../src/components/organisms/Launcher/Launcher";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 
 const Home = () => {
   const { user, setUser } = useUser();
@@ -13,13 +13,6 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const router = useRouter();
   const socket = useContext(SocketContext);
-
-  const DynamicGamesComponent = dynamic(
-    () => import("../src/components/organisms/Launcher/Launcher"),
-    {
-      ssr: false,
-    }
-  );
 
   useEffect(() => {
     if (!socket) return;
@@ -61,7 +54,7 @@ const Home = () => {
   return (
     <>
       {Object.keys(userData).length > 0 && socket && (
-        <DynamicGamesComponent
+        <Launcher
           userData={{
             user: userData,
             socket: socket,

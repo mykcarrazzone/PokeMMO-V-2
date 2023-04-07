@@ -7,7 +7,7 @@ export const funcStartDayCycle = (value, self) => {
   } else {
     // console.log("funcStartDayCycle", value)
     const isDayCycleCanStart = value;
-    if(!isDayCycleCanStart) {
+    if (!isDayCycleCanStart) {
       return;
     }
 
@@ -46,12 +46,12 @@ export const setDayCycleEffects = (cycleType, self, firstTime) => {
       )
       .setDepth(100)
       .setOrigin(0, 0)
-      .setScrollFactor(0)
+      .setScrollFactor(0);
   }
   // Mettre à jour les propriétés du rectangle
   const color = 0x000000;
   const targetAlpha = cycleType === "day" ? 0 : GAMES_INFOS.nightOpacity;
-  const duration = firstTime ? 0: 6000; // Durée de la transition en millisecondes
+  const duration = firstTime ? 0 : 6000; // Durée de la transition en millisecondes
 
   // Créer un tween pour la transition en douceur
   self.tweens.add({
@@ -60,10 +60,7 @@ export const setDayCycleEffects = (cycleType, self, firstTime) => {
     ease: "Linear",
     duration: duration,
     onUpdate: () => {
-      self.dayCycleRectangle.setFillStyle(
-        color,
-        self.dayCycleRectangle.alpha
-      );
+      self.dayCycleRectangle.setFillStyle(color, self.dayCycleRectangle.alpha);
     },
     onComplete: () => {
       self.dayCycleRectangle.setFillStyle(color, targetAlpha);

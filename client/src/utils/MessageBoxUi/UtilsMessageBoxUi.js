@@ -51,7 +51,7 @@ export function createMessageBoxUi(data) {
     targets: graphics,
     y: graphics.y + height,
     alpha: 1,
-    duration: 3000,
+    duration: 2000,
     ease: "Cubic.easeOut",
   });
 
@@ -61,7 +61,7 @@ export function createMessageBoxUi(data) {
     targets: texte,
     y: y,
     alpha: 1,
-    duration: 3000,
+    duration: 2000,
     ease: "Cubic.easeOut",
   });
 
@@ -89,15 +89,15 @@ export const funcAddMapNameSign = (value, self) => {
 
   createMessageBoxUi({
     scene: self,
-    x: 210,
-    y: 108,
+    x: 186,
+    y: 76.5,
     text: mapName,
     radius: 5,
     fontFamily: "Comic Sans Ms",
     textColor: "#ffffff",
-    shadow: 2,
-    backgroundColor: "#d39e34",
-    fontSize: 28,
-    padding: 45,
+    shadow: 1,
+    backgroundColor: "#1F2937",
+    fontSize: 17,
+    padding: 12.5,
   });
 };

@@ -36,7 +36,7 @@ export default function Launcher({ userData }) {
       const { default: GamePad } = await import("@/scenes/GamePad");
 
       const phaserGame = new Phaser.Game({
-        type: Phaser.AUTO,
+        type: Phaser.AUTO, // Utilise le moteur de rendu Canvas
         title: "Pokemon",
         parent: gameRef.current,
         width: window.innerWidth,
@@ -96,12 +96,12 @@ export default function Launcher({ userData }) {
       //   );
       // });
 
-      // if (
-      //   window.innerWidth < 768 ||
-      //   (window.innerWidth < 900 && window.innerHeight < 500)
-      // ) {
-      //   setIsMobile(true);
-      // }
+      if (
+        window.innerWidth < 768 ||
+        (window.innerWidth < 900 && window.innerHeight < 500)
+      ) {
+        setIsMobile(true);
+      }
     }
     initPhaser();
   }, [userData]);
@@ -114,7 +114,7 @@ export default function Launcher({ userData }) {
 
       {isMobile ? (
         <div
-          className={`absolute bottom-0 left-0 w-1/2 sm:w-auto ${
+          className={`absolute top-0 bottom-0 left-0 w-1/2 sm:w-auto ${
             gameReady ? "" : "hidden"
           }`}
           style={{

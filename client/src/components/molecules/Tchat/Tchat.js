@@ -90,6 +90,7 @@ const Tchat = ({ isClose }) => {
 
       socket.on("generalChatMessageReceived", (message) => {
         setMessages((messages) => [...messages, message]);
+        console.log("message reçu : ", message);
         // Faire défiler vers le bas
         setTimeout(() => {
           if (messageBoxRef.current != null) {
@@ -110,30 +111,44 @@ const Tchat = ({ isClose }) => {
             ? `<GM>${currentPlayerInfo.nickName}`
             : currentPlayerInfo.nickName,
         message: inputValue,
+        createdAt: new Date(Date.now()),
       });
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
       setInputValue("");
     }
   };
 
+  const HourMinSec = (createdAt) => {
+    // FORMAT : 2023-03-23T18:59:30.846+00:00
+    if (createdAt.match(/^\[\d{1,2}:\d{1,2}:\d{1,2}\]$/)) {
+      return createdAt;
+    }
+
+    const date = new Date(createdAt);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `[${hours}:${minutes}:${seconds}]`;
+  };
+
   return (
     <>
       {!isClosed ? (
         <div
-          className="fixed bottom-0 left-0 w-full sm:w-1/2"
+          className="fixed bottom-0 right-0 w-full sm:w-1/2"
           style={{
-            maxWidth: "540px",
+            maxWidth: "480px",
           }}
         >
           <div
-            className="flex w-full h-10 items-center flex justify-center bg-[#2c3440e3] rounded-tr-[8px]"
+            className="flex w-full h-8 items-center flex justify-center bg-[#2c3440e3] rounded-tl-[8px]"
             style={{
               boxShadow: "inset -18px -18px 25px 0px rgba(0,0,0,0.5)",
               borderBottom: "1px solid rgba(0,0,0,0.6)",
             }}
           >
             <div
-              className="text-white w-full font-bold text-xl  select-none items-center flex justify-center"
+              className="text-white w-full font-bold text-md  select-none items-center flex justify-center"
               style={{
                 textShadow: "inset -18px -18px 25px 0px rgba(0,0,0,0.5)",
               }}
@@ -150,7 +165,7 @@ const Tchat = ({ isClose }) => {
 
           <div
             ref={messageBoxRef}
-            className="h-64 text-white overflow-y-auto"
+            className={`${isMobile ? "h-[86vh]" : "h-48 text-white overflow-y-auto"}`}
             style={{
               backgroundColor: "#1f2937d2",
             }}
@@ -158,8 +173,21 @@ const Tchat = ({ isClose }) => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`ml-1 mb-2 text-[${getSenderColor(message.from)}]`}
+                className={`ml-1 mb-2 text-sm text-[${getSenderColor(
+                  message.from
+                )}]`}
               >
+                <span
+                  className="font-bold"
+                  style={{
+                    backgroundColor: message.from.includes("<GM>")
+                      ? "black"
+                      : "transparent",
+                    padding: "0 2px",
+                  }}
+                >
+                  {HourMinSec(message.createdAt)}
+                </span>
                 <span
                   className="font-bold"
                   style={{
@@ -175,7 +203,7 @@ const Tchat = ({ isClose }) => {
                       : "transparent",
                   }}
                 >
-                  {message.from} :{" "}
+                  {message.from} :
                 </span>
                 <span
                   className="text-white"
@@ -185,7 +213,7 @@ const Tchat = ({ isClose }) => {
                       : message.from === "System"
                       ? "black"
                       : "transparent",
-                    padding: "0 4px",
+                    padding: "0 2px",
                   }}
                 >
                   {message.message}
@@ -196,7 +224,7 @@ const Tchat = ({ isClose }) => {
             {/* Zone de texte pour afficher les messages du chat */}
           </div>
           <form
-            className="flex p-4 bg-[#2c3440dc]"
+            className="flex p-2 bg-[#2c3440dc]"
             onSubmit={handleSubmit}
             style={{
               boxShadow: "inset -18px -18px 25px 0px rgba(0,0,0,0.5)",
@@ -206,7 +234,7 @@ const Tchat = ({ isClose }) => {
             <input
               ref={inputRef}
               type="text"
-              className="flex-1 bg-gray-200 rounded-lg px-4 py-2"
+              className="flex-1 bg-gray-200 text-sm rounded-lg px-2 py-2 h-8"
               placeholder="Saisissez votre message ici"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -215,7 +243,7 @@ const Tchat = ({ isClose }) => {
             />
             <button
               type="submit"
-              className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="ml-4 bg-blue-500 text-sm h-8 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Envoyer
             </button>

@@ -1,8 +1,8 @@
 import { Scene } from "phaser";
 
-const COLOR_PRIMARY = 0x4e342e;
-const COLOR_LIGHT = 0x7b5e57;
-const COLOR_DARK = 0x260e04;
+const COLOR_PRIMARY = 0xf7f7f7;
+const COLOR_LIGHT = 0x070a0e;
+const COLOR_DARK = 0x1F2937;
 
 export default class AudioGame extends Scene {
   constructor() {
@@ -19,7 +19,7 @@ export default class AudioGame extends Scene {
       scene,
       1,
       {
-        x: window.innerWidth - 175,
+        x: window.innerWidth - 105,
         y: window.innerHeight / 6,
       },
       "Musique"
@@ -30,7 +30,7 @@ export default class AudioGame extends Scene {
       scene,
       0.7,
       {
-        x: window.innerWidth - 175,
+        x: window.innerWidth - 105,
         y: window.innerHeight / 6 + 100,
       },
       "Effets sonore"
@@ -41,7 +41,7 @@ export default class AudioGame extends Scene {
       scene,
       0.8,
       {
-        x: window.innerWidth - 175,
+        x: window.innerWidth - 105,
         y: window.innerHeight / 6 + 200,
       },
       "Effets spéciaux"
@@ -60,20 +60,21 @@ export default class AudioGame extends Scene {
   seAudio(self, scene, defaultValue, position, name) {
     const loadedValue = this.loadVolume("se", defaultValue);
 
-    var print1 = this.add.text(position.x - 100, position.y - 15, "", {
+    var print1 = this.add.text(position.x - 55, position.y - 15, "", {
+      fontFamily: "Arial",
       fontFamily: "Arial",
       fontSize: "14px",
       fill: "#f7f7f7",
-      stroke: "#070701",
+      stroke: "#3e516b",
       strokeThickness: 0,
       padding: 2.5,
-      backgroundColor: "#030507d7",
+      backgroundColor: "#1F2937",
     });
     this.rexUI.add
       .slider({
         x: position.x,
         y: position.y + 20,
-        width: 120,
+        width: 110,
         value: loadedValue,
         height: 20,
         orientation: "x",
@@ -95,20 +96,21 @@ export default class AudioGame extends Scene {
   bgmAudio(self, scene, defaultValue, position, name) {
     const loadedValue = this.loadVolume("bgm", defaultValue);
 
-    var print1 = this.add.text(position.x - 100, position.y - 15, "", {
+    var print1 = this.add.text(position.x - 45, position.y - 15, "", {
+      fontFamily: "Arial",
       fontFamily: "Arial",
       fontSize: "14px",
       fill: "#f7f7f7",
-      stroke: "#070701",
+      stroke: "#3e516b",
       strokeThickness: 0,
       padding: 2.5,
-      backgroundColor: "#030507d7",
+      backgroundColor: "#1F2937",
     });
     this.rexUI.add
       .slider({
         x: position.x,
         y: position.y + 20,
-        width: 120,
+        width: 110,
         value: loadedValue,
         height: 20,
         orientation: "x",
@@ -130,20 +132,20 @@ export default class AudioGame extends Scene {
   sfxAudio(self, scene, defaultValue, position, name) {
     const loadedValue = this.loadVolume("sfx", defaultValue);
 
-    var print1 = this.add.text(position.x - 100, position.y - 15, "", {
+    var print1 = this.add.text(position.x - 55, position.y - 15, "", {
       fontFamily: "Arial",
       fontSize: "14px",
       fill: "#f7f7f7",
-      stroke: "#070701",
+      stroke: "#3e516b",
       strokeThickness: 0,
       padding: 2.5,
-      backgroundColor: "#030507d7",
+      backgroundColor: "#1F2937",
     });
     this.rexUI.add
       .slider({
         x: position.x,
         y: position.y + 20,
-        width: 120,
+        width: 110,
         value: loadedValue,
         height: 20,
         orientation: "x",

@@ -39,17 +39,6 @@ const Layout = ({ isMobile }) => {
         </div>
       )}
 
-      {isMobileView ? (
-        <div className="absolute bottom-0 left-24 z-10 w-1/2 sm:w-auto">
-          <Gamepad />
-        </div>
-      ) : null}
-
-      {/* <div className="absolute top-0 right-0 z-10 w-1/2 sm:w-auto">
-        <FullScreenPrompt />
-      </div>
-       */}
-
       <div className="absolute top-0 right-0 z-10 w-1/2 sm:w-auto">
         <FullScreenButton />
       </div>
