@@ -14,7 +14,7 @@
 
 ## Dernière mise à jour 💾
 
-\*\*Dernière mise à jour effectuée le 07/04/2023
+**Dernière mise à jour effectuée le 07/04/2023
 
 ## Description 🔬
 
