@@ -8,7 +8,7 @@
 
 <div align="center" style="text-align:center">
 
-<img src="client/GIF_POKEMON_MAP_SNOW.gif" alt="Gif du jeu"/>
+<img src="client/GIF_POKEMON_MAP_SNOW.gif" alt="Gif du jeu" width="300px"/>
 <img src="client/GIF_POKEMON_MAP_MOUTAIN.gif" alt="Gif du jeu"/>
  </div>
 
