@@ -9,6 +9,7 @@
 <div align="center" style="text-align:center">
 
 <img src="client/GIF_POKEMON.gif" alt="Gif du jeu"/>
+<img src="client/GIF_POKEMON_MAP_MOUTAIN.gif" alt="Gif du jeu"/>
  </div>
 
 ## Dernière mise à jour 💾
@@ -48,6 +49,7 @@ Les fonctionnalités suivantes sont en cours de développement :
 Les technologies suivantes ont été utilisées dans le développement de ce projet :
 
 ### Frontend 💻
+
 - [Next.js](https://nextjs.org/) <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next-dot-js&logoColor=white" alt="Next.js logo">
 - [Tailwind CSS](https://tailwindcss.com/) <img src="https://img.shields.io/badge/-Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS logo">
 - [GridEngine](https://github.com/Annoraaq/grid-engine) <img src="https://github.com/Annoraaq/grid-engine/raw/master/images/grid-engine-logo.png" width="70px" alt="MongoDB logo">
@@ -56,11 +58,11 @@ Les technologies suivantes ont été utilisées dans le développement de ce pro
 - [Snapshot Renderer](https://legacy.reactjs.org/docs/test-renderer.html) <img src="https://img.shields.io/badge/-Snapshot%20Renderer-FFC107?style=flat-square" alt="Snapshot Renderer badge">
 
 ### Backend 📡
+
 - [Node.js](https://nodejs.org/en/) <img src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js logo">
 - [Express](https://expressjs.com/) <img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express logo">
 - [Socket.io](https://socket.io/) <img src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket-dot-io&logoColor=white" alt="Socket.io logo">
 - [MongoDB](https://www.mongodb.com/) <img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB logo">
-
 
 ## Normes de convention 📏
 

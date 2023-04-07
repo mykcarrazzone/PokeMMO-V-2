@@ -27,6 +27,7 @@ export function handlePlayerJoin(data) {
       isMoving: playerInfo.isMoving,
       onMap: playerInfo.onMap,
     };
+    console.log("JOIN LIST", players)
     io.emit("PLAYER_UPDATED", players, players[socket.id]);
   } else {
     players[socket.id] = {
