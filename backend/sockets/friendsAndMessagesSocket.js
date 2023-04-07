@@ -55,10 +55,6 @@ export default async function friendsAndMessagesSocket(data) {
 
   const HourMinSec = (createdAt) => {
     // FORMAT : 2023-03-23T18:59:30.846+00:00
-    if (createdAt.match(/^\[\d{1,2}:\d{1,2}:\d{1,2}\]$/)) {
-      return createdAt;
-    }
-
     const date = new Date(createdAt);
     const hours = date.getHours();
     const minutes = date.getMinutes();
