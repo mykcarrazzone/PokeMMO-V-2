@@ -159,6 +159,23 @@ export class GridEngineCreate {
     return this.gridEngine.getSpeed(id);
   }
 
+  getSenderColor = (sender) => {
+    const colors = [
+      "#ffd670",
+      "#ff9770",
+      "#00bbf9",
+      "#8ac926",
+      "#fff1d0",
+      "#9b5de5",
+      "#f15bb5",
+      "#00f5d4",
+    ];
+    // use the first letter of the sender's name to determine the index of the color
+    const colorIndex =
+      sender && sender.length > 0 ? sender.charCodeAt(0) % colors.length : 0;
+    return colors[colorIndex];
+  };
+
   //*************** ADD ONLINE PLAYER *****************//
   addOnlinePlayer(sessionId, spriteId, position, role, nickName) {
     this.onlinePlayerSprite = this.add.sprite(0, 0, "onlinePlayer");
@@ -168,7 +185,7 @@ export class GridEngineCreate {
       .text(this.onlinePlayerSprite.width / 2, 5, labelText, {
         fontFamily: "Roboto",
         fontSize: "16px",
-        fill: role !== "admin" ? "#ffffff" : "#f0db25",
+        fill: role !== "admin" ? this.getSenderColor(labelText) : "#f0db25",
         stroke: "#070701",
         strokeThickness: 0,
         padding: 3,

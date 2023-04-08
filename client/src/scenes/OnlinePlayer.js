@@ -51,28 +51,6 @@ export default class OnlinePlayer extends GameObjects.Sprite {
     }
   }
 
-  createLabelAbovePlayer() {
-    // Display playerId above player
-    this.playerNickname = this.scene.add
-      .text(
-        this.x,
-        this.y - 15,
-        config.role !== "admin"
-          ? capitalizedNickName
-          : `[GM] ${capitalizedNickName}`,
-        {
-          fontFamily: "Arial",
-          fontSize: "14px",
-          fill: config.role !== "admin" ? "#ffffff" : "#fae953",
-          stroke: "#070701",
-          strokeThickness: 0,
-          padding: 2.5,
-          backgroundColor: "#030507d7",
-        }
-      )
-      .setDepth(8);
-  }
-
   stopWalking() {
     this.anims.stop();
   }
