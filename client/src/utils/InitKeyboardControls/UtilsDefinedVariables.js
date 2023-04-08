@@ -1,5 +1,6 @@
 export const utilsDefineVariables = (self) => {
   // self.hour = 17; // TEST VARIABLE FOR DAY/NIGHT
+  self.myLights = [];
   self.isDay = isDay(self);
   self.sounds = {};
 

@@ -66,7 +66,7 @@ const rain = (self) => {
         source: new Phaser.Geom.Rectangle(
           0,
           0,
-          self.map.widthInPixels * 3,
+          self.map.widthInPixels * 4,
           self.map.heightInPixels * 4
         ),
       },

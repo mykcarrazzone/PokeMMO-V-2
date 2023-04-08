@@ -826,7 +826,7 @@
                  "class":"",
                  "height":16,
                  "id":25,
-                 "name":"Cynthia",
+                 "name":"Ga\u00eblle",
                  "properties":[
                         {
                          "name":"direction",
@@ -836,7 +836,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"Je suis sur le point de d\u00e9couvrir quelque chose.. enfin je crois"
+                         "value":"Je suis occup\u00e9 l\u00e0.."
                         }, 
                         {
                          "name":"moveTo",
@@ -853,28 +853,6 @@
                  "width":16,
                  "x":560,
                  "y":496
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":23,
-         "name":"Message",
-         "objects":[
-                {
-                 "class":"",
-                 "height":16,
-                 "id":7,
-                 "name":"CENTRE",
-                 "rotation":0,
-                 "visible":true,
-                 "width":48,
-                 "x":496,
-                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",

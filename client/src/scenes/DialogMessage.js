@@ -10,6 +10,7 @@ export default class DialogMessage extends Scene {
   preload() {}
 
   create(dialog) {
+    this.type = dialog.type;
     this.message = dialog.message;
     this.name = dialog.name;
     this.beforeScene = dialog.beforeScene;
@@ -21,22 +22,25 @@ export default class DialogMessage extends Scene {
       .layout()
       .modalPromise()
       .then(function () {
-        self.beforeScene.gridEngine.turnTowards(self.name, self.direction);
-        self.beforeScene.events.emit("Dialog", false);
-        if (
-          self.npcInteraction != null &&
-          self.npcInteraction.isMovable === "true"
-        ) {
-          console.log(self.npcInteraction);
-          self.message = "On y va ? grimpe dans la bagnole";
-          self.beforeScene.gridEngine.moveTo(self.name, {
-            x: parseInt(self.npcInteraction.x),
-            y: parseInt(self.npcInteraction.y),
-          });
-          self.time.delayedCall(1000, function () {
-            self.beforeScene.gridEngine.moveTo("player", { x: 70, y: 61 });
-          });
+        if (self.type === "npc") {
+          self.beforeScene.gridEngine.turnTowards(self.name, self.direction);
+          self.beforeScene.events.emit("Dialog", false);
+          if (
+            self.npcInteraction != null &&
+            self.npcInteraction.isMovable === "true"
+          ) {
+            console.log(self.npcInteraction);
+            self.message = "On y va ? grimpe dans la bagnole";
+            self.beforeScene.gridEngine.moveTo(self.name, {
+              x: parseInt(self.npcInteraction.x),
+              y: parseInt(self.npcInteraction.y),
+            });
+            self.time.delayedCall(1000, function () {
+              self.beforeScene.gridEngine.moveTo("player", { x: 70, y: 61 });
+            });
+          }
         }
+        self.beforeScene.events.emit("Dialog", false);
       });
   }
 
