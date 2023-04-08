@@ -8,16 +8,19 @@ export const servicesAddNpc = (object, self) => {
     const npc = object.objects;
     npc.map((prop) => {
       const name = prop.name;
+
       const direction = prop.properties[0].value;
-      const [x, y] = prop.properties[1].value.split("|");
-      self.gridEngineClass.addNpc({
-        id: name,
-        x: parseInt(x),
-        y: parseInt(y),
-        speed: 0,
-        walkingAnimationMapping: prop.properties[2].value,
-        collides: true,
-      });
+      self.gridEngineClass.addNpc(
+        {
+          id: name,
+          x: parseInt(prop.x / 16),
+          y: parseInt(prop.y / 15.9),
+          speed: 0,
+          walkingAnimationMapping: prop.properties[2].value,
+          collides: true,
+        },
+        name.includes("Vendeur") || name.includes("Vendeuse") ? true : false
+      );
       self.gridEngineClass.setTurnTowards(prop.name, direction);
     });
   }

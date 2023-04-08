@@ -22,6 +22,57 @@ export default class Player extends GameObjects.Sprite {
     this.newZone = config.newZone;
     this.passPorte = false;
     this.passWorld = false;
+    this.spaceKeyPressed = false;
+    // GESTION KEYBOARD INPUT SPACE CLICKED
+    this.scene.input.keyboard.on("keydown-SPACE", this.onSpaceKeyClicked, this);
+  }
+
+  onSpaceKeyClicked() {
+    this.spaceKeyPressed = !this.spaceKeyPressed;
+    console.log("Touche espace appuyée:", this.spaceKeyPressed);
+    this.npcInteraction();
+    // Réinitialisez l'état de spaceKeyPressed
+    this.spaceKeyPressed = false;
+  }
+
+  npcInteraction() {
+    if (!this.spaceKeyPressed) {
+      return;
+    }
+
+    this.tileMap.findObject("Npc", (obj) => {
+      /* Check obj array is not empty */
+      if (obj.length === 0) {
+        return;
+      }
+      const objectX = obj.x * 3.985;
+      const objectY = obj.y * 3.94;
+      const name = obj.name;
+      const direction = obj.properties[0].value;
+      const message = obj.properties[1].value;
+      const beforeScene = this.scene;
+      var distance = Phaser.Math.Distance.Between(
+        this.x,
+        this.y,
+        objectX,
+        objectY
+      );
+      if (distance < 78) {
+        console.log("proche de", name);
+        const heroFacingDirection =
+          this.scene.gridEngine.getFacingDirection("player");
+        this.scene.gridEngine.turnTowards(
+          name,
+          this.npcLookAtPlayer(heroFacingDirection)
+        );
+        this.scene.scene.launch("DialogMessage", {
+          name,
+          message,
+          beforeScene,
+          direction,
+        });
+      }
+    });
   }
 
   update() {
@@ -57,6 +108,19 @@ export default class Player extends GameObjects.Sprite {
         this.changeSceneByMapName(newPosition);
       }
     });
+  }
+
+  npcLookAtPlayer(direction) {
+    switch (direction) {
+      case "up":
+        return "down";
+      case "down":
+        return "up";
+      case "left":
+        return "right";
+      case "right":
+        return "left";
+    }
   }
 
   changeSceneByMapName(newPosition) {

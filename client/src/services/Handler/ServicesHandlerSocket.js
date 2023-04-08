@@ -32,8 +32,6 @@ export const servicesHandlerSocket = (thisCopy, self, onlinePlayers) => {
   });
 
   thisCopy.socket.on("PLAYER_UPDATED", function (playerInfo, currentPlayer) {
-    console.log("Player updated");
-    console.log("Mon id", self.socket.id);
     const otherPlayersData = Object.values(playerInfo).filter(
       (player) =>
         player.sessionId !== self.socket.id && player.onMap === self.mapName

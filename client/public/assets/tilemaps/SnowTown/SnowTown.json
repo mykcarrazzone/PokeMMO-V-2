@@ -1713,10 +1713,9 @@
          "objects":[
                 {
                  "class":"",
-                 "ellipse":true,
                  "height":16,
-                 "id":54,
-                 "name":"npc4",
+                 "id":67,
+                 "name":"R\u00e9gis",
                  "properties":[
                         {
                          "name":"direction",
@@ -1724,9 +1723,9 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"58|59"
+                         "value":"Je t'es jamais aim\u00e9 fr\u00e9rot"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -1736,15 +1735,14 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":928,
+                 "x":944,
                  "y":944
                 }, 
                 {
                  "class":"",
-                 "ellipse":true,
                  "height":16,
-                 "id":51,
-                 "name":"npc3",
+                 "id":66,
+                 "name":"Poto Sofiane",
                  "properties":[
                         {
                          "name":"direction",
@@ -1752,9 +1750,9 @@
                          "value":"left"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"66|60"
+                         "value":"On prends ma caisse fr\u00e9rot sinon tu vas mourir de froid mdr"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -1764,15 +1762,14 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":1056,
+                 "x":1072,
                  "y":960
                 }, 
                 {
                  "class":"",
-                 "ellipse":true,
-                 "height":0,
-                 "id":50,
-                 "name":"npc2",
+                 "height":16,
+                 "id":65,
+                 "name":"Timoth\u00e9e",
                  "properties":[
                         {
                          "name":"direction",
@@ -1780,9 +1777,9 @@
                          "value":"right"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"31|47"
+                         "value":"Tu veux quoi mec ?"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -1791,16 +1788,15 @@
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
-                 "x":512,
+                 "width":16,
+                 "x":496,
                  "y":752
                 }, 
                 {
                  "class":"",
-                 "ellipse":true,
-                 "height":0,
-                 "id":47,
-                 "name":"npc1",
+                 "height":16,
+                 "id":64,
+                 "name":"Jennifer Lopez",
                  "properties":[
                         {
                          "name":"direction",
@@ -1808,9 +1804,9 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"45|36"
+                         "value":"Il fait froid j'me caille zebi..."
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -1819,8 +1815,8 @@
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
-                 "x":720,
+                 "width":16,
+                 "x":704,
                  "y":576
                 }],
          "opacity":1,
@@ -2067,7 +2063,7 @@
          "y":0
         }],
  "nextlayerid":102,
- "nextobjectid":64,
+ "nextobjectid":68,
  "orientation":"orthogonal",
  "properties":[
         {

@@ -3036,10 +3036,9 @@
          "objects":[
                 {
                  "class":"",
-                 "ellipse":true,
                  "height":16,
-                 "id":54,
-                 "name":"npc4",
+                 "id":77,
+                 "name":"Bob",
                  "properties":[
                         {
                          "name":"direction",
@@ -3047,9 +3046,9 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"33|34"
+                         "value":"C'est ferm\u00e9 au public"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -3064,10 +3063,9 @@
                 }, 
                 {
                  "class":"",
-                 "ellipse":true,
-                 "height":0,
-                 "id":47,
-                 "name":"npc1",
+                 "height":16,
+                 "id":78,
+                 "name":"Lulu",
                  "properties":[
                         {
                          "name":"direction",
@@ -3075,9 +3073,9 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"63|42"
+                         "value":"Quel temps pourri.."
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -3086,16 +3084,15 @@
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
+                 "width":16,
                  "x":1008,
                  "y":672
                 }, 
                 {
                  "class":"",
-                 "ellipse":true,
                  "height":16,
-                 "id":55,
-                 "name":"npc3",
+                 "id":79,
+                 "name":"Poto Sofiane",
                  "properties":[
                         {
                          "name":"direction",
@@ -3103,9 +3100,9 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"27|63"
+                         "value":"On repart d\u00e9j\u00e0 ?"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -3116,7 +3113,7 @@
                  "visible":true,
                  "width":16,
                  "x":368,
-                 "y":1008
+                 "y":1009
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3353,114 +3350,6 @@
                 {
                  "class":"",
                  "height":16,
-                 "id":45,
-                 "name":"DoorE",
-                 "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
-                        {
-                         "name":"onMap",
-                         "type":"string",
-                         "value":"SnowTown-DoorE"
-                        }, 
-                        {
-                         "name":"teleportTo",
-                         "type":"string",
-                         "value":"32|36"
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":208,
-                 "y":479
-                }, 
-                {
-                 "class":"",
-                 "height":16,
-                 "id":44,
-                 "name":"DoorD",
-                 "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
-                        {
-                         "name":"onMap",
-                         "type":"string",
-                         "value":"SnowTown-DoorD"
-                        }, 
-                        {
-                         "name":"teleportTo",
-                         "type":"string",
-                         "value":"32|36"
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":624,
-                 "y":480
-                }, 
-                {
-                 "class":"",
-                 "height":16,
-                 "id":43,
-                 "name":"DoorC",
-                 "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
-                        {
-                         "name":"onMap",
-                         "type":"string",
-                         "value":"SnowTown-DoorC"
-                        }, 
-                        {
-                         "name":"teleportTo",
-                         "type":"string",
-                         "value":"32|36"
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":480,
-                 "y":432
-                }, 
-                {
-                 "class":"",
-                 "height":16,
-                 "id":42,
-                 "name":"DoorB",
-                 "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
-                        {
-                         "name":"onMap",
-                         "type":"string",
-                         "value":"SnowTown-DoorB"
-                        }, 
-                        {
-                         "name":"teleportTo",
-                         "type":"string",
-                         "value":"32|36"
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":400,
-                 "y":191
-                }, 
-                {
-                 "class":"",
-                 "height":16,
                  "id":41,
                  "name":"DoorA",
                  "properties":[
@@ -3482,8 +3371,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":16,
-                 "x":96,
-                 "y":144
+                 "x":768,
+                 "y":256
                 }, 
                 {
                  "class":"",
@@ -3610,7 +3499,7 @@
          "y":0
         }],
  "nextlayerid":133,
- "nextobjectid":77,
+ "nextobjectid":80,
  "orientation":"orthogonal",
  "properties":[
         {

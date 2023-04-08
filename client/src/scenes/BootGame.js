@@ -100,6 +100,10 @@ export default class BootGame extends Scene {
       frameWidth: 72,
       frameHeight: 96,
     });
+    this.load.spritesheet("seller", "assets/sprites/npc/characters0.png", {
+      frameWidth: 72,
+      frameHeight: 96,
+    });
   }
 
   loadForest() {
