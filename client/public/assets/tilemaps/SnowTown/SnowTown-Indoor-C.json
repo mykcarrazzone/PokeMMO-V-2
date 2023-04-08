@@ -635,9 +635,47 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":33,
+         "name":"Npc",
+         "objects":[
+                {
+                 "class":"",
+                 "height":16,
+                 "id":31,
+                 "name":"Vendeuse Sophie",
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Bonjour, voulez-vous que je soigne vos pok\u00e9mon ?"
+                        }, 
+                        {
+                         "name":"walkingAnimationMapping",
+                         "type":"int",
+                         "value":8
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":512,
+                 "y":473
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":33,
- "nextobjectid":31,
+ "nextlayerid":34,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "properties":[
         {

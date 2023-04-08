@@ -787,10 +787,9 @@
          "objects":[
                 {
                  "class":"",
-                 "ellipse":true,
-                 "height":0,
-                 "id":21,
-                 "name":"npc1",
+                 "height":16,
+                 "id":25,
+                 "name":"Bob",
                  "properties":[
                         {
                          "name":"direction",
@@ -798,9 +797,9 @@
                          "value":"up"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"30|31"
+                         "value":"Qui t'a invit\u00e9 \u00e0 rentrer ?"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -809,9 +808,9 @@
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
-                 "x":485,
-                 "y":504
+                 "width":16,
+                 "x":480,
+                 "y":496
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -827,7 +826,7 @@
                 {
                  "class":"",
                  "height":16,
-                 "id":23,
+                 "id":24,
                  "name":"DoorA",
                  "properties":[
                         {
@@ -895,7 +894,7 @@
          "y":0
         }],
  "nextlayerid":33,
- "nextobjectid":24,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "properties":[
         {

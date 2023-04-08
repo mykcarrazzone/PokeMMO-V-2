@@ -34,6 +34,7 @@ export default function Launcher({ userData }) {
       const { default: PopupMenu } = await import("@/scenes/PopupMenu");
       const { default: StaticMenu } = await import("@/scenes/StaticMenu");
       const { default: GamePad } = await import("@/scenes/GamePad");
+      const { default: DialogMessage } = await import("@/scenes/DialogMessage");
 
       const phaserGame = new Phaser.Game({
         type: Phaser.AUTO, // Utilise le moteur de rendu Canvas
@@ -45,7 +46,15 @@ export default function Launcher({ userData }) {
         render: {
           antialias: false,
         },
-        scene: [BootGame, Scene1, AudioGame, PopupMenu, StaticMenu, GamePad],
+        scene: [
+          BootGame,
+          Scene1,
+          AudioGame,
+          PopupMenu,
+          StaticMenu,
+          GamePad,
+          DialogMessage,
+        ],
         physics: {
           default: "arcade",
           arcade: {
