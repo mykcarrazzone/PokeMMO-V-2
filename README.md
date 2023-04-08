@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/badge/made%20with-Javascript-blue?style=for-the-badge">
 </p>
 
-# Pokémon Multijoueur
+# Pokémon Weatherness
 
 <div align="center" style="text-align:center">
 
@@ -14,9 +14,9 @@
 
 ## Description 🔬
 
-Ce fan-made pokémon est un projet de jeu massivement multijoueur qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
+Mon projet de fan-made Pokémon est un jeu massivement multijoueur qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en mode multijoueur et échanger des objets. Le jeu propose une carte du monde ouvert, la possibilité de visiter des maisons et de changer de carte, ainsi que d'interagir avec des personnages non-joueurs.
 
-Le jeu est conçu en utilisant une architecture de projet en classes sur le framework Next.js, et utilise la bibliothèque de moteur de jeu Phaser 3.55.2 et GridEngine pour la logique du jeu. Les contrôles sont simples et intuitifs, les joueurs peuvent se déplacer avec les touches Z/Q/S/D, courir avec la touche shift et monter en vélo avec la touche R. Les interactions avec les autres joueurs se font via un système de chat intégré.
+Le jeu est développé en utilisant une architecture de projet basée sur des classes avec le framework Next.js, et tire parti de la bibliothèque du moteur de jeu Phaser 3.55.2 et de GridEngine pour la logique du jeu. Les commandes sont simples et intuitives : les joueurs peuvent se déplacer en utilisant les touches Z/Q/S/D, courir avec la touche Shift et monter à vélo en appuyant sur la touche R. Les interactions avec les autres joueurs s'effectuent via un système de chat intégré.
 
 ## Checklist des fonctionnalités 📝
 
