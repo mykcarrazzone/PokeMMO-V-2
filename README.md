@@ -12,10 +12,6 @@
 <img src="client/GIF_POKEMON_MAP_MOUTAIN.gif" alt="Gif du jeu" width="500px"/>
  </div>
 
-## Dernière mise à jour 💾
-
-\*\*Dernière mise à jour effectuée le 07/04/2023
-
 ## Description 🔬
 
 Ce fan-made pokémon est un projet de jeu massivement multijoueur qui permet aux joueurs d'explorer un monde virtuel inspiré de l'univers Pokémon. Les joueurs peuvent interagir entre eux en multijoueur et échanger des objets. Le jeu comporte une carte de monde ouverte, des combats contre des Pokémon sauvages et une variété de quêtes à accomplir.
