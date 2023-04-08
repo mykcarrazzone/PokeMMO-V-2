@@ -50,6 +50,13 @@ export default class Player extends GameObjects.Sprite {
       const name = obj.name;
       const direction = obj.properties[0].value;
       const message = obj.properties[1].value;
+      const npcMoveTo = obj.properties[2].value; // "true|64|56"
+      const [isMovable, x, y] = npcMoveTo.split("|");
+      const npcInteraction = {
+        isMovable: isMovable,
+        x: x,
+        y: y,
+      };
       const beforeScene = this.scene;
       var distance = Phaser.Math.Distance.Between(
         this.x,
@@ -70,6 +77,7 @@ export default class Player extends GameObjects.Sprite {
           message,
           beforeScene,
           direction,
+          npcInteraction,
         });
       }
     });

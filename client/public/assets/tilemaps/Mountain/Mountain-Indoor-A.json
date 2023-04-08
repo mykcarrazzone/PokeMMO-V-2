@@ -555,6 +555,11 @@
                          "value":"Je suis sur le point de d\u00e9couvrir quelque chose.. enfin je crois"
                         }, 
                         {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
+                        }, 
+                        {
                          "name":"walkingAnimationMapping",
                          "type":"int",
                          "value":6

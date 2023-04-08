@@ -1,15 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 const nextConfig = {
-  exportPathMap: async function (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      "/": { page: "/" },
-      "/login": { page: "/login" },
-      "/register": { page: "/register" },
-    };
-  },
+  // exportPathMap: async function (
+  //   defaultPathMap,
+  //   { dev, dir, outDir, distDir, buildId }
+  // ) {
+  //   return {
+  //     "/": { page: "/" },
+  //     "/login": { page: "/login" },
+  //     "/register": { page: "/register" },
+  //   };
+  // },
   reactStrictMode: false,
   // ACCEPTE URL IMAGE WEBSITE
   images: {

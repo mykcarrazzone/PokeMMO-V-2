@@ -8,6 +8,23 @@ import CharacterProvider from "../src/context/ContextCharacter";
 import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
+  const isDevelopment = process.env.NEXT_PUBLIC_MODE_DEV;
+  if (isDevelopment == "false") {
+    console.log = function () {};
+    console.info = function () {};
+    console.error = function () {};
+    console.warn = function () {};
+    console.debug = function () {};
+    console.trace = function () {};
+    console.assert = function () {};
+    console.dir = function () {};
+    console.dirxml = function () {};
+    console.group = function () {};
+    console.groupCollapsed = function () {};
+    console.groupEnd = function () {};
+    console.time = function () {};
+  }
+
   useEffect(() => {
     document.addEventListener("contextmenu", function (event) {
       event.preventDefault();

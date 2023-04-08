@@ -12,7 +12,6 @@ export default class StaticMenu extends Scene {
   preload() {}
 
   create() {
-    console.log();
     var items = [
       {
         name: "AA",

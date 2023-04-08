@@ -407,9 +407,14 @@
                          "value":"down"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"32|28"
+                         "value":""
+                        }, 
+                        {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -437,6 +442,11 @@
                          "name":"message",
                          "type":"string",
                          "value":"Il te fallait quoi fr\u00e9rot ?"
+                        }, 
+                        {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
                         }, 
                         {
                          "name":"walkingAnimationMapping",

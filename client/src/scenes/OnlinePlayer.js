@@ -41,12 +41,14 @@ export default class OnlinePlayer extends GameObjects.Sprite {
   }
 
   isWalking(ld, x, y, speed, walkMapping) {
-    this.scene.gridEngine.setSpeed(this.sessionId, speed);
-    this.scene.gridEngine.moveTo(this.sessionId, { x, y});
-    this.scene.gridEngineClass.setWalkingAnimationMapping(
-      this.sessionId,
-      walkMapping
-    );
+    if (this.scene && this.scene.gridEngine) {
+      this.scene.gridEngine.setSpeed(this.sessionId, speed);
+      this.scene.gridEngine.moveTo(this.sessionId, { x, y });
+      this.scene.gridEngineClass.setWalkingAnimationMapping(
+        this.sessionId,
+        walkMapping
+      );
+    }
   }
 
   createLabelAbovePlayer() {

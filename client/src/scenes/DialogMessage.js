@@ -14,6 +14,7 @@ export default class DialogMessage extends Scene {
     this.name = dialog.name;
     this.beforeScene = dialog.beforeScene;
     this.direction = dialog.direction;
+    this.npcInteraction = dialog.npcInteraction;
     var self = this;
     this.beforeScene.events.emit("Dialog", true);
     this.createDialog(this, this.createContent(10000))
@@ -22,6 +23,20 @@ export default class DialogMessage extends Scene {
       .then(function () {
         self.beforeScene.gridEngine.turnTowards(self.name, self.direction);
         self.beforeScene.events.emit("Dialog", false);
+        if (
+          self.npcInteraction != null &&
+          self.npcInteraction.isMovable === "true"
+        ) {
+          console.log(self.npcInteraction);
+          self.message = "On y va ? grimpe dans la bagnole";
+          self.beforeScene.gridEngine.moveTo(self.name, {
+            x: parseInt(self.npcInteraction.x),
+            y: parseInt(self.npcInteraction.y),
+          });
+          self.time.delayedCall(1000, function () {
+            self.beforeScene.gridEngine.moveTo("player", { x: 70, y: 61 });
+          });
+        }
       });
   }
 

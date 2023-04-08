@@ -3051,6 +3051,11 @@
                          "value":"C'est ferm\u00e9 au public"
                         }, 
                         {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
+                        }, 
+                        {
                          "name":"walkingAnimationMapping",
                          "type":"int",
                          "value":5
@@ -3078,6 +3083,11 @@
                          "value":"Quel temps pourri.."
                         }, 
                         {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
+                        }, 
+                        {
                          "name":"walkingAnimationMapping",
                          "type":"int",
                          "value":2
@@ -3103,6 +3113,11 @@
                          "name":"message",
                          "type":"string",
                          "value":"On repart d\u00e9j\u00e0 ?"
+                        }, 
+                        {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
                         }, 
                         {
                          "name":"walkingAnimationMapping",

@@ -802,6 +802,11 @@
                          "value":"Qui t'a invit\u00e9 \u00e0 rentrer ?"
                         }, 
                         {
+                         "name":"moveTo",
+                         "type":"string",
+                         "value":"false|70|61"
+                        }, 
+                        {
                          "name":"walkingAnimationMapping",
                          "type":"int",
                          "value":5
