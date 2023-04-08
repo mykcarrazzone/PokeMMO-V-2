@@ -8,14 +8,10 @@
 
 <div align="center" style="text-align:center">
 
-<img src="GIF_POKEMON_MAP_SNOW.gif" alt="Gif du jeu"/>
-<img src="GIF_POKEMON_MAP_MOUTAIN.gif" alt="Gif du jeu"/>
+<img src="GIF_POKEMON_MAP_SNOW.gif" alt="Gif du jeu" width="400px"/>
+<img src="GIF_POKEMON_MAP_MOUTAIN.gif" alt="Gif du jeu" width="400px"/>
 
  </div>
-
-## Dernière mise à jour 💾
-
-**Dernière mise à jour effectuée le 07/04/2023**
 
 ## Description 🔬
 
