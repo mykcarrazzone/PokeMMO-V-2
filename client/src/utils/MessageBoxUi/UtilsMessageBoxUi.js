@@ -72,14 +72,13 @@ export function createMessageBoxUi(data) {
 }
 
 export const funcAddMapNameSign = (value, self) => {
-  const mapOwnPlayer = "Maison de";
   let mapName;
 
   try {
     if (typeof value !== "string") {
       throw new Error("[funcAddMapNameSign] - Invalid value in @if");
     } else if (value.length > 0) {
-      mapName = value.includes(mapOwnPlayer) ? (value = "Maison") : value;
+      mapName = value;
     } else {
       throw new Error("[funcAddMapNameSign] - Invalid value in @else");
     }

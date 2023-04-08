@@ -182,5 +182,10 @@ export default class BootGame extends Scene {
       "Mountain",
       "assets/tilemaps/Mountain/Mountain.json"
     );
+    /** LOAD JSON MOUNTAIN DOOR A */
+    this.load.tilemapTiledJSON(
+      "Mountain-DoorA",
+      "assets/tilemaps/Mountain/Mountain-Indoor-A.json"
+    );
   }
 }

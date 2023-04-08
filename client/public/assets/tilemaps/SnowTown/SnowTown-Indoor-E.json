@@ -824,10 +824,9 @@
          "objects":[
                 {
                  "class":"",
-                 "ellipse":true,
-                 "height":0,
-                 "id":24,
-                 "name":"npc1",
+                 "height":16,
+                 "id":25,
+                 "name":"Cynthia",
                  "properties":[
                         {
                          "name":"direction",
@@ -835,9 +834,9 @@
                          "value":"right"
                         }, 
                         {
-                         "name":"position",
+                         "name":"message",
                          "type":"string",
-                         "value":"35|31"
+                         "value":"Je suis sur le point de d\u00e9couvrir quelque chose.. enfin je crois"
                         }, 
                         {
                          "name":"walkingAnimationMapping",
@@ -846,9 +845,9 @@
                         }],
                  "rotation":0,
                  "visible":true,
-                 "width":0,
-                 "x":568,
-                 "y":503
+                 "width":16,
+                 "x":560,
+                 "y":496
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -941,7 +940,7 @@
                 {
                  "name":"mapName",
                  "type":"string",
-                 "value":"Maison Porte E"
+                 "value":"Maison de Cynthia"
                 }, 
                 {
                  "name":"weather",
@@ -954,7 +953,7 @@
          "y":0
         }],
  "nextlayerid":35,
- "nextobjectid":25,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
