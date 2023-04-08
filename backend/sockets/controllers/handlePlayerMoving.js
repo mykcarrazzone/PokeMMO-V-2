@@ -9,7 +9,7 @@
  **/
 
 let movementTimeout;
-const saveTimeout = 2000;
+const saveTimeout = 3000;
 
 export function handlePlayerMoving(data) {
   console.log("handlePlayerMoving");

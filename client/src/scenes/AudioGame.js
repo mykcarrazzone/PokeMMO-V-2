@@ -2,7 +2,7 @@ import { Scene } from "phaser";
 
 const COLOR_PRIMARY = 0xf7f7f7;
 const COLOR_LIGHT = 0x070a0e;
-const COLOR_DARK = 0x1F2937;
+const COLOR_DARK = 0x1f2937;
 
 export default class AudioGame extends Scene {
   constructor() {
@@ -17,7 +17,7 @@ export default class AudioGame extends Scene {
     this.bgmAudio(
       self,
       scene,
-      1,
+      0.3,
       {
         x: window.innerWidth - 105,
         y: window.innerHeight / 6,
@@ -28,7 +28,7 @@ export default class AudioGame extends Scene {
     this.seAudio(
       self,
       scene,
-      0.7,
+      0.2,
       {
         x: window.innerWidth - 105,
         y: window.innerHeight / 6 + 100,
@@ -39,7 +39,7 @@ export default class AudioGame extends Scene {
     this.sfxAudio(
       self,
       scene,
-      0.8,
+      0.2,
       {
         x: window.innerWidth - 105,
         y: window.innerHeight / 6 + 200,
@@ -85,7 +85,7 @@ export default class AudioGame extends Scene {
 
         input: "click", // 'drag'|'click'
         valuechangeCallback: function (value) {
-          print1.text = `${name} ${value.toFixed(1)}`;
+          print1.text = `${name} ${value.toFixed(2)}`;
           self.setAllVolume(scene, value, "se");
           self.saveVolume("se", value);
         },
@@ -121,7 +121,7 @@ export default class AudioGame extends Scene {
 
         input: "click", // 'drag'|'click'
         valuechangeCallback: function (value) {
-          print1.text = `${name} ${value.toFixed(1)}`;
+          print1.text = `${name} ${value.toFixed(2)}`;
           self.setAllVolume(scene, value, "bgm");
           self.saveVolume("bgm", value);
         },
@@ -156,7 +156,7 @@ export default class AudioGame extends Scene {
 
         input: "click", // 'drag'|'click'
         valuechangeCallback: function (value) {
-          print1.text = `${name} ${value.toFixed(1)}`;
+          print1.text = `${name} ${value.toFixed(2)}`;
           self.setAllVolume(scene, value, "sfx");
           self.saveVolume("sfx", value);
         },

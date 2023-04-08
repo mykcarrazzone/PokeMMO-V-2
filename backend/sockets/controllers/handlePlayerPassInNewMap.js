@@ -11,9 +11,9 @@
 export function handlePlayerPassInNewMap(data) {
   const { playerInfo, socket, players, User } = data;
   // Update player position and map in players object
-  console.log("Changed Map", playerInfo.onMap)
-  console.log("Position X", playerInfo.position.x)
-  console.log("Position Y", playerInfo.position.y)
+  console.log("Changed Map", playerInfo.onMap);
+  console.log("Position X", playerInfo.position.x);
+  console.log("Position Y", playerInfo.position.y);
   players[socket.id]._id = playerInfo._id;
   players[socket.id].onMap = playerInfo.onMap;
   players[socket.id].position.ld = playerInfo.position.ld;
@@ -36,7 +36,6 @@ export function handlePlayerPassInNewMap(data) {
   //       console.error(err);
   //     }
   //     console.log(`{${socket.id}: Saving player changed map}`);
-
   //   });
   // });
   socket.broadcast.emit("PLAYER_CHANGED_MAP", socket.id);

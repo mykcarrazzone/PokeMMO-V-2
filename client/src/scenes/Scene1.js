@@ -70,18 +70,25 @@ export default class Scene1 extends Scene {
   }
 
   initMap() {
-    this.myLights = [];
     this.map = this.make.tilemap({ key: this.mapName });
     this.map.addTilesetImage("pokemmo-sample-16px-extruded", "tiles", 16, 16);
+    this.battleZonesLayer = null;
 
     for (let i = 0; i < this.map.layers.length; i++) {
+      const layerData = this.map.layers[i];
       const layer = this.map.createLayer(
-        i,
+        layerData.name,
         "pokemmo-sample-16px-extruded",
         0,
         0
       );
+
       layer.scale = GAMES_INFOS.gameScale;
+
+      // Vérifier si le nom du calque contient "Battle Zones"
+      if (layerData.name.includes("Battle Zones")) {
+        this.battleZonesLayer = layer;
+      }
     }
     this.cameras.main.fadeIn(1000);
   }

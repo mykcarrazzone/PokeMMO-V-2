@@ -17,8 +17,7 @@ export const servicesAddNpc = (object, self) => {
           speed: 0,
           walkingAnimationMapping: prop.properties[3].value,
           collides: true,
-        },
-        name.includes("Vendeur") || name.includes("Vendeuse") ? true : false
+        }
       );
       self.gridEngineClass.setTurnTowards(prop.name, direction);
     });

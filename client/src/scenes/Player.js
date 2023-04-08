@@ -25,12 +25,13 @@ export default class Player extends GameObjects.Sprite {
     this.spaceKeyPressed = false;
     // GESTION KEYBOARD INPUT SPACE CLICKED
     this.scene.input.keyboard.on("keydown-SPACE", this.onSpaceKeyClicked, this);
+    this.lastPlayerTile = null;
   }
 
   onSpaceKeyClicked() {
     this.spaceKeyPressed = !this.spaceKeyPressed;
-    console.log("Touche espace appuyée:", this.spaceKeyPressed);
     this.npcInteraction();
+    this.messageInteraction();
     // Réinitialisez l'état de spaceKeyPressed
     this.spaceKeyPressed = false;
   }
@@ -47,16 +48,7 @@ export default class Player extends GameObjects.Sprite {
       }
       const objectX = obj.x * 3.985;
       const objectY = obj.y * 3.94;
-      const name = obj.name;
-      const direction = obj.properties[0].value;
-      const message = obj.properties[1].value;
-      const npcMoveTo = obj.properties[2].value; // "true|64|56"
-      const [isMovable, x, y] = npcMoveTo.split("|");
-      const npcInteraction = {
-        isMovable: isMovable,
-        x: x,
-        y: y,
-      };
+
       const beforeScene = this.scene;
       var distance = Phaser.Math.Distance.Between(
         this.x,
@@ -65,7 +57,17 @@ export default class Player extends GameObjects.Sprite {
         objectY
       );
       if (distance < 78) {
-        console.log("proche de", name);
+        const name = obj.name;
+        const direction = obj.properties[0].value;
+        const message = obj.properties[1].value;
+        const npcMoveTo = obj.properties[2].value; // "true|64|56"
+        const [isMovable, x, y] = npcMoveTo.split("|");
+        const type = "npc";
+        const npcInteraction = {
+          isMovable: isMovable,
+          x: x,
+          y: y,
+        };
         const heroFacingDirection =
           this.scene.gridEngine.getFacingDirection("player");
         this.scene.gridEngine.turnTowards(
@@ -73,6 +75,7 @@ export default class Player extends GameObjects.Sprite {
           this.npcLookAtPlayer(heroFacingDirection)
         );
         this.scene.scene.launch("DialogMessage", {
+          type,
           name,
           message,
           beforeScene,
@@ -83,8 +86,44 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
+  messageInteraction() {
+    if (!this.spaceKeyPressed) {
+      return;
+    }
+
+    this.tileMap.findObject("Message", (obj) => {
+      /* Check obj array is not empty */
+      if (obj.length === 0) {
+        return;
+      }
+      const objectX = obj.x * 3.985;
+      const objectY = obj.y * 3.94;
+
+      var distance = Phaser.Math.Distance.Between(
+        this.x,
+        this.y,
+        objectX,
+        objectY
+      );
+      if (distance < 78) {
+        const name = obj.name;
+        const message = obj.properties[0].value;
+        const beforeScene = this.scene;
+        const type = "message";
+        console.log("proche de", name);
+        this.scene.scene.launch("DialogMessage", {
+          type,
+          name,
+          message,
+          beforeScene,
+        });
+      }
+    });
+  }
+
   update() {
     this.doorInteraction();
+    this.battleZoneInteraction();
   }
 
   doorInteraction() {
@@ -160,23 +199,53 @@ export default class Player extends GameObjects.Sprite {
     let [minLevel, maxLevel] = levelKey[0].value.split("|");
     minLevel = parseInt(minLevel);
     maxLevel = parseInt(maxLevel);
-    const randomLevel = Math.random() * (maxLevel - minLevel + 1) + minLevel;
-    return `Pokemon spawned at level ${randomLevel}`;
+    const randomLevel = Phaser.Math.Between(minLevel, maxLevel);
+    // 1 une chance sur GAME_INFOS.pokemonEncounterRate de faire apparaitre un pokemon
+    const randomChance = Phaser.Math.Between(
+      1,
+      GAMES_INFOS.pokemonEncounterRate
+    );
+    this.battleZoneInteractionExecuted = false;
+    if (randomChance === GAMES_INFOS.pokemonEncounterRate) {
+      return `Pokemon spawned at level ${randomLevel}`;
+    } else {
+      return `No pokemon spawned`;
+    }
   }
 
   battleZoneInteraction() {
-    if (this.scene.gridEngine.isMoved("player") && this.scene.battleZones) {
-      var playerTileY = this.scene.battleZones.worldToTileXY(this.x, this.y);
-      var currentTile = this.scene.battleZones.getTileAt(
-        playerTileY.x,
-        playerTileY.y
-      );
-      const levelProperties = this.scene.battleZones.layer.properties;
-      if (currentTile) {
-        if (currentTile.index == 24471) {
-          if (Math.random() <= 0.1 / 35) {
-            console.log(this.generateRandomLevelPokemonSpawn(levelProperties));
-          }
+    if (this.scene) {
+      if (this.scene.gridEngine.isMoving("player")) {
+        // Vérifier si le calque "Battle Zones" existe
+        const battleZoneLayer = this.scene.battleZonesLayer;
+
+        if (!battleZoneLayer) {
+          // Si le calque n'existe pas, on ne fait rien
+          return;
+        }
+
+        const playerTile = battleZoneLayer.worldToTileXY(this.x, this.y);
+
+        // Si le joueur est sur la même tuile que précédemment, on ne fait rien
+        if (
+          playerTile.x === this.lastPlayerTile?.x &&
+          playerTile.y === this.lastPlayerTile?.y
+        ) {
+          return;
+        }
+
+        // Si le joueur est sur une nouvelle tuile, on met à jour lastPlayerTile et on effectue l'interaction
+        this.lastPlayerTile = playerTile;
+
+        const currentTile = battleZoneLayer.getTileAt(
+          playerTile.x,
+          playerTile.y
+        );
+        if (currentTile) {
+          const layerProperties = battleZoneLayer.layer.properties;
+          const pokemonSpawnStartBattle =
+            this.generateRandomLevelPokemonSpawn(layerProperties);
+          console.log(pokemonSpawnStartBattle);
         }
       }
     }
