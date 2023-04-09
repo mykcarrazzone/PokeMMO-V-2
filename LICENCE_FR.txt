@@ -11,3 +11,5 @@ Permission est accordée, à titre gratuit, à toute personne obtenant une copie
 LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU IMPLICITE, Y COMPRIS MAIS NON LIMITÉ AUX GARANTIES DE QUALITÉ MARCHANDE, D'ADAPTATION À UN USAGE PARTICULIER ET DE NON-CONTREFAÇON. EN AUCUN CAS LES AUTEURS OU LES DÉTENTEURS DE DROITS D'AUTEUR NE SERONT RESPONSABLES DE TOUT DOMMAGE, RÉCLAMATION OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS LE CADRE D'UN CONTRAT, D'UN DÉLIT OU AUTRE, EN PROVENANCE DE, CONSÉCUTIF À OU EN RELATION AVEC LE LOGICIEL OU SON UTILISATION, OU AVEC D'AUTRES ÉLÉMENTS DU LOGICIEL.
 
 En signant cette licence, vous conservez les droits de propriété intellectuelle sur tout le code source de votre jeu vidéo, tout en empêchant sa reproduction et son utilisation commerciales sans votre autorisation expresse. Cependant, cette licence est fournie à titre informatif uniquement et ne constitue pas un avis juridique. Nous vous recommandons de consulter un avocat pour vous aider à rédiger une licence adaptée à vos besoins spécifiques.
+
+Signé par Lorenzo GIRALT le 09/04/2023
