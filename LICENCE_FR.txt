@@ -12,4 +12,4 @@ LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU IMP
 
 En signant cette licence, vous conservez les droits de propriété intellectuelle sur tout le code source de votre jeu vidéo, tout en empêchant sa reproduction et son utilisation commerciales sans votre autorisation expresse. Cependant, cette licence est fournie à titre informatif uniquement et ne constitue pas un avis juridique. Nous vous recommandons de consulter un avocat pour vous aider à rédiger une licence adaptée à vos besoins spécifiques.
 
-Signé par Lorenzo GIRALT le 09/04/2023
+Signé par Lorenzo GIRALT le 01/04/2023
