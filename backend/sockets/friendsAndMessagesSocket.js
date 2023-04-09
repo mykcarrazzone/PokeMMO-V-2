@@ -72,7 +72,6 @@ export default async function friendsAndMessagesSocket(data) {
       });
       await newMessage.save();
 
-      console.log(`Message reçu de ${createdAt} ${from} : ${message}`);
       io.emit("generalChatMessageReceived", { from, message, createdAt });
     } catch (error) {
       console.log(error);

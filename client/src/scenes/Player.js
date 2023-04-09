@@ -1,5 +1,6 @@
 import { GameObjects } from "phaser";
 import { GAMES_INFOS } from "@/constants/GameInfos/GameInfos";
+import { GAME_UTILITIES } from "@/services/Game/ServicesGamesRouter/ServicesGames";
 export default class Player extends GameObjects.Sprite {
   constructor(config) {
     super(
@@ -195,58 +196,35 @@ export default class Player extends GameObjects.Sprite {
     });
   }
 
-  generateRandomLevelPokemonSpawn(levelKey) {
-    let [minLevel, maxLevel] = levelKey[0].value.split("|");
-    minLevel = parseInt(minLevel);
-    maxLevel = parseInt(maxLevel);
-    const randomLevel = Phaser.Math.Between(minLevel, maxLevel);
-    // 1 une chance sur GAME_INFOS.pokemonEncounterRate de faire apparaitre un pokemon
-    const randomChance = Phaser.Math.Between(
-      1,
-      GAMES_INFOS.pokemonEncounterRate
-    );
-    this.battleZoneInteractionExecuted = false;
-    if (randomChance === GAMES_INFOS.pokemonEncounterRate) {
-      return `Pokemon spawned at level ${randomLevel}`;
-    } else {
-      return `No pokemon spawned`;
-    }
-  }
-
   battleZoneInteraction() {
-    if (this.scene) {
-      if (this.scene.gridEngine.isMoving("player")) {
-        // Vérifier si le calque "Battle Zones" existe
-        const battleZoneLayer = this.scene.battleZonesLayer;
+    if (!this.scene) return;
 
-        if (!battleZoneLayer) {
-          // Si le calque n'existe pas, on ne fait rien
-          return;
-        }
+    if (!this.scene.gridEngine.isMoving("player")) return;
 
-        const playerTile = battleZoneLayer.worldToTileXY(this.x, this.y);
+    const battleZoneLayer = this.scene.battleZonesLayer;
 
-        // Si le joueur est sur la même tuile que précédemment, on ne fait rien
-        if (
-          playerTile.x === this.lastPlayerTile?.x &&
-          playerTile.y === this.lastPlayerTile?.y
-        ) {
-          return;
-        }
+    if (!battleZoneLayer) return;
 
-        // Si le joueur est sur une nouvelle tuile, on met à jour lastPlayerTile et on effectue l'interaction
-        this.lastPlayerTile = playerTile;
+    const playerTile = battleZoneLayer.worldToTileXY(this.x, this.y);
 
-        const currentTile = battleZoneLayer.getTileAt(
-          playerTile.x,
-          playerTile.y
-        );
-        if (currentTile) {
-          const layerProperties = battleZoneLayer.layer.properties;
-          const pokemonSpawnStartBattle =
-            this.generateRandomLevelPokemonSpawn(layerProperties);
-          console.log(pokemonSpawnStartBattle);
-        }
+    if (
+      playerTile.x === this.lastPlayerTile?.x &&
+      playerTile.y === this.lastPlayerTile?.y
+    ) {
+      return;
+    }
+
+    this.lastPlayerTile = playerTile;
+
+    const currentTile = battleZoneLayer.getTileAt(playerTile.x, playerTile.y);
+
+    if (currentTile) {
+      const layerProperties = battleZoneLayer.layer.properties;
+      const pokemonSpawnStartBattle =
+        GAME_UTILITIES.servicesGenerateRandomPokemon(this, layerProperties);
+
+      if (pokemonSpawnStartBattle !== undefined) {
+        console.log(pokemonSpawnStartBattle);
       }
     }
   }

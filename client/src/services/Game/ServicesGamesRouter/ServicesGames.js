@@ -11,9 +11,13 @@ import { servicesMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesGetMapProperties } from "@/services/Game/ServicesMapProperties";
 import { servicesDisableInputByFocus } from "@/services/Game/ServicesDisableInputByFocus";
 import { servicesUpdateSprite } from "@/services/Game/ServicesUpdatedSprite";
-import { utilsDefineVariables, handlerUpdateEvents } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
+import {
+  utilsDefineVariables,
+  handlerUpdateEvents,
+} from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
 import { servicesUpdatedSpriteToDefault } from "@/services/Game/ServicesUpdatedSprite";
 import { utilsUpdateVisualEffects } from "@/utils/VisualEffects/UtilsLightPointsEffects";
+import { servicesGenerateRandomPokemon } from "@/services/Game/ServiceGenerateRandomPokemon";
 import { isDay } from "@/utils/InitKeyboardControls/UtilsDefinedVariables";
 /** CREATE ONLINE PLAYERS ARRAY FOR SCENES 1*/
 let onlinePlayers = [];
@@ -50,6 +54,7 @@ export const GAME_UTILITIES = {
   servicesDisableInputByFocus,
   servicesUpdateSprite,
   servicesUpdatedSpriteToDefault,
+  servicesGenerateRandomPokemon,
   utilsDefineVariables,
   handlerUpdateEvents,
   isDay,

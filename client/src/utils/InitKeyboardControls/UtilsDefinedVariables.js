@@ -1,5 +1,8 @@
+import { pokedexData } from "@/utils/PokemonData/pokedex";
+
 export const utilsDefineVariables = (self) => {
   // self.hour = 17; // TEST VARIABLE FOR DAY/NIGHT
+  self.pokedexData = pokedexData;
   self.myLights = [];
   self.isDay = isDay(self);
   self.sounds = {};
@@ -28,7 +31,7 @@ export const utilsDefineVariables = (self) => {
 export const isDay = (self) => {
   self.hour = new Date().getHours(); // VARIABLE FOR DAY/NIGHT REAL TIME
   if (self.hour >= 6 && self.hour < 17) {
-    // SI L'HEURE EST ENTRE 6H ET 17H
+    // SI L'HEURE EST ENTRE 6H ET 17H alors c'est le jour
     return true;
   } else {
     return false;
