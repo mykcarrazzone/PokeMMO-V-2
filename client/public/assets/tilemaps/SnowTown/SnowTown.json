@@ -864,7 +864,22 @@
                 {
                  "name":"level",
                  "type":"string",
-                 "value":"1|4"
+                 "value":"1|3"
+                }, 
+                {
+                 "name":"wildLegendaryPokemonId",
+                 "type":"string",
+                 "value":"\"378|144\""
+                }, 
+                {
+                 "name":"wildPokemonId",
+                 "type":"string",
+                 "value":"\"161|163|177|231|52\""
+                }, 
+                {
+                 "name":"wildRarePokemonId",
+                 "type":"string",
+                 "value":"\"459|215|349|220|41\""
                 }],
          "type":"tilelayer",
          "visible":true,
